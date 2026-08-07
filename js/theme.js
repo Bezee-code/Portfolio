@@ -26,7 +26,7 @@
     }
 
     // Update Slider Pills & Buttons across DOM
-    document.querySelectorAll('.theme-slider-pill, #themeSliderToggle, #floatingThemePill, #themeToggleBtn, #pageThemeToggleBtn, .theme-toggle-btn').forEach(btn => {
+    document.querySelectorAll('.theme-slider-pill, #themeSliderToggle, #floatingThemePill, #themeToggleBtn, #pageThemeToggleBtn, .theme-toggle-btn, .custom-theme-switch, #topHeaderThemeToggle').forEach(btn => {
       btn.setAttribute('aria-label', `Switch to ${isLight ? 'Dark' : 'Light'} Mode`);
     });
   }

@@ -87,7 +87,7 @@ const DEFAULT_PORTFOLIO_DATA = {
     ],
 
     metrics: {
-      caseStudiesCount: 4,
+      caseStudiesCount: 5,
       prdsWritten: 4,
       skillsCount: 16
     },
@@ -142,6 +142,65 @@ const DEFAULT_PORTFOLIO_DATA = {
   ],
 
   caseStudies: [
+
+    {
+      id: "healthcare-agentic-ai-suite",
+      title: "Healthcare Agentic AI Suite: Hospital Onboarding, Insurance Pre-Auth & ICU Clinical Engine",
+      category: "Healthcare & Enterprise Agentic AI",
+      status: "Flagship Healthcare AI Project",
+      themeColor: "teal-cyan",
+      summary: "Architected an enterprise Healthcare Agentic AI Suite automating hospital patient onboarding, insurance pre-authorization claims, drug interaction safety checks, and ICU sepsis triage. Reduced pre-auth turnaround time by 82% (24 hours → 4.3 hours) and cut clinical onboarding delays by 68%.",
+      impactBadges: [
+        { value: "4.3 Hours", label: "Pre-Auth Claim TAT (was 24h)" },
+        { value: "82%", label: "Claim Approval Speedup" },
+        { value: "99.8%", label: "Medication Safety Accuracy" }
+      ],
+      tags: ["Healthcare AI", "Agentic Workflows", "ICU Decision Engine", "Pre-Auth Automation", "PRD Specs"],
+
+      executionJourney: [
+        { step: "1", icon: "🏥", title: "Patient Intake", subtitle: "Hospital Registration & Onboarding" },
+        { step: "2", icon: "📑", title: "Policy Scan", subtitle: "Automated ICD-10 Data Extraction" },
+        { step: "3", icon: "🤖", title: "AI Pre-Auth Agent", subtitle: "Automated Insurance Claim Sync" },
+        { step: "4", icon: "💊", title: "Safety Check", subtitle: "Drug Interaction & Dosage Verification" },
+        { step: "5", icon: "🩺", title: "ICU Support", subtitle: "Sepsis Intercept & Vitals Monitor" },
+        { step: "6", icon: "⚡", title: "SLA Escalation", subtitle: "Physician Human-in-the-Loop Guardrail" },
+        { step: "7", icon: "🎉", title: "Admission Cleared", subtitle: "82% Pre-Auth Speedup (4.3h TAT)" }
+      ],
+
+      productThinking: {
+        problemCard: {
+          title: "🎯 Problem Statement",
+          user: "Hospital Admissions Desk, Chief Nursing Officers & Medical Insurance Desk Leads.",
+          problem: "Manual insurance pre-authorization delays and paper-based onboarding causing 24h+ patient admission bottlenecks.",
+          frequency: "Hundreds of inpatient admissions daily across tertiary care hospital chains.",
+          pain: "High claim rejection rates (85% missing ICD-10 codes) and 24h+ pre-auth delays.",
+          metric: "Pre-Auth Claim TAT (24h) & Hospital Bed Turnover Rate"
+        },
+        researchCard: {
+          title: "👤 User Research & Insights",
+          primaryUsers: "Dr. Aris Thorne (ICU Director) & Meera Sen (Insurance Pre-Auth Coordinator).",
+          painPoints: "Nurses spent 3.5 hours per shift re-entering patient data into insurance portals.",
+          findings: "85% of claim rejections stemmed from missing ICD-10 diagnostic codes.",
+          bottlenecks: "Fragmented communication between hospital EHR, TPA insurance desks, and ICU bedside monitors."
+        },
+        decisionsCard: {
+          title: "⚖️ Product Decisions & Trade-offs",
+          alternatives: "Manual call-center pre-auth support (unscalable & prone to 12h+ hold times).",
+          constraints: "Strict HIPAA & ABDM compliance for patient health record privacy and encrypted LLM inferencing.",
+          prioritization: "Prioritized Automated Pre-Auth Claim Agent + ICU Sepsis Intercept Agent for v1.0 MVP release.",
+          risk: "Human-in-the-loop physician override triggers for any high-severity ICU diagnostic recommendation."
+        },
+        solutionCard: {
+          title: "🚀 Final Solution & Impact",
+          chosenSolution: "Healthcare Agentic AI Suite embedding Pre-Auth Automation, Drug Safety Verification & ICU Clinical Decision Support.",
+          whyItWorked: "Replaced manual data re-entry with autonomous multi-agent LLM verification and instant TPA portal sync.",
+          businessMetrics: "82% Pre-Auth TAT reduction (24h → 4.3h), 68% faster onboarding, 99.8% medication safety accuracy.",
+          operationalImpact: "Enabled instant insurance clearance and automated physician escalation for critical vitals.",
+          futureRoadmap: "Autonomous post-discharge remote patient monitoring & AI prescription synthesis."
+        }
+      }
+    },
+
     {
       id: "adobe-firefly-transcreate",
       title: "Adobe Firefly Transcreate: Generative AI Content Localization & Typography Engine",

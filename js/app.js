@@ -43,13 +43,7 @@ function loadPortfolioData() {
     try {
       const parsed = JSON.parse(stored);
       if (parsed && parsed.caseStudies && Array.isArray(parsed.caseStudies) && parsed.caseStudies.length >= 4) {
-        const hasAllGrids = parsed.caseStudies.every(cs => cs && cs.productThinking && cs.productThinking.problemCard);
-        if (hasAllGrids) {
-          portfolioData = parsed;
-        } else {
-          portfolioData = DEFAULT_PORTFOLIO_DATA;
-          localStorage.removeItem('pm_portfolio_custom_data');
-        }
+        portfolioData = parsed;
       } else {
         portfolioData = DEFAULT_PORTFOLIO_DATA;
       }

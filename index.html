@@ -10,53 +10,42 @@
 </head>
 <body>
 
-  <!-- Floating Theme Switcher Pill -->
-  <button id="floatingThemePill" class="theme-floating-pill" aria-label="Toggle Dark/Light Mode">
-    🌙 Dark
-  </button>
-
-  <!-- World-Class Full-Width Translucent Floating Top Navigation Bar (Fixed at Top - Matches User Screenshot) -->
+  <!-- Full-Width Translucent Floating Top Navigation Header -->
   <header id="fullTopHeader" class="full-top-header">
     <div class="header-full-container">
-      
-      <!-- Left: Logo & Executive Title -->
-      <a href="#hero" class="logo-group">
-        <div class="logo-badge">SG</div>
-        <div class="logo-text">
-          <span class="logo-name user-name">Souvik Ghosh</span>
-          <span class="logo-tag user-role">Senior Manager @ CK Birla Group &bull; IIM Calcutta MBA</span>
+      <div style="display: flex; align-items: center;">
+        <div>
+          <div style="font-weight: 800; font-size: 1.05rem; color: #ffffff; line-height: 1.1; font-family: var(--font-heading);">Souvik Ghosh</div>
+          <div style="font-size: 0.775rem; color: #38bdf8; font-weight: 600;">Senior Manager @ CK Birla Group &bull; IIM Calcutta MBA</div>
         </div>
-      </a>
+      </div>
 
-      <!-- Middle: Elegant Navigation Links -->
       <nav class="header-nav-links">
         <a href="#hero" class="nav-link-item active">Home</a>
         <a href="#why-hire-me" class="nav-link-item">Why Hire Me</a>
-        <a href="#how-i-build-products" class="nav-link-item">PM Framework</a>
+        <a href="#framework" class="nav-link-item">PM Framework</a>
         <a href="#case-studies" class="nav-link-item">PM Projects (4)</a>
         <a href="#beyond-portfolio" class="nav-link-item">Beyond Portfolio</a>
         <a href="#contact" class="nav-link-item">Contact</a>
       </nav>
 
-      <!-- Right: Dark Mode Toggle & Download CV PDF -->
       <div class="header-actions">
-        <!-- Theme Slider Switch -->
-        <button class="theme-slider-pill" id="themeSliderToggle" aria-label="Toggle Dark or Light Mode">
-          <span class="theme-slider-track">
-            <span class="theme-icon moon-icon">🌙</span>
-            <span class="theme-icon sun-icon">☀️</span>
-            <span class="theme-slider-thumb"></span>
+        <!-- Custom Theme Pill Switch (Matching User Reference Image) -->
+        <button id="topHeaderThemeToggle" onclick="toggleTheme()" class="custom-theme-switch" aria-label="Toggle Dark/Light Mode">
+          <span class="switch-track">
+            <span class="icon-moon">🌙</span>
+            <span class="icon-sun">☀️</span>
+            <span class="switch-thumb"></span>
           </span>
         </button>
-
-        <!-- Download CV PDF Button -->
-        <a href="CV_souvik_P.pdf" download="CV_souvik_P.pdf" target="_blank" class="btn btn-primary btn-sm header-cv-btn">
+        <a href="CV_souvik_P.pdf" download="CV_souvik_P.pdf" target="_blank" class="header-cv-btn">
           📄 Download CV (PDF) 📥
         </a>
       </div>
-
     </div>
   </header>
+
+
 
   <!-- Main Content Container -->
   <main class="container">
@@ -128,27 +117,27 @@
         </div>
       </div>
 
-      <!-- Right Side Recruiter Snapshot Profile Card (Exact Match for User Screenshot) -->
-      <div class="hero-visual-wrapper animate-fade-up delay-3">
+      <!-- Right Side Glowing Profile Visual Container -->
+      
+      <!-- Right Side Executive Apple Profile Visual Card -->
+      <div class="hero-visual-wrapper animate-fade-up delay-3" style="margin-top: 3.25rem;">
         <div class="apple-profile-card">
           
-          <!-- Headshot & Core Info -->
-          <div class="profile-card-header">
+          <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem;">
             <div class="headshot-glow-frame">
-              <img src="images/souvik_headshot.jpg" alt="Souvik Ghosh - Product Manager Headshot" class="profile-headshot-img">
+              <img src="images/souvik_headshot.jpg" alt="Souvik Ghosh Headshot" class="profile-headshot-img">
             </div>
-            <div class="profile-card-titles">
+            <div>
               <h3 class="profile-card-name">Souvik Ghosh</h3>
               <p class="profile-card-role">Product @ CK Birla Group</p>
             </div>
           </div>
 
-          <!-- Professional Status Badge -->
-          <div class="status-badge-wrapper">
-            <span class="status-badge-green">
+          <div style="margin-bottom: 1.5rem;">
+            <div class="status-badge-green">
               <span class="status-dot-pulse"></span>
-              Open to PM Opportunities
-            </span>
+              <span>Open to PM Opportunities</span>
+            </div>
           </div>
 
           <div class="profile-card-divider"></div>
@@ -179,6 +168,7 @@
 
         </div>
       </div>
+
     </section>
 
     <!-- Why Hire Me / What I Bring as a Product Manager Section -->
@@ -680,121 +670,122 @@
               </div>
             </div>
 
-            <div class="pm-card-actions">
-              
-          <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
-          <div class="pm-thinking-grid-section">
-            <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
-            <div class="pm-thinking-grid">
-              
-              <!-- Card 1: Problem Statement -->
-              <div class="thinking-card">
-                <div class="thinking-card-header">
-                  <div class="thinking-card-icon">🎯</div>
-                  <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
+            
+            <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
+            <div class="pm-thinking-grid-section">
+              <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
+              <div class="pm-thinking-grid">
+                
+                <!-- Card 1: Problem Statement -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">🎯</div>
+                    <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Target User</span>
+                      <span class="thinking-field-content">Global Creative Directors, Localization Leads & Brand Governance Managers.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">The Core Friction</span>
+                      <span class="thinking-field-content">Manual creative ad resizing, translation, and cultural background tweaking across 40+ regional markets.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Frequency & Pain Point</span>
+                      <span class="thinking-field-content"><strong>Frequency:</strong> Occurs during every quarterly product release across 25+ countries. High agency costs ($100K+ fees), 14-day delays.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Affected Business Metric</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Global Campaign Time-to-Market (14 days) and Agency Expenditure</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="thinking-card-body">
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Target User</span>
-                    <span class="thinking-field-content">Global Creative Directors, Localization Leads & Brand Governance Managers.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">The Core Friction</span>
-                    <span class="thinking-field-content">Manual creative ad resizing, translation, and cultural background tweaking across 40+ regional markets.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Frequency & Pain Point</span>
-                    <span class="thinking-field-content"><strong>Frequency:</strong> Occurs during every quarterly product release across 25+ countries. High agency costs ($100K+ fees), 14-day delays.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Affected Business Metric</span>
-                    <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Global Campaign Time-to-Market (14 days) and Agency Expenditure</span>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Card 2: User Research & Insights -->
-              <div class="thinking-card">
-                <div class="thinking-card-header">
-                  <div class="thinking-card-icon">👤</div>
-                  <div class="thinking-card-title">👤 User Research & Insights</div>
+                <!-- Card 2: User Research & Insights -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">👤</div>
+                    <div class="thinking-card-title">👤 User Research & Insights</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Primary Personas Studied</span>
+                      <span class="thinking-field-content">Elena Rostova (Creative Ops Director) & Kenji Sato (APAC Regional Manager).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">User Pain Points</span>
+                      <span class="thinking-field-content">14-day delays for 40+ regional ad variants; broken typography font bounding boxes in CJK languages.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Key Behavioral Findings</span>
+                      <span class="thinking-field-content">78% of local campaign managers modify master English copy manually, violating brand guidelines.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Journey Bottleneck Identified</span>
+                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Lack of automated font kerning, font scaling, and regional cultural background adaptation.</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="thinking-card-body">
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Primary Personas Studied</span>
-                    <span class="thinking-field-content">Elena Rostova (Creative Ops Director) & Kenji Sato (APAC Regional Manager).</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">User Pain Points</span>
-                    <span class="thinking-field-content">14-day delays for 40+ regional ad variants; broken typography font bounding boxes in CJK languages.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Key Behavioral Findings</span>
-                    <span class="thinking-field-content">78% of local campaign managers modify master English copy manually, violating brand guidelines.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Journey Bottleneck Identified</span>
-                    <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Lack of automated font kerning, font scaling, and regional cultural background adaptation.</span>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Card 3: Product Decisions & Trade-offs -->
-              <div class="thinking-card" style="border-color:var(--border-highlight);">
-                <div class="thinking-card-header">
-                  <div class="thinking-card-icon" style="background:rgba(236,72,153,0.15); color:var(--accent);">⚖️</div>
-                  <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
+                <!-- Card 3: Product Decisions & Trade-offs -->
+                <div class="thinking-card" style="border-color:var(--border-highlight);">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(250,38,160,0.15); color:var(--firefly-pink);">⚖️</div>
+                    <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Alternative Solutions Rejected</span>
+                      <span class="thinking-field-content">Pure machine translation without Generative AI layout re-fitting.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Technical & Business Constraints</span>
+                      <span class="thinking-field-content">Real-time rendering within Photoshop/Illustrator API latencies (&lt; 3 seconds per asset).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized CJK & LATAM typography auto-fit engine over 3D background generation for MVP v1.0.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Risk Analysis & Guardrails</span>
+                      <span class="thinking-field-content">Strict brand safety filters to prevent hallucinated copy in localized ad banners.</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="thinking-card-body">
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Alternative Solutions Rejected</span>
-                    <span class="thinking-field-content">Pure machine translation without Generative AI layout re-fitting.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Technical & Business Constraints</span>
-                    <span class="thinking-field-content">Real-time rendering within Photoshop/Illustrator API latencies (&lt; 3 seconds per asset).</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
-                    <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized CJK & LATAM typography auto-fit engine over 3D background generation for MVP v1.0.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Risk Analysis & Guardrails</span>
-                    <span class="thinking-field-content">Strict brand safety filters to prevent hallucinated copy in localized ad banners.</span>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Card 4: Final Solution & Impact -->
-              <div class="thinking-card">
-                <div class="thinking-card-header">
-                  <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
-                  <div class="thinking-card-title">📈 Metrics & Business Impact</div>
+                <!-- Card 4: Final Solution & Impact -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
+                    <div class="thinking-card-title">📈 Metrics & Business Impact</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Chosen Product Solution</span>
+                      <span class="thinking-field-content">Adobe Firefly Transcreate with LLM localization engine, smart bounding box auto-fit, and brand governance presets.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Why It Worked</span>
+                      <span class="thinking-field-content">Automated 85% of manual resizing and typography layout work while preserving brand guidelines.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Quantified Business Metrics</span>
+                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">Reduced turnaround time from 14 days to 48 hours; 98.2% brand compliance rate.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Future Product Roadmap</span>
+                      <span class="thinking-field-content">Real-time video campaign transcreation & automated voiceover dubbing.</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="thinking-card-body">
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Chosen Product Solution</span>
-                    <span class="thinking-field-content">Adobe Firefly Transcreate with LLM localization engine, smart bounding box auto-fit, and brand governance presets.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Why It Worked</span>
-                    <span class="thinking-field-content">Automated 85% of manual resizing and typography layout work while preserving brand guidelines.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Quantified Business Metrics</span>
-                    <span class="thinking-field-content" style="color:var(--success); font-weight:700;">Reduced turnaround time from 14 days to 48 hours; 98.2% brand compliance rate.</span>
-                  </div>
-                  <div class="thinking-field">
-                    <span class="thinking-field-label">Future Product Roadmap</span>
-                    <span class="thinking-field-content">Real-time video campaign transcreation & automated voiceover dubbing.</span>
-                  </div>
-                </div>
-              </div>
 
+              </div>
             </div>
-          </div>
 
-<a href="firefly.html" class="btn btn-primary" style="background:linear-gradient(135deg, #FA26A0, #c084fc); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
+
+            <div class="pm-card-actions">
+              <a href="firefly.html" class="btn btn-primary" style="background:linear-gradient(135deg, #FA26A0, #c084fc); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
                 Explore Complete Case Study &rarr;
               </a>
             </div>
@@ -1350,6 +1341,190 @@
 
             <div class="pm-card-actions">
               <a href="snapmint.html" class="btn btn-primary" style="background:linear-gradient(135deg, #0052FF, #00F0FF); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
+                Explore Complete Case Study &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Project 5: Healthcare Agentic AI Suite (Hospital Onboarding & ICU Clinical Engine) -->
+        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='hospital.html';" style="cursor:pointer; border-color:var(--border-highlight); margin-top:3.5rem;">
+          <div class="pm-card-banner">
+            <div>
+              <div class="pm-domain-tags">
+                <span class="domain-pill">Healthcare AI</span>
+                <span class="domain-pill">Agentic Workflows</span>
+                <span class="domain-pill">ICU Decision Engine</span>
+                <span class="domain-pill" style="background:rgba(13,148,136,0.18); color:#14B8A6; border-color:#0D9488;">● Flagship Healthcare AI Project</span>
+              </div>
+              <h3 class="pm-card-title">Healthcare Agentic AI Suite: Hospital Onboarding, Insurance Pre-Auth & ICU Clinical Engine</h3>
+              <p class="pm-card-subtitle">Healthcare & Enterprise Agentic AI Platform</p>
+            </div>
+          </div>
+
+          <!-- Product User Journey: Healthcare AI -->
+          <div class="project-hero-visual-card hero-visual-hospital" style="background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(6,182,212,0.12)); border-color: rgba(13,148,136,0.35);">
+            <div class="visual-card-header">
+              <span class="visual-header-badge" style="background:rgba(13,148,136,0.2); color:#14B8A6; border-color:rgba(20,184,166,0.4);">🏥 PATIENT ADMISSION & PRE-AUTH JOURNEY</span>
+              <span class="visual-header-title">User Story: 4.3h AI Insurance Pre-Auth & Clinical Decision Triage</span>
+            </div>
+            <div class="visual-workflow-nodes">
+              <div class="visual-node-box"><div class="visual-node-icon">🏥</div><div class="visual-node-label">Patient Intake</div><div class="visual-node-sub">Hospital Registration</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">📑</div><div class="visual-node-label">Policy Scan</div><div class="visual-node-sub">ICD-10 Data Extraction</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-active" style="border-color:#0D9488;"><div class="visual-node-icon">🤖</div><div class="visual-node-label">AI Pre-Auth Agent</div><div class="visual-node-sub">Automated Claim Sync</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">💊</div><div class="visual-node-label">Safety Check</div><div class="visual-node-sub">Drug Interaction Scan</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">🩺</div><div class="visual-node-label">ICU Support</div><div class="visual-node-sub">Sepsis Intercept Agent</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">⚡</div><div class="visual-node-label">SLA Escalation</div><div class="visual-node-sub">Human Guardrail Queue</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-highlight" style="border-color:#14B8A6;"><div class="visual-node-icon">🎉</div><div class="visual-node-label">Admission Cleared</div><div class="visual-node-sub">82% Speedup (4.3h TAT)</div></div>
+            </div>
+          </div>
+
+          <div class="pm-card-body">
+            <div class="pm-exec-summary">
+              <strong>Executive Summary:</strong> Architected an enterprise Healthcare Agentic AI Suite automating hospital patient onboarding, insurance pre-authorization claims, drug interaction safety checks, and ICU sepsis triage. Reduced pre-auth turnaround time by 82% (24 hours &rarr; 4.3 hours) and cut clinical onboarding delays by 68%.
+            </div>
+
+            <div class="pm-kpi-grid">
+              <div class="pm-kpi-card"><div class="pm-kpi-val">4.3 Hours</div><div class="pm-kpi-lbl">Pre-Auth Claim TAT (was 24h)</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">82%</div><div class="pm-kpi-lbl">Claim Approval Speedup</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">99.8%</div><div class="pm-kpi-lbl">Medication Safety Accuracy</div></div>
+            </div>
+
+            <div class="pm-role-bar">
+              <div class="pm-role-title">My Role & Competencies:</div>
+              <div class="pm-role-tags">
+                <span class="role-pill">⚡ Product Strategy</span>
+                <span class="role-pill">⚡ User Research</span>
+                <span class="role-pill">⚡ PRD Specs</span>
+                <span class="role-pill">⚡ Wireframes</span>
+                <span class="role-pill">⚡ Prioritization</span>
+                <span class="role-pill">⚡ Stakeholder Management</span>
+                <span class="role-pill">⚡ Launch</span>
+                <span class="role-pill">⚡ Analytics</span>
+              </div>
+            </div>
+
+            <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
+            <div class="pm-thinking-grid-section">
+              <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
+              <div class="pm-thinking-grid">
+                
+                <!-- Card 1: Problem Statement -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">🎯</div>
+                    <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Target User</span>
+                      <span class="thinking-field-content">Hospital Admissions Desk, Chief Nursing Officers & Medical Insurance Desk Leads.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">The Core Friction</span>
+                      <span class="thinking-field-content">Manual insurance pre-authorization delays and paper-based onboarding causing 24h+ patient admission bottlenecks.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Frequency & Pain Point</span>
+                      <span class="thinking-field-content"><strong>Frequency:</strong> Hundreds of inpatient admissions daily across tertiary care hospital chains.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Affected Business Metric</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Pre-Auth Claim TAT (24h) & Hospital Bed Turnover Rate</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: User Research & Insights -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">👤</div>
+                    <div class="thinking-card-title">👤 User Research & Insights</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Primary Personas Studied</span>
+                      <span class="thinking-field-content">Dr. Aris Thorne (ICU Director) & Meera Sen (Insurance Pre-Auth Coordinator).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">User Pain Points</span>
+                      <span class="thinking-field-content">85% of claim rejections stemmed from missing ICD-10 diagnostic codes during initial admission filing.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Key Behavioral Findings</span>
+                      <span class="thinking-field-content">Nurses spent 3.5 hours per shift manually re-entering patient vitals between EHR and insurance portals.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Journey Bottleneck Identified</span>
+                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Fragmented communication between hospital EHR, TPA insurance desks, and ICU bedside monitors.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Product Decisions & Trade-offs -->
+                <div class="thinking-card" style="border-color:var(--border-highlight);">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(13,148,136,0.18); color:#14B8A6;">⚖️</div>
+                    <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Alternative Solutions Rejected</span>
+                      <span class="thinking-field-content">Manual call-center pre-auth support (unscalable & prone to 12h+ hold times).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Technical & Business Constraints</span>
+                      <span class="thinking-field-content">Strict HIPAA & ABDM compliance for patient health record privacy and encrypted LLM inferencing.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized Automated Pre-Auth Claim Agent + ICU Sepsis Intercept Agent for v1.0 MVP release.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Risk Analysis & Guardrails</span>
+                      <span class="thinking-field-content">Human-in-the-loop physician override triggers for any high-severity ICU diagnostic recommendation.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: Final Solution & Impact -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
+                    <div class="thinking-card-title">📈 Metrics & Business Impact</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Chosen Product Solution</span>
+                      <span class="thinking-field-content">Healthcare Agentic AI Suite embedding Pre-Auth Automation, Drug Safety Verification & ICU Clinical Decision Support.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Why It Worked</span>
+                      <span class="thinking-field-content">Replaced manual data re-entry with autonomous multi-agent LLM verification and instant TPA portal sync.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Quantified Business Metrics</span>
+                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">82% Pre-Auth TAT reduction (24h &rarr; 4.3h), 68% faster onboarding, 99.8% medication safety accuracy.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Future Product Roadmap</span>
+                      <span class="thinking-field-content">Autonomous post-discharge remote patient monitoring & AI prescription synthesis.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="pm-card-actions">
+              <a href="hospital.html" class="btn btn-primary" style="background:linear-gradient(135deg, #0D9488, #06B6D4); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
                 Explore Complete Case Study &rarr;
               </a>
             </div>

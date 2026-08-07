@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stanza Care | AI Maintenance Triage Prototype</title>
+  <script src="js/theme.js"></script>
+  <style>
+    :root {
+      --bg-dark: #090D16;
+      --panel-bg: #131B2E;
+      --card-bg: #1C273E;
+      --accent-violet: #6366F1;
+      --accent-emerald: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-rose: #EF4444;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border-color: #2E3D5B;
+      --phone-width: 375px;
+      --phone-height: 720px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    header {
+      max-width: 1200px;
+      width: 100%;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .brand-meta-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .btn-back-portfolio {
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #A5B4FC;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-portfolio:hover {
+      background: rgba(99, 102, 241, 0.35);
+      color: white;
+      transform: translateX(-2px);
+    }
+
+    .brand-title h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-title h1 span {
+      background: linear-gradient(135deg, #6366F1, #A855F7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .flow-toggle {
+      display: flex;
+      background: var(--panel-bg);
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active.before {
+      background: rgba(239, 68, 68, 0.15);
+      color: #FCA5A5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .toggle-btn.active.improved {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6EE7B7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(360px, 390px) minmax(320px, 1fr);
+      gap: 32px;
+      max-width: 1200px;
+      width: 100%;
+      align-items: start;
+    }
+
+    @media (max-width: 880px) {
+      .workspace {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+    }
+
+    /* Phone Device Mockup */
+    .phone-container {
+      width: var(--phone-width);
+      height: var(--phone-height);
+      background: #020617;
+      border-radius: 40px;
+      border: 10px solid #1E293B;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(99, 102, 241, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-notch {
+      width: 130px;
+      height: 24px;
+      background: #1E293B;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      flex: 1;
+      padding: 32px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Screen UI Components */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .user-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .user-info h3 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .stanza-badge {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818CF8;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .screen-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .screen-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action {
+      width: 100%;
+      background: var(--accent-violet);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      background: #4F46E5;
+    }
+
+    .btn-action.success {
+      background: var(--accent-emerald);
+    }
+
+    .btn-action.secondary {
+      background: #334155;
+      color: #F1F5F9;
+    }
+
+    .camera-viewport {
+      width: 100%;
+      height: 180px;
+      background: #090D16;
+      border-radius: 12px;
+      border: 2px dashed #475569;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ai-overlay-box {
+      position: absolute;
+      inset: 12px;
+      border: 2px solid var(--accent-emerald);
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px;
+      animation: pulseBorder 2s infinite;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% { border-color: rgba(16, 185, 129, 0.8); }
+      50% { border-color: rgba(16, 185, 129, 0.3); }
+    }
+
+    .ai-tag {
+      align-self: flex-start;
+      background: var(--accent-emerald);
+      color: #022C22;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .ai-confidence {
+      align-self: flex-end;
+      background: rgba(2, 6, 23, 0.85);
+      color: #6EE7B7;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #334155;
+    }
+
+    .dot.active {
+      background: var(--accent-violet);
+      width: 16px;
+      border-radius: 8px;
+    }
+
+    .dot.active.improved {
+      background: var(--accent-emerald);
+    }
+
+    /* Annotation & Panel Styles */
+    .annotation-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .metric-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+    }
+
+    .metric-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-val {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .metric-val.bad {
+      color: #F87171;
+    }
+
+    .metric-val.good {
+      color: #34D399;
+    }
+
+    .metric-delta {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-violet);
+      font-weight: 700;
+    }
+
+    .decision-block {
+      background: var(--card-bg);
+      border-left: 3px solid var(--accent-violet);
+      padding: 14px 16px;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .decision-block h5 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #F1F5F9;
+    }
+
+    .decision-block p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .pill-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #A5B4FC;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .field-note {
+      font-size: 12px;
+      color: #CBD5E1;
+      background: rgba(30, 41, 59, 0.8);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .bottom-nav-bar {
+      max-width: 1200px;
+      width: 100%;
+      margin-top: 32px;
+      padding: 16px 24px;
+      background: var(--panel-bg);
+    /* LIGHT MODE OVERRIDES FOR THEME SYNCHRONIZATION */
+    [data-theme="light"] {
+      --bg-dark: #f8fafc;
+      --panel-bg: #ffffff;
+      --card-bg: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+    }
+  </style>
+  <script>
+    function initThemeSync() {
+      const savedTheme = localStorage.getItem('pm_portfolio_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeUI(savedTheme);
+    }
+
+    function toggleThemeSync() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('pm_portfolio_theme', newTheme);
+      updateThemeUI(newTheme);
+    }
+
+    function updateThemeUI(theme) {
+      const btn = document.getElementById('pageThemeToggleBtn');
+      if (btn) {
+        btn.innerHTML = theme === 'light' ? '☀️ Light Mode' : '🌙 Dark Mode';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initThemeSync);
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <div class="brand-meta-wrap">
+        <a href="index.html#case-studies" class="btn-back-portfolio">
+          ← <strong>Back to Portfolio</strong>
+        </a>
+        <button id="pageThemeToggleBtn" onclick="toggleThemeSync()" class="btn-back-portfolio" style="cursor:pointer; background:rgba(99,102,241,0.15); color:var(--text-main); font-weight:700;">🌙 Dark Mode</button>
+      </div>
+      <h1>Stanza Care <span>AI Maintenance Triage</span></h1>
+      <p>Portfolio Artifact: PM Candidate Souvik Ghosh | Target: Stanza Living (Gurgaon)</p>
+    </div>
+    
+    <div class="flow-toggle" role="tablist" aria-label="Product Flow Comparison">
+      <button class="toggle-btn active before" id="btnBefore" onclick="switchFlow('before')">
+        🔴 BEFORE: Legacy Manual Triage
+      </button>
+      <button class="toggle-btn improved" id="btnImproved" onclick="switchFlow('improved')">
+        🟢 IMPROVED: AI Photo Triage & SLA Dispatch
+      </button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    
+    <!-- Phone Container -->
+    <div class="phone-container">
+      <div class="phone-notch"></div>
+      
+      <div class="phone-screen" id="phoneScreen">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <div style="padding: 10px; background: #0F172A; border-top: 1px solid #1E293B;">
+        <div class="step-indicator" id="stepIndicator"></div>
+      </div>
+    </div>
+
+    <!-- Annotation & Thinking Panel -->
+    <div class="annotation-panel">
+      
+      <div>
+        <span class="section-title" id="flowTitle">Flow Analysis</span>
+        <h2 style="font-size: 18px; margin-top: 4px; font-weight: 700;" id="flowSubtitle">Legacy Manual Warden Routing</h2>
+      </div>
+
+      <div class="metric-hero">
+        <div class="metric-card">
+          <span class="metric-label">Resolution SLA (MTTR)</span>
+          <span class="metric-val bad" id="mttrVal">18.5 hrs</span>
+          <span class="metric-delta" id="mttrDelta">Industry avg: 12-24 hrs</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Resident CSAT</span>
+          <span class="metric-val bad" id="csatVal">68%</span>
+          <span class="metric-delta" id="csatDelta">High drop-off on day 2</span>
+        </div>
+      </div>
+
+      <div class="field-note" id="flowSummary">
+        <strong>The Problem:</strong> Residents enter vague text like "bathroom issue". The ticket sits unassigned in the warden dashboard for hours before a physical inspection is scheduled.
+      </div>
+
+      <div class="section-title">PM Product Decisions & Guardrails</div>
+
+      <div id="decisionsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-nav-bar">
+    <a href="index.html" class="btn-back-portfolio">
+      ← <strong>Return to Main Portfolio</strong>
+    </a>
+    <span style="font-size: 0.85rem; color: var(--text-muted);">Souvik Ghosh &bull; Product Manager Case Study Portfolio</span>
+  </div>
+
+  <script>
+    const flows = {
+      before: {
+        title: "Legacy Manual Flow Analysis",
+        subtitle: "Unstructured Input & Delayed Manual Warden Inspection",
+        mttr: "18.5 hrs",
+        mttrClass: "bad",
+        mttrDelta: "High operational backlog",
+        csat: "68%",
+        csatClass: "bad",
+        csatDelta: "Frequent repeat complaints",
+        summary: "<strong>The Operational Bottleneck:</strong> Free-text inputs force wardens to physically visit room 204 to inspect before placing a plumber call. This adds 4 to 6 hours of latency before work even starts.",
+        decisions: [
+          {
+            title: "Friction Point: Vague Text Fields",
+            desc: "Residents write 'water problem'. Plumbers arrive without the right spare parts (e.g. 0.5-inch PVC seal vs tap washer), causing double visits.",
+            tag: "High Friction"
+          },
+          {
+            title: "Process Failure: Warden Dependencies",
+            desc: "Wardens prioritize room handovers over complaint queues during peak admission hours (July to September in Gurgaon hostels).",
+            tag: "Manual Bottleneck"
+          }
+        ],
+        steps: [
+          {
+            screenTitle: "Stanza Care - Room 204",
+            cardTitle: "Raise a Complaint",
+            content: `
+              <div class="screen-card">
+                <h4>Select Category</h4>
+                <select style="width:100%; padding:10px; background:#0F172A; color:#fff; border:1px solid #334155; border-radius:8px; margin-bottom:12px;">
+                  <option>General Maintenance</option>
+                  <option>Housekeeping</option>
+                </select>
+                <h4>Describe Issue</h4>
+                <textarea style="width:100%; height:80px; padding:10px; background:#0F172A; color:#fff; border:1px solid #334155; border-radius:8px; margin-bottom:12px;" placeholder="Type complaint here...">Water coming under bathroom door since morning</textarea>
+                <button class="btn-action" onclick="nextStep()">Submit Ticket</button>
+              </div>
+            `
+          },
+          {
+            screenTitle: "Ticket #STZ-8891",
+            cardTitle: "Status: Unassigned",
+            content: `
+              <div class="screen-card" style="border-color:#EF4444;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <span style="background:rgba(239,68,68,0.2); color:#FCA5A5; font-size:11px; padding:4px 8px; border-radius:6px; font-weight:700;">PENDING WARDEN REVIEW</span>
+                </div>
+                <p style="font-size:12px; color:#94A3B8; margin-bottom:12px;">Estimated triage time: 4-6 hours</p>
+                <div style="background:#0F172A; padding:10px; border-radius:8px; font-size:11px; color:#CBD5E1; margin-bottom:12px;">
+                  Warden must physically verify room leak before calling external plumber queue.
+                </div>
+                <button class="btn-action secondary" onclick="nextStep()">View Timeline</button>
+              </div>
+            `
+          },
+          {
+            screenTitle: "Ticket Timeline",
+            cardTitle: "Delay Breakdown",
+            content: `
+              <div class="screen-card">
+                <div style="font-size:12px; line-height:1.6; color:#94A3B8;">
+                  <p>⏱️ <strong>00:00</strong> Ticket Raised</p>
+                  <p>⌛ <strong>04:30</strong> Warden inspects room 204</p>
+                  <p>⌛ <strong>07:15</strong> Plumber dispatched from Sector 48</p>
+                  <p>🔴 <strong>18:30</strong> Repair Completed</p>
+                </div>
+                <div style="margin-top:16px;">
+                  <button class="btn-action" onclick="resetStep()">Restart Flow</button>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      improved: {
+        title: "IMPROVED Flow Analysis",
+        subtitle: "Multimodal AI Vision Scan & Automatic Vendor SLA Dispatch",
+        mttr: "4.2 hrs",
+        mttrClass: "good",
+        mttrDelta: "77% reduction in resolution time",
+        csat: "92%",
+        csatClass: "good",
+        csatDelta: "+24% improvement in CSAT",
+        summary: "<strong>Product Fix:</strong> Resident snaps a photo. Vision model categorizes the active leak with 96% confidence, identifies spare part requirements, and auto-dispatches the assigned vendor within 2 minutes.",
+        decisions: [
+          {
+            title: "Vision Model & Confidence Threshold (0.85)",
+            desc: "If model confidence >= 85%, bypass warden and dispatch vendor directly. If < 85%, route to warden with pre-filled tags.",
+            tag: "AI Guardrail"
+          },
+          {
+            title: "Automated Spare Part Pre-Selection",
+            desc: "AI identifies pipe joint seal failure from image metadata, ensuring plumber arrives equipped on the first visit.",
+            tag: "First-Time Fix Rate"
+          },
+          {
+            title: "Human-in-the-Loop Override",
+            desc: "Warden gets a 5-minute notification window to cancel auto-dispatch if room issue is known or duplicate.",
+            tag: "Ops Safety Net"
+          }
+        ],
+        steps: [
+          {
+            screenTitle: "Stanza Care - Stockholm House",
+            cardTitle: "Instant AI Maintenance",
+            content: `
+              <div class="screen-card" style="border-color:rgba(16,185,129,0.4);">
+                <p style="font-size:12px; color:#94A3B8; margin-bottom:12px;">Snap a photo of the issue for instant triage and emergency dispatch.</p>
+                <button class="btn-action success" onclick="nextStep()">
+                  📸 Camera Triage Scan
+                </button>
+              </div>
+              <div class="screen-card">
+                <h4>Recent Active Tickets</h4>
+                <div style="font-size:11px; color:#94A3B8;">No open issues in Room 204.</div>
+              </div>
+            `
+          },
+          {
+            screenTitle: "AI Photo Capture",
+            cardTitle: "Scanning Pipe Leak",
+            content: `
+              <div class="screen-card">
+                <div class="camera-viewport">
+                  <svg width="240" height="180" viewBox="0 0 240 180" style="width:100%; height:100%;">
+                    <rect width="240" height="180" fill="#0F172A"/>
+                    <path d="M40,140 Q80,100 120,130 T200,90" stroke="#38BDF8" stroke-width="4" fill="none"/>
+                    <circle cx="120" cy="130" r="14" fill="none" stroke="#EF4444" stroke-width="2"/>
+                    <circle cx="120" cy="130" r="4" fill="#EF4444"/>
+                  </svg>
+                  <div class="ai-overlay-box">
+                    <span class="ai-tag">Plumbing Leak</span>
+                    <span class="ai-confidence">Confidence: 96%</span>
+                  </div>
+                </div>
+                <div style="margin-top:12px;">
+                  <button class="btn-action success" onclick="nextStep()">Analyze & Auto-Route</button>
+                </div>
+              </div>
+            `
+          },
+          {
+            screenTitle: "AI Auto-Triage Complete",
+            cardTitle: "Ticket #STZ-9902 Dispatched",
+            content: `
+              <div class="screen-card" style="border-color:var(--accent-emerald);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <span class="stanza-badge" style="background:rgba(16,185,129,0.2); color:#6EE7B7; border-color:rgba(16,185,129,0.4);">AUTO-DISPATCHED TO VENDOR</span>
+                </div>
+                <h3 style="font-size:14px; font-weight:700; color:#F8FAFC; margin-bottom:4px;">Severity: P1 (Active Leak)</h3>
+                <p style="font-size:11px; color:#94A3B8; margin-bottom:10px;">Assigned: RapidPlumb Gurgaon (SLA: 45 Mins)</p>
+                <div style="background:#0F172A; padding:8px 12px; border-radius:8px; font-size:11px; color:#6EE7B7; margin-bottom:12px; border:1px solid rgba(16,185,129,0.2);">
+                  ✓ Pre-ordered Part: 0.5-inch PVC Pipe Seal & Tape
+                </div>
+                <button class="btn-action success" onclick="nextStep()">Track Vendor ETA</button>
+              </div>
+            `
+          },
+          {
+            screenTitle: "Live Dispatch Tracking",
+            cardTitle: "Vendor En Route",
+            content: `
+              <div class="screen-card">
+                <div style="background:#0F172A; padding:12px; border-radius:10px; border:1px solid #334155; margin-bottom:12px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:12px; font-weight:700;">Technician: Ramesh Kumar</span>
+                    <span style="font-size:11px; color:#34D399; font-weight:700;">ETA: 18 Mins</span>
+                  </div>
+                  <p style="font-size:11px; color:#94A3B8; margin-top:4px;">Current MTTR: 4.2 Hours (Target: &lt; 5 Hours)</p>
+                </div>
+                <button class="btn-action" onclick="resetStep()">Restart Demo</button>
+              </div>
+            `
+          }
+        ]
+      }
+    };
+
+    let currentFlowKey = 'improved';
+    let currentStepIdx = 0;
+
+    function renderScreen() {
+      const flow = flows[currentFlowKey];
+      const step = flow.steps[currentStepIdx];
+      
+      const phoneScreen = document.getElementById('phoneScreen');
+      phoneScreen.innerHTML = `
+        <div class="app-header">
+          <div class="user-info">
+            <p>Stanza Living Resident</p>
+            <h3>${step.screenTitle}</h3>
+          </div>
+          <span class="stanza-badge">ROOM 204</span>
+        </div>
+        ${step.content}
+      `;
+
+      // Render dots
+      const indicator = document.getElementById('stepIndicator');
+      indicator.innerHTML = flow.steps.map((_, idx) => `
+        <div class="dot ${idx === currentStepIdx ? 'active ' + currentFlowKey : ''}"></div>
+      `).join('');
+
+      // Update Panel Text
+      document.getElementById('flowTitle').innerText = flow.title;
+      document.getElementById('flowSubtitle').innerText = flow.subtitle;
+      document.getElementById('mttrVal').innerText = flow.mttr;
+      document.getElementById('mttrVal').className = 'metric-val ' + flow.mttrClass;
+      document.getElementById('mttrDelta').innerText = flow.mttrDelta;
+      document.getElementById('csatVal').innerText = flow.csat;
+      document.getElementById('csatVal').className = 'metric-val ' + flow.csatClass;
+      document.getElementById('csatDelta').innerText = flow.csatDelta;
+      document.getElementById('flowSummary').innerHTML = flow.summary;
+
+      // Render Decisions
+      const decContainer = document.getElementById('decisionsContainer');
+      decContainer.innerHTML = flow.decisions.map(d => `
+        <div class="decision-block" style="${currentFlowKey === 'improved' ? 'border-left-color: var(--accent-emerald);' : ''}">
+          <h5>${d.title}</h5>
+          <p>${d.desc}</p>
+          <span class="pill-tag" style="${currentFlowKey === 'improved' ? 'background:rgba(16,185,129,0.2); color:#6EE7B7;' : ''}">${d.tag}</span>
+        </div>
+      `).join('');
+    }
+
+    function switchFlow(flowKey) {
+      currentFlowKey = flowKey;
+      currentStepIdx = 0;
+      
+      document.getElementById('btnBefore').className = `toggle-btn ${flowKey === 'before' ? 'active before' : ''}`;
+      document.getElementById('btnImproved').className = `toggle-btn ${flowKey === 'improved' ? 'active improved' : ''}`;
+      
+      renderScreen();
+    }
+
+    function nextStep() {
+      const maxSteps = flows[currentFlowKey].steps.length;
+      if (currentStepIdx < maxSteps - 1) {
+        currentStepIdx++;
+        renderScreen();
+      }
+    }
+
+    function resetStep() {
+      currentStepIdx = 0;
+      renderScreen();
+    }
+
+    // Initialize
+    switchFlow('improved');
+  </script>
+</body>
+</html>

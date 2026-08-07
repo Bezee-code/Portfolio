@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapmint Pay & Credit | PM Portfolio Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="js/theme.js"></script>
+  <style>
+    :root {
+      --bg-dark: #070A12;
+      --bg-surface: #0F1626;
+      --bg-card: #151D30;
+      --bg-card-hover: #1C2740;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(0, 82, 255, 0.3);
+      --brand-blue: #0052FF;
+      --brand-cyan: #00F0FF;
+      --brand-emerald: #00D084;
+      --brand-amber: #FFB000;
+      --brand-rose: #FF4757;
+      --text-main: #F8FAFC;
+      --text-sub: #94A3B8;
+      --text-muted: #64748B;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+      --shadow-glow: 0 0 25px rgba(0, 82, 255, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background: rgba(15, 22, 38, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #FFF;
+      box-shadow: 0 4px 14px rgba(0, 82, 255, 0.4);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #FFF;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--brand-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+
+    /* Main View Switcher Tabs */
+    .view-switcher {
+      display: flex;
+      background: rgba(7, 10, 18, 0.6);
+      border: 1px solid var(--border-light);
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn:hover {
+      color: #FFF;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-btn.active {
+      background: var(--brand-blue);
+      color: #FFF;
+      box-shadow: 0 2px 10px rgba(0, 82, 255, 0.3);
+    }
+
+    .candidate-meta {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .btn-back-portfolio {
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      color: var(--brand-cyan);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-portfolio:hover {
+      background: rgba(0, 240, 255, 0.25);
+      color: white;
+      transform: translateX(-2px);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 20px;
+    }
+
+    /* View Content Panels */
+    .view-panel {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Common Card Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Glass Cards */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Merchant Checkout Simulator Frame */
+    .phone-mockup {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #0B0F19;
+      border: 10px solid #1E293B;
+      border-radius: 36px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phone-screen {
+      padding: 20px;
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .merchant-banner {
+      background: linear-gradient(135deg, #1E1B4B, #312E81);
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .merchant-logo {
+      width: 36px;
+      height: 36px;
+      background: #FFF;
+      color: #312E81;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    /* EMI Selector Cards */
+    .option-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-light);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option-card:hover {
+      border-color: rgba(0, 82, 255, 0.5);
+      background: var(--bg-card-hover);
+    }
+
+    .option-card.selected {
+      border-color: var(--brand-blue);
+      background: rgba(0, 82, 255, 0.12);
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--text-muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .option-card.selected .radio-circle {
+      border-color: var(--brand-blue);
+    }
+
+    .option-card.selected .radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--brand-blue);
+      border-radius: 50%;
+    }
+
+    /* Action Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-blue), #1D4ED8);
+      color: #FFF;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0, 82, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 82, 255, 0.5);
+    }
+
+    /* Cascade Status Log */
+    .cascade-log {
+      background: #080C14;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 12px;
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      color: #A7F3D0;
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 14px;
+    }
+
+    .log-entry {
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .log-warn { color: var(--brand-amber); }
+    .log-err { color: var(--brand-rose); }
+    .log-success { color: var(--brand-emerald); }
+
+    /* Dashboard Metrics */
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .stat-val {
+      font-family: var(--font-code);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-cyan);
+      margin: 8px 0;
+    }
+
+    .stat-lbl {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    /* Annotations Pill */
+    .pm-annotation {
+      background: rgba(255, 176, 0, 0.08);
+      border-left: 4px solid var(--brand-amber);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 0.825rem;
+      color: #FFE082;
+      margin-bottom: 20px;
+    }
+
+    /* Switcher Pill for Before / Improved */
+    .toggle-pill-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: var(--bg-surface);
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--border-light);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .toggle-lbl {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .toggle-lbl.active {
+      color: #FFF;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input { opacity: 0; width: 0; height: 0; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--brand-cyan);
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--brand-blue);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+      background-color: #FFF;
+    }
+
+    .bottom-nav-bar {
+      margin-top: 32px;
+      padding: 16px 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      display: flex;
+    /* LIGHT MODE OVERRIDES FOR THEME SYNCHRONIZATION */
+    [data-theme="light"] {
+      --bg-dark: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-light: rgba(0, 0, 0, 0.12);
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #64748b;
+    }
+    [data-theme="light"] header {
+      background: #ffffff;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    [data-theme="light"] .brand-title {
+      color: #0f172a;
+    }
+  </style>
+  <script>
+    function initThemeSync() {
+      const savedTheme = localStorage.getItem('pm_portfolio_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeUI(savedTheme);
+    }
+
+    function toggleThemeSync() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('pm_portfolio_theme', newTheme);
+      updateThemeUI(newTheme);
+    }
+
+    function updateThemeUI(theme) {
+      const btn = document.getElementById('pageThemeToggleBtn');
+      if (btn) {
+        btn.innerHTML = theme === 'light' ? '☀️ Light Mode' : '🌙 Dark Mode';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initThemeSync);
+  </script>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <a href="index.html" class="brand-logo">
+      <div class="logo-icon">S</div>
+      <div>
+        <span class="brand-title">Snapmint</span>
+        <span class="brand-tag">Payments PM Prototype</span>
+      </div>
+    </a>
+
+    <!-- View Switcher -->
+    <div class="view-switcher">
+      <a href="index.html" class="nav-btn" style="text-decoration:none;">← Portfolio Home</a>
+      <button id="pageThemeToggleBtn" onclick="toggleThemeSync()" class="nav-btn" style="cursor:pointer; background:rgba(99,102,241,0.15); color:var(--text-main); font-weight:700;">🌙 Dark Mode</button>
+      <button class="nav-btn active" onclick="switchView('checkout')">
+        🛒 Checkout & BNPL Cascade
+      </button>
+      <button class="nav-btn" onclick="switchView('repayment')">
+        💳 Repayment & AutoPay Dashboard
+      </button>
+      <button class="nav-btn" onclick="switchView('engine')">
+        ⚙️ Decision Engine Simulator
+      </button>
+      <button class="nav-btn" onclick="switchView('metrics')">
+        📊 Metrics & P&L Impact
+      </button>
+    </div>
+
+    <div class="candidate-meta">
+      <a href="index.html#case-studies" class="btn-back-portfolio">
+        ← <strong>Back to Portfolio</strong>
+      </a>
+      <span>Candidate: <strong>Souvik Ghosh</strong></span>
+      <span>Role: <strong>Senior PM - Payments</strong></span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- VIEW 1: MERCHANT CHECKOUT & GATEWAY CASCADE -->
+    <div id="view-checkout" class="view-panel active">
+      
+      <div class="pm-annotation">
+        <strong>PM Decision Annotation:</strong> This flow demonstrates the <strong>Dynamic Gateway Cascade Engine</strong>. If the user's primary bank/card or default UPI payment drops off, the backend intelligently falls back to Credit on UPI or 3-Month No-Cost BNPL without resetting the cart session, protecting checkout conversion.
+      </div>
+
+      <div class="grid-2">
+        
+        <!-- Left: Interactive Mobile Prototype -->
+        <div>
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              
+              <div class="merchant-banner">
+                <div class="merchant-logo">C</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem; color: #FFF;">Croma Retail</div>
+                  <div style="font-size: 0.75rem; color: #A5B4FC;">Order #CR-94829 • Total: ₹9,999</div>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 14px;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Select Payment Plan</div>
+                
+                <!-- Option 1: 3 Month No-Cost EMI -->
+                <div class="option-card selected" id="opt-1" onclick="selectOption('opt-1', 3333)">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem; color: #FFF;">3 Months No-Cost EMI</div>
+                    <div style="font-size: 0.75rem; color: var(--brand-emerald);">₹3,333/mo • Zero Interest • Instant Approval</div>
+                  </div>
+                  <div class="radio-circle"></div>
+                </div>
+
+                <!-- Option 2: Credit on UPI -->
+                <div class="option-card" id="opt-2" onclick="selectOption('opt-2', 9999)">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem; color: #FFF;">RuPay Credit on UPI</div>
+                    <div style="font-size: 0.75rem; color: var(--brand-cyan);">1-Click Scan & Pay via GooglePay / PhonePe</div>
+                  </div>
+                  <div class="radio-circle"></div>
+                </div>
+
+                <!-- Option 3: Card Gateway -->
+                <div class="option-card" id="opt-3" onclick="selectOption('opt-3', 9999)">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem; color: #FFF;">Debit / Credit Card (Full Pay)</div>
+                    <div style="font-size: 0.75rem; color: var(--text-sub);">HDFC, ICICI, SBI, Axis Cards</div>
+                  </div>
+                  <div class="radio-circle"></div>
+                </div>
+              </div>
+
+              <!-- Simulation Trigger Controls -->
+              <div style="margin-top: auto;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">Simulate Gateway Response:</div>
+                <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+                  <button style="flex:1; background: #1E293B; border:1px solid var(--border-light); color:#FFF; padding:6px; border-radius:6px; font-size:0.7rem; cursor:pointer;" onclick="setGatewayStatus('SUCCESS')">🟢 Success</button>
+                  <button style="flex:1; background: #1E293B; border:1px solid var(--border-light); color:#FFF; padding:6px; border-radius:6px; font-size:0.7rem; cursor:pointer;" onclick="setGatewayStatus('FAIL_CARD')">🔴 Card Insufficient</button>
+                  <button style="flex:1; background: #1E293B; border:1px solid var(--border-light); color:#FFF; padding:6px; border-radius:6px; font-size:0.7rem; cursor:pointer;" onclick="setGatewayStatus('TIMEOUT')">🟡 Bank Downtime</button>
+                </div>
+
+                <button class="btn-primary" id="btn-pay" onclick="processPayment()">
+                  Pay ₹3,333 & Activate BNPL
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Technical Gateway Cascade Console -->
+        <div>
+          <div class="card" style="height: 100%;">
+            <div class="card-header">
+              <div class="card-title">
+                ⚡ Gateway Cascade & Payment Routing Log
+              </div>
+              <span style="font-size: 0.75rem; color: var(--brand-emerald); font-family: var(--font-code);">LIVE ENGINE ACTIVE</span>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 14px;">
+              Real-time API sequence trace showing payment gateway health checks, fallback cascade executions, and mandate registration.
+            </p>
+
+            <div class="cascade-log" id="cascade-console">
+              <div class="log-entry">[00:00:01] Initialized Snapmint Checkout SDK v3.4...</div>
+              <div class="log-entry">[00:00:02] Querying user pre-approved BNPL limit: ₹25,000 [ELIGIBLE]</div>
+              <div class="log-entry">[00:00:02] Awaiting user payment trigger...</div>
+            </div>
+
+            <div style="margin-top: 20px; border-top: 1px solid var(--border-light); padding-top: 16px;">
+              <h4 style="font-size: 0.85rem; color: #FFF; margin-bottom: 8px;">Key Performance Signals Proved:</h4>
+              <ul style="font-size: 0.8rem; color: var(--text-sub); padding-left: 18px; line-height: 1.6;">
+                <li><strong>Session Retention:</strong> Zero cart drop-offs when primary gateway times out.</li>
+                <li><strong>Sub-second Fallback:</strong> Automatic routing to RuPay Credit on UPI within 450ms.</li>
+                <li><strong>Mandate Setup:</strong> Integrated e-NACH auto-debit consent during initial OTP verification.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- VIEW 2: REPAYMENT & AUTOPAY DASHBOARD -->
+    <div id="view-repayment" class="view-panel">
+      
+      <div class="pm-annotation">
+        <strong>PM Decision Annotation:</strong> The <strong>Repayment Dashboard</strong> solves penalty fatigue. It surfaces upcoming e-NACH mandate dates, aligns with user salary cycles (3rd of month), and allows 1-click pre-debit clearing via UPI with zero bank bounce fees.
+      </div>
+
+      <div class="grid-3" style="margin-bottom: 24px;">
+        <div class="stat-card">
+          <div class="stat-lbl">Active BNPL Loans</div>
+          <div class="stat-val">₹6,666</div>
+          <div style="font-size: 0.75rem; color: var(--brand-emerald);">2 EMIs remaining • On Track</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-lbl">e-NACH Mandate Status</div>
+          <div class="stat-val" style="color: var(--brand-emerald);">ACTIVE</div>
+          <div style="font-size: 0.75rem; color: var(--text-sub);">HDFC Bank (A/C **4921) • Salary Sync: 3rd</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-lbl">Bounce Protection Level</div>
+          <div class="stat-val" style="color: var(--brand-cyan);">100%</div>
+          <div style="font-size: 0.75rem; color: var(--brand-cyan);">Pre-debit Soft Reminders Active</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">My Active Repayment Schedule</div>
+          <button class="btn-primary" style="width: auto; font-size: 0.8rem; padding: 6px 14px;" onclick="payEarly()">Pay Next EMI Now (Zero Bounce Fee)</button>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-light); text-align: left; color: var(--text-sub);">
+              <th style="padding: 10px;">EMI Due Date</th>
+              <th>Amount</th>
+              <th>Collection Mode</th>
+              <th>Salary Sync Window</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-light);">
+              <td style="padding: 14px 10px; font-weight: 700; color: #FFF;">03 Aug 2026</td>
+              <td style="font-family: var(--font-code); color: #FFF;">₹3,333</td>
+              <td>e-NACH AutoPay</td>
+              <td><span style="background: rgba(0, 208, 132, 0.15); color: var(--brand-emerald); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Salary Matched (3rd)</span></td>
+              <td><span style="color: var(--brand-amber); font-weight: 600;">Upcoming in 10 Days</span></td>
+              <td><button style="background: var(--brand-blue); border:none; color:#FFF; padding:4px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer;" onclick="alert('Triggered Soft UPI Pay Link via WhatsApp')">Send WhatsApp Pay Link</button></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-light);">
+              <td style="padding: 14px 10px; font-weight: 700; color: #FFF;">03 Sep 2026</td>
+              <td style="font-family: var(--font-code); color: #FFF;">₹3,333</td>
+              <td>e-NACH AutoPay</td>
+              <td><span style="background: rgba(0, 208, 132, 0.15); color: var(--brand-emerald); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Salary Matched (3rd)</span></td>
+              <td><span style="color: var(--text-muted);">Scheduled</span></td>
+              <td><button style="background: rgba(255,255,255,0.05); border:1px solid var(--border-light); color:var(--text-sub); padding:4px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer;">Swap Bank</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- VIEW 3: DECISION ENGINE SIMULATOR -->
+    <div id="view-engine" class="view-panel">
+      
+      <div class="pm-annotation">
+        <strong>PM Decision Annotation:</strong> This tool simulates the <strong>NPCI Return Reason Code Parser</strong>. Rather than blindly retrying failed debits and incurring ₹250 bank penalties for users, it inspects error codes and routes retries across soft rails.
+      </div>
+
+      <!-- Toggle pill for Before vs Improved -->
+      <div class="toggle-pill-container">
+        <span class="toggle-lbl active" id="lbl-before">Legacy Static NACH Engine</span>
+        <label class="switch">
+          <input type="checkbox" id="engine-toggle" onchange="toggleEngineMode()">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-lbl" id="lbl-after">Smart-Retry Engine (Proposed)</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Simulate NPCI NACH Failure Code</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <button class="btn-primary" style="background: var(--bg-card); border: 1px solid var(--border-light); text-align: left; justify-content: flex-start;" onclick="runEngineSim('E001')">
+              🔴 <strong>E001: Insufficient Funds</strong> (Salary Delay)
+            </button>
+            <button class="btn-primary" style="background: var(--bg-card); border: 1px solid var(--border-light); text-align: left; justify-content: flex-start;" onclick="runEngineSim('E009')">
+              🔴 <strong>E009: Account Blocked / Frozen</strong>
+            </button>
+            <button class="btn-primary" style="background: var(--bg-card); border: 1px solid var(--border-light); text-align: left; justify-content: flex-start;" onclick="runEngineSim('U98')">
+              🟡 <strong>U98: Core Banking System Timeout</strong>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Engine Execution & Recovery Output</div>
+          </div>
+          <div id="engine-output-box" style="font-family: var(--font-code); font-size: 0.8rem; color: #94A3B8; line-height: 1.7;">
+            Select an error code on the left to observe system response...
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 4: METRICS & P&L IMPACT -->
+    <div id="view-metrics" class="view-panel">
+      
+      <div class="pm-annotation">
+        <strong>PM Decision Annotation:</strong> Senior PMs are judged on P&L impact. Below is the live unit economics model showing how reducing T-0 NACH bounce rates from 28.4% to 18.2% saves <strong>₹18.75 Lakhs per month</strong> in field collection costs.
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 24px;">
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 16px;">Metric Tree Breakdown</div>
+          
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: rgba(0, 208, 132, 0.08); border-left: 4px solid var(--brand-emerald); padding: 12px; border-radius: 6px;">
+              <div style="font-size: 0.75rem; color: var(--brand-emerald); font-weight: 700;">NORTH STAR METRIC</div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: #FFF;">D+7 AutoPay Recovery Rate: 88.7%</div>
+              <div style="font-size: 0.75rem; color: var(--text-sub);">Baseline: 72.5% (+16.2% lift)</div>
+            </div>
+
+            <div style="background: rgba(0, 82, 255, 0.08); border-left: 4px solid var(--brand-blue); padding: 12px; border-radius: 6px;">
+              <div style="font-size: 0.75rem; color: var(--brand-cyan); font-weight: 700;">L1 CONVERSION DRIVER</div>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFF;">T-0 NACH Bounce Rate: 18.2%</div>
+              <div style="font-size: 0.75rem; color: var(--text-sub);">Baseline: 28.4% (-10.2% drop)</div>
+            </div>
+
+            <div style="background: rgba(255, 176, 0, 0.08); border-left: 4px solid var(--brand-amber); padding: 12px; border-radius: 6px;">
+              <div style="font-size: 0.75rem; color: var(--brand-amber); font-weight: 700;">UNIT COST METRIC</div>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFF;">Blended Recovery Cost / EMI: ₹38</div>
+              <div style="font-size: 0.75rem; color: var(--text-sub);">Baseline: ₹140 (-72.8% reduction)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="margin-bottom: 16px;">Interactive P&L Savings Calculator</div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="font-size: 0.85rem; color: var(--text-sub); display: block; margin-bottom: 8px;">Monthly EMI Volume: <strong id="lbl-vol" style="color:#FFF;">1,00,000 EMIs</strong></label>
+            <input type="range" min="50000" max="500000" step="25000" value="100000" style="width: 100%;" oninput="calcPnl(this.value)">
+          </div>
+
+          <div style="background: #0B0F19; padding: 20px; border-radius: 12px; border: 1px solid var(--border-light);">
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Projected Monthly Net Savings</div>
+            <div style="font-family: var(--font-code); font-size: 2.2rem; font-weight: 800; color: var(--brand-emerald); margin: 8px 0;" id="pnl-result">
+              ₹18,75,000
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-sub);">
+              Calculated as: Savings from avoided manual tele-collection agent fees (₹140 vs ₹38) minus WhatsApp API charges.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav-bar">
+      <a href="index.html" class="btn-back-portfolio">
+        ← <strong>Return to Main Portfolio</strong>
+      </a>
+      <span style="font-size: 0.85rem; color: var(--text-sub);">Souvik Ghosh &bull; Product Manager Case Study Portfolio</span>
+    </div>
+
+  </main>
+
+  <script>
+    let currentAmount = 3333;
+    let simulatedGateway = 'SUCCESS';
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById('view-' + viewId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    function selectOption(id, amt) {
+      document.querySelectorAll('.option-card').forEach(el => el.classList.remove('selected'));
+      document.getElementById(id).classList.add('selected');
+      currentAmount = amt;
+      document.getElementById('btn-pay').innerText = `Pay ₹${amt.toLocaleString('en-IN')} & Proceed`;
+    }
+
+    function setGatewayStatus(status) {
+      simulatedGateway = status;
+      const consoleEl = document.getElementById('cascade-console');
+      consoleEl.innerHTML += `<div class="log-entry log-warn">[SIMULATOR] Set Gateway State to: ${status}</div>`;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function processPayment() {
+      const consoleEl = document.getElementById('cascade-console');
+      consoleEl.innerHTML += `<div class="log-entry">[00:00:03] Initiating Transaction ₹${currentAmount}...</div>`;
+
+      setTimeout(() => {
+        if (simulatedGateway === 'SUCCESS') {
+          consoleEl.innerHTML += `<div class="log-entry log-success">[00:00:04] Gateway 200 OK: Payment Captured successfully!</div>`;
+          consoleEl.innerHTML += `<div class="log-entry log-success">[00:00:05] e-NACH Mandate Registered: HDFC Bank A/C **4921</div>`;
+          alert('Payment Successful! BNPL Plan Activated.');
+        } else if (simulatedGateway === 'FAIL_CARD') {
+          consoleEl.innerHTML += `<div class="log-entry log-err">[00:00:04] Card Gateway Returned: 402 Insufficient Funds</div>`;
+          consoleEl.innerHTML += `<div class="log-entry log-warn">[00:00:05] TRIGGERING CASCADE: Switching to Soft RuPay Credit on UPI...</div>`;
+          consoleEl.innerHTML += `<div class="log-entry log-success">[00:00:06] Credit on UPI Approved! Cart Session Preserved.</div>`;
+          alert('Primary Card Failed. Dynamically Switched to RuPay Credit on UPI (Approved!).');
+        } else {
+          consoleEl.innerHTML += `<div class="log-entry log-err">[00:00:04] Primary Bank CBS Timeout (504 Gateway Timeout)</div>`;
+          consoleEl.innerHTML += `<div class="log-entry log-warn">[00:00:05] CASCADE ROUTER: Presented 1-Click No-Cost BNPL Option</div>`;
+          alert('Bank Timeout Detected. Dynamically Cascaded to 3-Month BNPL No-Cost EMI.');
+        }
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }, 600);
+    }
+
+    function payEarly() {
+      alert('1-Click Payment via UPI AutoPay Executed! Next EMI cleared with zero bank bounce fee.');
+    }
+
+    function runEngineSim(code) {
+      const isSmartMode = document.getElementById('engine-toggle').checked;
+      const box = document.getElementById('engine-output-box');
+
+      if (!isSmartMode) {
+        box.innerHTML = `
+          <div style="color: var(--brand-rose); font-weight:700;">[LEGACY STATIC ENGINE EXECUTION]</div>
+          <br>
+          <div>1. Hard presented e-NACH to bank on 1st of month.</div>
+          <div>2. Bank Returned Code: ${code}.</div>
+          <div>3. User Bank Levied Penalty: <strong style="color:var(--brand-rose);">₹350 Bounce Charge</strong>.</div>
+          <div>4. Retried hard e-NACH next day automatically → Second ₹350 Bounce Charge.</div>
+          <div>5. Result: Customer blocked mandate & un-installed Snapmint app. Loan transferred to manual collection agency.</div>
+        `;
+      } else {
+        if (code === 'E001') {
+          box.innerHTML = `
+            <div style="color: var(--brand-emerald); font-weight:700;">[PROPOSED SMART-RETRY ENGINE EXECUTION]</div>
+            <br>
+            <div>1. Received NPCI Code: <strong style="color:#FFF;">E001 (Insufficient Funds)</strong>.</div>
+            <div>2. Action: Immediately PAUSED e-NACH presentation for 48h to protect user from ₹350 bank bounce fee.</div>
+            <div>3. Soft Nudge: Sent WhatsApp payment link + soft UPI AutoPay debit trigger at 08:30 PM (salary window).</div>
+            <div>4. Outcome: <strong style="color:var(--brand-emerald);">68% EMI collected within 4 days with ZERO user bounce charges</strong>.</div>
+          `;
+        } else if (code === 'E009') {
+          box.innerHTML = `
+            <div style="color: var(--brand-emerald); font-weight:700;">[PROPOSED SMART-RETRY ENGINE EXECUTION]</div>
+            <br>
+            <div>1. Received NPCI Code: <strong style="color:#FFF;">E009 (Account Blocked / Closed)</strong>.</div>
+            <div>2. Action: Halted all automated debit attempts (saving ₹0 in wasted processing fees).</div>
+            <div>3. Nudge: Prompted 1-minute Aadhaar e-Sign mandate re-registration flow in-app.</div>
+            <div>4. Outcome: <strong style="color:var(--brand-emerald);">42% mandates re-linked without escalating to legal/collections</strong>.</div>
+          `;
+        } else {
+          box.innerHTML = `
+            <div style="color: var(--brand-emerald); font-weight:700;">[PROPOSED SMART-RETRY ENGINE EXECUTION]</div>
+            <br>
+            <div>1. Received NPCI Code: <strong style="color:#FFF;">U98 (Core Banking System Timeout)</strong>.</div>
+            <div>2. Action: Classified as technical failure (NOT user delinquency).</div>
+            <div>3. Retry: Scheduled silent night presentation (11:30 PM) during low bank server load.</div>
+            <div>4. Outcome: <strong style="color:var(--brand-emerald);">100% false delinquency avoided</strong>.</div>
+          `;
+        }
+      }
+    }
+
+    function toggleEngineMode() {
+      const isChecked = document.getElementById('engine-toggle').checked;
+      document.getElementById('lbl-before').classList.toggle('active', !isChecked);
+      document.getElementById('lbl-after').classList.toggle('active', isChecked);
+      runEngineSim('E001');
+    }
+
+    function calcPnl(vol) {
+      document.getElementById('lbl-vol').innerText = parseInt(vol).toLocaleString('en-IN') + ' EMIs';
+      // Saving ₹102 per EMI (₹140 vs ₹38) on 18.4% failed EMIs recovered via soft engine
+      const savings = Math.round(vol * 0.184 * 102);
+      document.getElementById('pnl-result').innerText = '₹' + savings.toLocaleString('en-IN');
+    }
+  </script>
+</body>
+</html>

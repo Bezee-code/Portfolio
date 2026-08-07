@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orient Electric — Sales Return Note (SRN) Automation & SAP Reconciliation | PM Portfolio Artifact</title>
+  <script src="js/theme.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #0f172a;
+      --bg-app: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #f8fafc;
+      --orient-red: #dc2626;
+      --orient-red-hover: #b91c1c;
+      --sap-blue: #0284c7;
+      --sap-blue-light: #e0f2fe;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --warning: #d97706;
+      --warning-light: #fef3c7;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      --border: #cbd5e1;
+      --border-dark: #334155;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Portfolio Header */
+    header.portfolio-header {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 20px 32px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-badge {
+      background-color: var(--orient-red);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .portfolio-tag {
+      background-color: rgba(255,255,255,0.1);
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-back-portfolio {
+      background: var(--sap-blue);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-back-portfolio:hover {
+      background: #0369a1;
+      transform: translateX(-2px);
+    }
+
+    .project-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      margin-top: 6px;
+    }
+
+    .project-subtitle {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* Hiring Manager 90-Sec Summary Box */
+    .summary-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--border-dark);
+      border-left: 4px solid var(--orient-red);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .summary-item h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .summary-item p {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #e2e8f0;
+    }
+
+    .metric-value-highlight {
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    /* Control Toolbar */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      padding: 12px 20px;
+      border-radius: 8px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mode-toggle, .view-toggle, .anno-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .btn-group {
+      display: inline-flex;
+      background: #0f172a;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid var(--border-dark);
+    }
+
+    .btn-toggle {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle.active {
+      background: var(--sap-blue);
+      color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .btn-toggle.active.legacy {
+      background: #475569;
+      color: white;
+    }
+
+    /* Metric Impact Dashboard Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 20px 32px;
+      background-color: #0b1120;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card.north-star {
+      border: 1px solid var(--sap-blue);
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    .metric-card.north-star::before {
+      content: "NORTH STAR METRIC";
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--sap-blue);
+      color: white;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-bottom-left-radius: 6px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .metric-main-val {
+      font-size: 26px;
+      font-weight: 800;
+      margin: 8px 0 4px 0;
+      color: white;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .metric-delta {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4ade80;
+    }
+
+    .metric-delta.negative {
+      color: #f87171;
+    }
+
+    .metric-subtext {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* App Container */
+    main.app-viewport {
+      flex: 1;
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      background-color: #0f172a;
+    }
+
+    /* Workflow Sidebar Tracker */
+    .flow-stepper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 20px;
+      height: fit-content;
+    }
+
+    .stepper-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .step-item:hover {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: var(--border-dark);
+    }
+
+    .step-item.active {
+      background: var(--bg-primary);
+      border-color: var(--sap-blue);
+      box-shadow: 0 0 12px rgba(2, 132, 199, 0.2);
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #334155;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-item.active .step-num {
+      background: var(--sap-blue);
+    }
+
+    .step-item.completed .step-num {
+      background: var(--success);
+    }
+
+    .step-info {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .step-role {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .step-system {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    .sys-crm { background: #0284c7; color: white; }
+    .sys-mobile { background: #7c3aed; color: white; }
+    .sys-sap { background: #059669; color: white; }
+    .sys-wh { background: #d97706; color: white; }
+
+    /* Interactive Screen Canvas */
+    .screen-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      padding: 12px 20px;
+      border-radius: 8px;
+    }
+
+    .stage-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stage-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .stage-actor-badge {
+      background: rgba(255,255,255,0.1);
+      color: #cbd5e1;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* Screen Frame Rendering */
+    .prototype-container {
+      background: var(--bg-app);
+      border-radius: 12px;
+      min-height: 580px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid #cbd5e1;
+      color: var(--text-main);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* PM Decision Callout Layer */
+    .pm-annotation-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid var(--sap-blue);
+      padding: 12px 16px;
+      margin: 16px;
+      border-radius: 6px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .pm-icon {
+      background: var(--sap-blue);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pm-annotation-content h5 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-bottom: 2px;
+    }
+
+    .pm-annotation-content p {
+      font-size: 12px;
+      color: #1e40af;
+      line-height: 1.4;
+    }
+
+    /* Legacy Mode Banner */
+    .legacy-alert-banner {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-left: 4px solid #f97316;
+      padding: 12px 16px;
+      margin: 16px;
+      border-radius: 6px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .legacy-alert-content h5 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #9a3412;
+      margin-bottom: 2px;
+    }
+
+    .legacy-alert-content p {
+      font-size: 12px;
+      color: #c2410c;
+      line-height: 1.4;
+    }
+
+    /* Mock Screen UI Elements */
+    .crm-navbar {
+      background: #1e293b;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--orient-red);
+    }
+
+    .crm-brand {
+      font-weight: 800;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .crm-brand span {
+      background: var(--orient-red);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+
+    .crm-user-profile {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .screen-content {
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* Common Form & Table Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .form-group input, .form-group select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      background-color: white;
+      color: #0f172a;
+    }
+
+    .form-group input[readonly] {
+      background-color: #f1f5f9;
+      color: #64748b;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-pdi { background: #e0f2fe; color: #0369a1; }
+    .badge-approval { background: #fef3c7; color: #b45309; }
+    .badge-pickup { background: #fae8ff; color: #86198f; }
+    .badge-cn { background: #dcfce7; color: #15803d; }
+    .badge-reject { background: #fee2e2; color: #b91c1c; }
+
+    /* Mobile Frame Styling for Step 2 */
+    .mobile-frame-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .mobile-frame {
+      width: 340px;
+      background: #1e293b;
+      border-radius: 36px;
+      padding: 12px;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4);
+      border: 4px solid #334155;
+    }
+
+    .mobile-screen {
+      background: #f8fafc;
+      border-radius: 26px;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-header {
+      background: #0f172a;
+      color: white;
+      padding: 16px 14px 12px 14px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mobile-body {
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .scanner-box {
+      background: #0f172a;
+      border: 2px dashed #0284c7;
+      border-radius: 8px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .photo-upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 1;
+      background: #e2e8f0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #64748b;
+      font-weight: 600;
+      border: 1px dashed #94a3b8;
+    }
+
+    .photo-placeholder.has-image {
+      background: #bfdbfe;
+      color: #1e40af;
+      border-style: solid;
+    }
+
+    /* Action Buttons */
+    .btn-action {
+      background: var(--orient-red);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      background: var(--orient-red-hover);
+    }
+
+    .btn-secondary {
+      background: #64748b;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* PM Rationales & Deep Dive Section */
+    .pm-deepdive-section {
+      margin-top: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .deepdive-header {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .decision-card {
+      background: #0f172a;
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 16px;
+    }
+
+    .decision-card h4 {
+      color: #38bdf8;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .decision-card p {
+      color: #94a3b8;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* Footer Navigation */
+    .bottom-nav-bar {
+      margin: 20px 32px 0 32px;
+      padding: 16px 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Footer */
+    footer.portfolio-footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 12px;
+      border-top: 1px solid var(--border-dark);
+      background: #090d16;
+      margin-top: 24px;
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 1024px) {
+    /* LIGHT MODE OVERRIDES FOR THEME SYNCHRONIZATION */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #0f172a;
+      --border-dark: #cbd5e1;
+    }
+    [data-theme="light"] header.portfolio-header {
+      background: #ffffff;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    [data-theme="light"] .metrics-bar {
+      background-color: #f1f5f9;
+      border-bottom: 1px solid #cbd5e1;
+    }
+  </style>
+  <script>
+    function initThemeSync() {
+      const savedTheme = localStorage.getItem('pm_portfolio_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeUI(savedTheme);
+    }
+
+    function toggleThemeSync() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('pm_portfolio_theme', newTheme);
+      updateThemeUI(newTheme);
+    }
+
+    function updateThemeUI(theme) {
+      const btn = document.getElementById('pageThemeToggleBtn');
+      if (btn) {
+        btn.innerHTML = theme === 'light' ? '☀️ Light Mode' : '🌙 Dark Mode';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initThemeSync);
+  </script>
+</head>
+<body>
+
+  <!-- Portfolio Header -->
+  <header class="portfolio-header">
+    <div class="header-top">
+      <div>
+        <div class="brand-meta">
+          <a href="index.html" class="portfolio-tag" style="text-decoration:none; color:inherit; font-weight:700;">← Back to Portfolio</a>
+          <button id="pageThemeToggleBtn" onclick="toggleThemeSync()" class="portfolio-tag" style="cursor:pointer; background:rgba(99,102,241,0.15); color:var(--text-light); font-weight:700;">🌙 Dark Mode</button>
+          <a href="index.html#case-studies" class="btn-back-portfolio">
+            ← <strong>Back to Portfolio</strong>
+          </a>
+          <span class="brand-badge">Orient Electric</span>
+          <span class="portfolio-tag">Enterprise B2B Product Case Artifact</span>
+          <span class="portfolio-tag">CRM + SAP Integration</span>
+        </div>
+        <h1 class="project-title">Sales Return Note (SRN) Process Automation & Credit Settlement</h1>
+        <p class="project-subtitle">Automating ₹8 Cr/mo manual defective returns, reducing turn-around time (TAT) by 78.5% across 2.5 Lakh annual units.</p>
+      </div>
+      <div>
+        <div class="toolbar">
+          <div class="mode-toggle">
+            <span style="color:#94a3b8; font-weight:600;">Process Flow:</span>
+            <div class="btn-group">
+              <button class="btn-toggle active" id="btn-improved" onclick="setFlowMode('improved')">✨ Improved Automated Flow</button>
+              <button class="btn-toggle legacy" id="btn-legacy" onclick="setFlowMode('legacy')">⚠️ Legacy Manual Flow</button>
+            </div>
+          </div>
+          <div class="anno-toggle">
+            <label style="color:#cbd5e1; cursor:pointer;">
+              <input type="checkbox" id="chk-annotations" checked onchange="toggleAnnotations()"> Show PM Decision Annotations
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 90-Second Hiring Manager Executive Summary -->
+    <div class="summary-card">
+      <div class="summary-item">
+        <h4>The Business Problem</h4>
+        <p>Orient Electric processed <strong>~2.5 Lakh return units (₹8 Cr value) monthly</strong> via manual paper/email requests. Resulted in 21-day average delays, warehouse space bloat, and expired vendor warranty chargeback claims.</p>
+      </div>
+      <div class="summary-item">
+        <h4>The Product Intervention</h4>
+        <p>Built a unified CRM-SAP bridge: Field Mobile PDI scanning with auto-LIFO price fetching, 4-tier DOA guardrails with qty-reduction limits, and instant SAP Outbound Delivery & Credit Note triggering.</p>
+      </div>
+      <div class="summary-item">
+        <h4>The One Core Metric</h4>
+        <p>Reduced <strong>End-to-End SRN Turnaround Time (TAT)</strong> from <span style="text-decoration:line-through; opacity:0.7;">21 Days</span> to <span class="metric-value-highlight">4.5 Days</span> while slashing unbilled inventory backlog by 85%.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metrics Bar -->
+  <section class="metrics-bar">
+    <div class="metric-card north-star">
+      <div class="metric-label">SRN Turnaround Time (TAT)</div>
+      <div class="metric-main-val">4.5 Days <span class="metric-delta">-78.5%</span></div>
+      <div class="metric-subtext">Down from 21.0 days in legacy manual process</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Unbilled Return Capital</div>
+      <div class="metric-main-val">₹1.2 Cr <span class="metric-delta">-85.0%</span></div>
+      <div class="metric-subtext">Recovered from ₹8.0 Cr monthly inventory lockup</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Vendor Chargeback Recoveries</div>
+      <div class="metric-main-val">99.2% <span class="metric-delta">+34%</span></div>
+      <div class="metric-subtext">Eliminated ₹64L annual leakage from expired warranties</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">PDI Inspection Accuracy</div>
+      <div class="metric-main-val">99.8% <span class="metric-delta">+37.8%</span></div>
+      <div class="metric-subtext">Enforced via mandatory serial QR scanning & photo proof</div>
+    </div>
+  </section>
+
+  <!-- Main Interactive Viewport -->
+  <main class="app-viewport">
+    
+    <!-- Sidebar Workflow Stepper -->
+    <aside class="flow-stepper">
+      <div class="stepper-header">
+        <span>Workflow Stages</span>
+        <span id="flow-mode-badge" class="badge badge-pdi">AUTOMATED</span>
+      </div>
+      <div class="step-list">
+        
+        <div class="step-item active" id="step-btn-1" onclick="switchStep(1)">
+          <div class="step-num">1</div>
+          <div class="step-info">
+            <div class="step-title">Return Initiation</div>
+            <div class="step-role">Service Manager (ASM/BSM)</div>
+            <span class="step-system sys-crm">Sales CRM</span>
+          </div>
+        </div>
+
+        <div class="step-item" id="step-btn-2" onclick="switchStep(2)">
+          <div class="step-num">2</div>
+          <div class="step-info">
+            <div class="step-title">Mobile Field PDI</div>
+            <div class="step-role">ASC Master Technician</div>
+            <span class="step-system sys-mobile">CRM Mobile App</span>
+          </div>
+        </div>
+
+        <div class="step-item" id="step-btn-3" onclick="switchStep(3)">
+          <div class="step-num">3</div>
+          <div class="step-info">
+            <div class="step-title">DOA Approval Engine</div>
+            <div class="step-role">L1-L4 Approvers</div>
+            <span class="step-system sys-crm">Approval Matrix</span>
+          </div>
+        </div>
+
+        <div class="step-item" id="step-btn-4" onclick="switchStep(4)">
+          <div class="step-num">4</div>
+          <div class="step-info">
+            <div class="step-title">SAP OBD & Credit Note</div>
+            <div class="step-role">Warehouse & Finance</div>
+            <span class="step-system sys-sap">SAP S/4HANA</span>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Stage Canvas Screen -->
+    <section class="screen-stage">
+      <div class="stage-header">
+        <div class="stage-title-wrap">
+          <span class="stage-title" id="stage-title">Step 1: Service Manager Initiates Return Request</span>
+        </div>
+        <div class="stage-actor-badge" id="stage-actor">Primary Actor: Service Manager (ASM)</div>
+      </div>
+
+      <!-- Prototype Screen Container -->
+      <div class="prototype-container" id="prototype-container">
+        <!-- Content will be rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PM Thinking & Product Decision Matrix -->
+  <section style="padding: 0 32px 32px 32px;">
+    <div class="pm-deepdive-section">
+      <div class="deepdive-header">
+        💡 Senior PM Product Decisions & Architectural Trade-offs
+      </div>
+      <div class="decision-grid">
+        <div class="decision-card">
+          <h4>1. Single Business Unit (BU) Boundary</h4>
+          <p><strong>Constraint:</strong> A single SRN request is restricted to one Business Unit (Fans, Appliances, or Lighting).<br>
+          <strong>PM Trade-off:</strong> While allowing multi-BU returns in one request seemed user-friendly, SAP revenue posting rules lock GL ledgers per division. Forcing 1 SRN per BU prevented cross-departmental reconciliation deadlocks in SAP.</p>
+        </div>
+        <div class="decision-card">
+          <h4>2. LIFO Price Determination Logic</h4>
+          <p><strong>Problem:</strong> Distributors often claimed returns against old higher price list invoices.<br>
+          <strong>PM Solution:</strong> Configured CRM-SAP bridge to automatically query billing history using Last-In-First-Out (LIFO) pricing logic based on the SKU code. Overrode manual price input to protect margin loss.</p>
+        </div>
+        <div class="decision-card">
+          <h4>3. Monotonic Quantity Reduction Guardrail</h4>
+          <p><strong>Rule:</strong> Approvers (L1-L4) can reduce line-item quantities or reject items, but CANNOT increase quantity beyond PDI verified counts.<br>
+          <strong>PM Rationale:</strong> Prevents unauthorized stock additions and forces technician physical verification as the single source of truth.</p>
+        </div>
+        <div class="decision-card">
+          <h4>4. Automated Credit Note (CN) Trigger</h4>
+          <p><strong>Workflow:</strong> SAP automatically generates CN PDF and dispatches via email/WhatsApp upon Warehouse Outbound Delivery (OBD) confirmation.<br>
+          <strong>Outcome:</strong> Closed the 14-day manual reconciliation loop between warehouse receipt and finance approval, boosting distributor CSAT.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-nav-bar">
+    <a href="index.html" class="btn-back-portfolio">
+      ← <strong>Return to Main Portfolio</strong>
+    </a>
+    <span style="font-size: 13px; color: #94a3b8;">Souvik Ghosh &bull; Product Manager Case Study Portfolio</span>
+  </div>
+
+  <footer class="portfolio-footer">
+    Orient Electric Enterprise Digitization Case Study • Designed & Architected for PM Portfolio Review
+  </footer>
+
+  <script>
+    // State management
+    let currentStep = 1;
+    let flowMode = 'improved'; // 'improved' or 'legacy'
+    let showAnnotations = true;
+
+    // Sample State Data for Interactive Prototype
+    const sampleData = {
+      distributor: 'ABC Distributors (Kolkata Hub)',
+      distCode: 'DIST-882190',
+      division: 'Fans & Air Conditioners',
+      returnType: 'Defective',
+      policy: 'Technical Return (Policy 1 - 100% Replacement)',
+      skus: [
+        { id: 'SKU-7835', name: 'Orient Ecotech Ceiling Fan 1200mm', serial: 'SN-89235467', qty: 10, pdiQty: 10, appQty: 8, price: '₹3,250', reason: 'Winding Burnout / Motor Noise', invoice: 'INV-98765' },
+        { id: 'SKU-7865', name: 'Orient Summer Breeze Wall Fan', serial: 'SN-89235490', qty: 5, pdiQty: 5, appQty: 5, price: '₹2,100', reason: 'Blade Oscillating Failure', invoice: 'INV-98702' }
+      ]
+    };
+
+    function setFlowMode(mode) {
+      flowMode = mode;
+      document.getElementById('btn-improved').classList.toggle('active', mode === 'improved');
+      document.getElementById('btn-legacy').classList.toggle('active', mode === 'legacy');
+      document.getElementById('flow-mode-badge').innerText = mode === 'improved' ? 'AUTOMATED' : 'LEGACY MANUAL';
+      document.getElementById('flow-mode-badge').className = mode === 'improved' ? 'badge badge-pdi' : 'badge badge-reject';
+      renderStep();
+    }
+
+    function toggleAnnotations() {
+      showAnnotations = document.getElementById('chk-annotations').checked;
+      renderStep();
+    }
+
+    function switchStep(stepNum) {
+      currentStep = stepNum;
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`step-btn-${i}`);
+        btn.classList.toggle('active', i === stepNum);
+        if (i < stepNum) btn.classList.add('completed');
+        else btn.classList.remove('completed');
+      }
+      renderStep();
+    }
+
+    function renderStep() {
+      const container = document.getElementById('prototype-container');
+      const stageTitle = document.getElementById('stage-title');
+      const stageActor = document.getElementById('stage-actor');
+
+      if (flowMode === 'legacy') {
+        renderLegacyView(container, stageTitle, stageActor);
+        return;
+      }
+
+      switch(currentStep) {
+        case 1:
+          stageTitle.innerText = "Step 1: Service Manager Initiates Defective Return Request";
+          stageActor.innerText = "Primary Actor: Service Manager (ASM/BSM)";
+          renderStep1(container);
+          break;
+        case 2:
+          stageTitle.innerText = "Step 2: ASC Technician Performs Field PDI Inspection";
+          stageActor.innerText = "Primary Actor: ASC Technician (Mobile)";
+          renderStep2(container);
+          break;
+        case 3:
+          stageTitle.innerText = "Step 3: Multi-Level DOA Approval Engine";
+          stageActor.innerText = "Primary Actor: DOA Approvers (L1 - L4)";
+          renderStep3(container);
+          break;
+        case 4:
+          stageTitle.innerText = "Step 4: SAP Return Order, Warehouse OBD & Credit Note";
+          stageActor.innerText = "Primary Actor: Warehouse & SAP System";
+          renderStep4(container);
+          break;
+      }
+    }
+
+    // --- STEP 1: RETURN INITIATION ---
+    function renderStep1(container) {
+      let html = '';
+      if (showAnnotations) {
+        html += `
+          <div class="pm-annotation-banner">
+            <span class="pm-icon">PM DECISION</span>
+            <div class="pm-annotation-content">
+              <h5>Automated Invoice & LIFO Pricing Lookup</h5>
+              <p>In legacy manual returns, distributors misquoted original prices. We engineered automatic SAP invoice fetching via LIFO logic upon distributor selection, preventing <strong>₹45 Lakh annual price-mismatch claims</strong>.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="crm-navbar">
+          <div class="crm-brand">ORIENT <span>CRM PORTAL</span></div>
+          <div class="crm-user-profile">Logged in: ASM East (Rajesh Kumar)</div>
+        </div>
+        <div class="screen-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="font-size:16px; color:#0f172a;">Create Defective Return Request (SRN)</h3>
+            <span class="badge badge-pdi">Draft Status</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Distributor Name *</label>
+              <select onchange="updateDistributor(this.value)">
+                <option value="ABC Distributors (Kolkata Hub)">ABC Distributors (Kolkata Hub)</option>
+                <option value="Metro Electricals (Siliguri)">Metro Electricals (Siliguri)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Distributor Code</label>
+              <input type="text" value="${sampleData.distCode}" readonly />
+            </div>
+            <div class="form-group">
+              <label>Product Division *</label>
+              <select>
+                <option>Fans & Air Conditioners</option>
+                <option>Home Appliances</option>
+                <option>Lighting & Switchgear</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Return Type *</label>
+              <select>
+                <option>Defective (Technical)</option>
+                <option>Saleable (Commercial Return)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Policy Sub-Type</label>
+              <select>
+                <option>Policy 1 (Technical Return - 100% Credit)</option>
+                <option>Policy 2 (Minor Transit Defect - Repair)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Assigned Service Center (ASC)</label>
+              <input type="text" value="XYZ Service Center (Kolkata Pincode 700001)" readonly />
+            </div>
+          </div>
+
+          <h4 style="font-size:14px; margin-bottom:10px; color:#334155;">Initiated Line Items (Pre-PDI)</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>SKU Code</th>
+                <th>Description</th>
+                <th>Declared Qty</th>
+                <th>LIFO Ref Invoice</th>
+                <th>Fetched Unit Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sampleData.skus.map(s => `
+                <tr>
+                  <td><strong>${s.id}</strong></td>
+                  <td>${s.name}</td>
+                  <td>${s.qty} Units</td>
+                  <td>${s.invoice}</td>
+                  <td>${s.price}</td>
+                  <td><span class="badge badge-pdi">PDI Assigned</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:12px;">
+            <button class="btn-secondary">Save Draft</button>
+            <button class="btn-action" onclick="switchStep(2)">Route to ASC for PDI →</button>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    // --- STEP 2: FIELD MOBILE PDI ---
+    function renderStep2(container) {
+      let html = '';
+      if (showAnnotations) {
+        html += `
+          <div class="pm-annotation-banner">
+            <span class="pm-icon">PM DECISION</span>
+            <div class="pm-annotation-content">
+              <h5>Mobile-First Technician Inspection & QR Lock</h5>
+              <p>Field technicians previously filled paper forms. The mobile PDI app mandates <strong>QR scanning of serial numbers and mandatory photo uploads</strong> of serial plate + defect site before CRM allows submission.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="mobile-frame-wrapper">
+          <div class="mobile-frame">
+            <div class="mobile-screen">
+              <div class="mobile-header">
+                Orient ASC Service App
+              </div>
+              <div class="mobile-body">
+                <div style="background:#e0f2fe; padding:8px 10px; border-radius:6px; font-size:11px; color:#0369a1; font-weight:600;">
+                  SRN-2026-8891 • ABC Distributors
+                </div>
+
+                <div class="scanner-box" onclick="simulateScan()">
+                  <div style="font-size:24px;">📷</div>
+                  <div style="font-size:12px; font-weight:700;">Tap to Scan Serial QR Code</div>
+                  <div style="font-size:10px; opacity:0.8;">Or auto-validate SKU</div>
+                </div>
+
+                <div style="font-size:12px; font-weight:700; color:#1e293b; margin-top:4px;">Item Details (SKU-7835)</div>
+                
+                <div class="form-group">
+                  <label style="font-size:11px;">Scanned Serial No.</label>
+                  <input type="text" value="SN-89235467" id="mob-serial" style="padding:6px; font-size:12px;" />
+                </div>
+
+                <div class="form-group">
+                  <label style="font-size:11px;">Defect Category</label>
+                  <select style="padding:6px; font-size:12px;">
+                    <option>Winding Burnout / Motor Noise</option>
+                    <option>Bearing Jam</option>
+                    <option>Physical Transit Damage</option>
+                  </select>
+                </div>
+
+                <div style="font-size:11px; font-weight:700; color:#334155;">Upload Defect Proof Photos (Mandatory)</div>
+                <div class="photo-upload-grid">
+                  <div class="photo-placeholder has-image">✓ Serial Plate</div>
+                  <div class="photo-placeholder has-image">✓ Defect Area</div>
+                  <div class="photo-placeholder">+ Add Photo</div>
+                </div>
+
+                <div style="margin-top:auto; padding-top:10px;">
+                  <button class="btn-action" style="width:100%; justify-content:center;" onclick="switchStep(3)">Submit PDI Report →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    // --- STEP 3: DOA APPROVAL ENGINE ---
+    function renderStep3(container) {
+      let html = '';
+      if (showAnnotations) {
+        html += `
+          <div class="pm-annotation-banner">
+            <span class="pm-icon">PM DECISION</span>
+            <div class="pm-annotation-content">
+              <h5>Quantity Reduction Guardrail & Multi-Level DOA</h5>
+              <p>Approvers can only reduce quantities or reject line items—never increase them. If an approver rejects a line item, mandatory comments are logged to maintain full audit trails in compliance with Orient Delegation of Authority (DOA).</p>
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="crm-navbar">
+          <div class="crm-brand">ORIENT <span>DOA APPROVAL PORTAL</span></div>
+          <div class="crm-user-profile">Logged in: L2 Approver (Service Head)</div>
+        </div>
+        <div class="screen-content">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div>
+              <h3 style="font-size:16px; color:#0f172a;">SRN Approval Case: #RR-123056</h3>
+              <p style="font-size:12px; color:#64748b;">Distributor: ABC Distributors • Initiated: 12-Dec-2026</p>
+            </div>
+            <span class="badge badge-approval">L2 Approval Pending</span>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>SKU & Name</th>
+                <th>Declared Qty</th>
+                <th>PDI Verified</th>
+                <th>Approved Qty (DOA Limit)</th>
+                <th>LIFO Price</th>
+                <th>Total Value</th>
+                <th>PDI Proof</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sampleData.skus.map((s, idx) => `
+                <tr>
+                  <td><strong>${s.id}</strong><br><span style="font-size:11px; color:#64748b;">${s.name}</span></td>
+                  <td>${s.qty}</td>
+                  <td><strong style="color:#0284c7;">${s.pdiQty}</strong></td>
+                  <td>
+                    <input type="number" value="${s.appQty}" max="${s.pdiQty}" min="0" style="width:60px; padding:4px;" onchange="updateQty(${idx}, this.value)" />
+                  </td>
+                  <td>${s.price}</td>
+                  <td><strong>₹${(parseInt(s.price.replace(/[^0-9]/g, '')) * s.appQty).toLocaleString()}</strong></td>
+                  <td><a href="#" onclick="alert('Viewing PDI Image proof for ${s.id}'); return false;" style="color:#0284c7; font-size:11px; font-weight:700;">View 2 Photos</a></td>
+                  <td>
+                    <span class="badge badge-cn">Approve</span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div style="margin-top:16px; background:#f8fafc; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
+            <label style="font-size:12px; font-weight:700; color:#334155;">Approver Audit Trail Comments</label>
+            <input type="text" value="PDI verified. Adjusted SKU-7835 to 8 units based on physical coil condition." style="width:100%; margin-top:4px; padding:8px; font-size:12px;" />
+          </div>
+
+          <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:12px;">
+            <button class="btn-secondary" style="background:#b91c1c;">Send Back to ASC</button>
+            <button class="btn-action" style="background:var(--success);" onclick="switchStep(4)">Approve & Trigger SAP Order →</button>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    // --- STEP 4: SAP OBD & CREDIT NOTE ---
+    function renderStep4(container) {
+      let html = '';
+      if (showAnnotations) {
+        html += `
+          <div class="pm-annotation-banner">
+            <span class="pm-icon">PM DECISION</span>
+            <div class="pm-annotation-content">
+              <h5>Automated SAP OBD & Financial Credit Settlement</h5>
+              <p>Once approved, CRM calls SAP S/4HANA APIs to generate an Outbound Delivery (OBD) for pickup. Upon warehouse scan, SAP automatically issues the financial Credit Note (CN) and emails the PDF directly to the distributor.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="crm-navbar">
+          <div class="crm-brand">SAP S/4HANA <span>ENTERPRISE INTEGRATION</span></div>
+          <div class="crm-user-profile">Status: Connected Live via SAP Gateway</div>
+        </div>
+        <div class="screen-content">
+          <div style="background:#dcfce7; border:1px solid #86efac; border-radius:6px; padding:16px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h4 style="color:#15803d; font-size:15px;">✓ Return Order Created & Credit Note Issued</h4>
+              <p style="color:#166534; font-size:12px;">SAP Return Order: #SO-9921048 | Delivery Challan: #DC-440192</p>
+            </div>
+            <button class="btn-success" onclick="alert('Downloading Credit Note PDF (CN-2026-9901.pdf)...')">📄 Download Credit Note PDF</button>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Credit Note Number</label>
+              <input type="text" value="CN-2026-9901" readonly />
+            </div>
+            <div class="form-group">
+              <label>Total Credit Amount</label>
+              <input type="text" value="₹36,500" readonly style="font-weight:700; color:#15803d;" />
+            </div>
+            <div class="form-group">
+              <label>Distributor Notification</label>
+              <input type="text" value="Email & WhatsApp Sent ✓" readonly />
+            </div>
+          </div>
+
+          <h4 style="font-size:14px; margin-bottom:10px; color:#334155;">Final Return Lifecycle Summary</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>System</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SRN Creation</td>
+                <td>Sales CRM</td>
+                <td>12-Dec-2026 10:30 AM</td>
+                <td><span class="badge badge-cn">Completed</span></td>
+              </tr>
+              <tr>
+                <td>Field PDI Inspection</td>
+                <td>CRM Mobile</td>
+                <td>12-Dec-2026 02:15 PM</td>
+                <td><span class="badge badge-cn">Completed</span></td>
+              </tr>
+              <tr>
+                <td>DOA L2 Approval</td>
+                <td>DOA Engine</td>
+                <td>13-Dec-2026 11:00 AM</td>
+                <td><span class="badge badge-cn">Completed</span></td>
+              </tr>
+              <tr>
+                <td>SAP OBD Processing</td>
+                <td>SAP S/4HANA</td>
+                <td>14-Dec-2026 09:45 AM</td>
+                <td><span class="badge badge-cn">Completed</span></td>
+              </tr>
+              <tr>
+                <td>Credit Note Generation</td>
+                <td>SAP Finance</td>
+                <td>14-Dec-2026 04:30 PM</td>
+                <td><span class="badge badge-cn">Issued (TAT: 2.2 Days)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    // --- LEGACY MANUAL VIEW ---
+    function renderLegacyView(container, stageTitle, stageActor) {
+      stageTitle.innerText = "Legacy Manual Process (Pre-Automation)";
+      stageActor.innerText = "Fragmented Manual Operations (Paper/Excel)";
+
+      let html = `
+        <div class="legacy-alert-banner">
+          <span style="font-size:18px;">⚠️</span>
+          <div class="legacy-alert-content">
+            <h5>Legacy Process Friction Points (21 Days Avg TAT)</h5>
+            <p>Manual paper forms, delayed email approvals, missing PDI photo verification, zero invoice price verification, and delayed SAP credit entries led to <strong>₹8 Crore in blocked capital</strong> and unhappy channel partners.</p>
+          </div>
+        </div>
+        <div class="screen-content">
+          <div style="background:#fff; border:1px dashed #cbd5e1; padding:20px; border-radius:8px;">
+            <h4 style="color:#b91c1c; margin-bottom:12px;">Manual Paper Return Flow Problems:</h4>
+            <ul style="margin-left:20px; font-size:13px; color:#475569; display:flex; flex-direction:column; gap:8px;">
+              <li><strong>Paper Inspection Slips:</strong> ASC technicians filled handwritten slips, resulting in lost claims and 35% error rates.</li>
+              <li><strong>Price Misquotation:</strong> Distributors claimed current MRP instead of invoiced prices, causing financial disputes.</li>
+              <li><strong>Email Bottleneck:</strong> Approvals got stuck in inbox chains across 4 levels without SLA tracking.</li>
+              <li><strong>Manual SAP Entry:</strong> Warehouse operators manually keyed in returns 14 days after physical receipt.</li>
+            </ul>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    function simulateScan() {
+      alert("Simulating Camera QR Scan...\n\nVerified SKU: SKU-7835 (Orient Ecotech Ceiling Fan)\nSerial Number: SN-89235467\nStatus: Serial verified in SAP Sales Registry ✓");
+    }
+
+    function updateDistributor(val) {
+      sampleData.distributor = val;
+      renderStep();
+    }
+
+    function updateQty(index, val) {
+      sampleData.skus[index].appQty = parseInt(val) || 0;
+      renderStep();
+    }
+
+    // Initialize initial render
+    renderStep();
+  </script>
+</body>
+</html>

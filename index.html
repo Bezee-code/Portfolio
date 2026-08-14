@@ -24,9 +24,9 @@
         <a href="#hero" class="nav-link-item active">Home</a>
         <a href="#why-hire-me" class="nav-link-item">Why Hire Me</a>
         <a href="#framework" class="nav-link-item">PM Framework</a>
-        <a href="#case-studies" class="nav-link-item">PM Projects (4)</a>
-        <a href="#beyond-portfolio" class="nav-link-item">Beyond Portfolio</a>
+        <a href="#case-studies" class="nav-link-item">PM Projects</a>
         <a href="#certifications" class="nav-link-item">Certifications</a>
+        <a href="#beyond-portfolio" class="nav-link-item">Beyond Portfolio</a>
         <a href="#contact" class="nav-link-item">Contact</a>
       </nav>
 
@@ -597,18 +597,450 @@
       </div>
     </section>
 
-    <!-- Case Studies Section -->
-    <section id="case-studies" style="scroll-margin-top: 100px; padding-top: 4rem;">
-      <div class="section-header">
+    
+    <!-- Case Studies Section with Clear Enterprise vs. Independent Categorization -->
+    <section id="case-studies" style="scroll-margin-top: 100px; padding-top: 3.5rem;">
+      
+      <!-- Main Section Header -->
+      <div class="section-header" style="margin-bottom: 2rem;">
         <div>
-          <h2 class="section-title">Product Case Studies & PRDs (4 Projects)</h2>
-          <p class="section-subtitle">Deep dive into end-to-end product strategy, user research, PRD specs, wireframes, and metric impact across Adobe Firefly, Stanza Living, Orient Electric, and Snapmint.</p>
+          <div class="badge-pill" style="margin-bottom: 0.75rem; background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.35); color: #818cf8;">
+            <span class="badge-dot" style="background: #818cf8;"></span>
+            <span>PRODUCT PORTFOLIO & WORK CATEGORIES</span>
+          </div>
+          <h2 class="section-title" style="font-size: 2.3rem; margin-bottom: 0.5rem;">Product Management Portfolio</h2>
+          <p class="section-subtitle" style="font-size: 1.025rem; max-width: 860px; color: var(--text-muted);">
+            Categorized into <strong>Enterprise Organizational Products</strong> (delivered within corporate roles) and <strong>Independent PM Strategy Case Studies</strong> (self-initiated product teardowns & feature specs).
+          </p>
         </div>
       </div>
 
-      <div class="grid-cards" id="caseStudiesGrid">
+      <!-- Interactive Category Filter Tabs -->
+      <div class="project-category-tabs" style="display: flex; gap: 0.85rem; margin-bottom: 2.75rem; flex-wrap: wrap;">
+        <button onclick="filterProjects('all')" id="tab-filter-all" class="category-tab-btn active">
+          ⚡ All Projects (6)
+        </button>
+        <button onclick="filterProjects('enterprise')" id="tab-filter-enterprise" class="category-tab-btn">
+          🏢 Enterprise & Corporate Work (2)
+        </button>
+        <button onclick="filterProjects('case-studies')" id="tab-filter-case-studies" class="category-tab-btn">
+          💡 Independent PM Case Studies (4)
+        </button>
+      </div>
+
+      <!-- Category Group 1: Enterprise & Organizational Work -->
+      <div class="project-category-group" id="group-enterprise" style="margin-bottom: 3.5rem;">
+        <div class="category-group-header" style="background: linear-gradient(90deg, rgba(99,102,241,0.12), transparent); border-left: 4px solid #6366f1; padding: 1rem 1.25rem; border-radius: 0 12px 12px 0; margin-bottom: 2rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                🏢 Enterprise & Organizational Work <span style="font-size: 0.9rem; font-weight: 600; color: #818cf8; margin-left: 0.5rem;">(2 Corporate Projects)</span>
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">
+                Real-world enterprise systems, B2B ERP integrations, and Healthcare AI products architected during organizational roles.
+              </p>
+            </div>
+            <span style="background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); color: #818cf8; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px;">
+              Live Organizational Systems
+            </span>
+          </div>
+        </div>
+
+        <div class="grid-cards">
+<!-- Project 3: Orient Electric -->
+        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='orient.html';" style="cursor:pointer; border-color:var(--border-highlight);">
+          <div class="pm-card-banner">
+            <div>
+              <div class="pm-domain-tags">
+                <span class="domain-pill">Enterprise B2B</span>
+                <span class="domain-pill">SAP ERP</span>
+                <span class="domain-pill">Supply Chain</span>
+                <span class="domain-pill" style="background:rgba(99,102,241,0.2); color:#818CF8; border-color:rgba(99,102,241,0.5); font-weight:700;">🏢 CORPORATE ENTERPRISE WORK</span>
+                <span class="domain-pill" style="background:rgba(16,185,129,0.15); color:var(--success); border-color:var(--success);">● Featured Enterprise Project</span>
+              </div>
+              <h3 class="pm-card-title">Orient Electric: Sales Return Note (SRN) Automation & SAP Reconciliation Engine</h3>
+              <p class="pm-card-subtitle">Enterprise CRM & Financial Ledger Integration</p>
+            </div>
+          </div>
+
+          <!-- Product User Journey: Orient Electric -->
+          <div class="project-hero-visual-card hero-visual-orient">
+            <div class="visual-card-header">
+              <span class="visual-header-badge" style="background:rgba(2,132,199,0.15); color:#00F0FF; border-color:rgba(0,240,255,0.3);">🏢 DEALER SALES RETURN JOURNEY</span>
+              <span class="visual-header-title">User Story: 3-Day B2B Return & Credit Note Settlement</span>
+            </div>
+            <div class="visual-workflow-nodes">
+              <div class="visual-node-box"><div class="visual-node-icon">🏬</div><div class="visual-node-label">Dealer Reports Return</div><div class="visual-node-sub">Defective Claim</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">📄</div><div class="visual-node-label">SRN Submitted</div><div class="visual-node-sub">Portal Entry</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">📋</div><div class="visual-node-label">Field Verification</div><div class="visual-node-sub">QR Inspection Scan</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-active" style="border-color:#0284c7;"><div class="visual-node-icon">🔄</div><div class="visual-node-label">Approval Workflow</div><div class="visual-node-sub">Automated Hierarchy</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">⚙️</div><div class="visual-node-label">SAP Reconciliation</div><div class="visual-node-sub">Real-Time Ledger Sync</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">💳</div><div class="visual-node-label">Credit Note Gen</div><div class="visual-node-sub">₹8 Cr Monthly Volume</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-highlight" style="border-color:#00F0FF;"><div class="visual-node-icon">💰</div><div class="visual-node-label">Dealer Settlement</div><div class="visual-node-sub">3-Day Turnaround</div></div>
+            </div>
+          </div>
+
+          <div class="pm-card-body">
+            <div class="pm-exec-summary">
+              <strong>Executive Summary:</strong> Conceptualized and specified an end-to-end B2B Sales Return Note (SRN) workflow and SAP ERP reconciliation engine. Reduced claim settlement turnaround time from 21 days to 3 days across ₹8 Cr monthly dealer returns.
+            </div>
+
+            <div class="pm-kpi-grid">
+              <div class="pm-kpi-card"><div class="pm-kpi-val">3 Days</div><div class="pm-kpi-lbl">Claim Settlement TAT (was 21d)</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">₹8 Cr/mo</div><div class="pm-kpi-lbl">Automated Transaction Volume</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">99.4%</div><div class="pm-kpi-lbl">SAP Ledger Reconciliation</div></div>
+            </div>
+
+            <div class="pm-role-bar">
+              <div class="pm-role-title">My Role & Competencies:</div>
+              <div class="pm-role-tags">
+                <span class="role-pill">⚡ Product Strategy</span>
+                <span class="role-pill">⚡ User Research</span>
+                <span class="role-pill">⚡ PRD Specs</span>
+                <span class="role-pill">⚡ Wireframes</span>
+                <span class="role-pill">⚡ Prioritization</span>
+                <span class="role-pill">⚡ Stakeholder Management</span>
+                <span class="role-pill">⚡ Launch</span>
+                <span class="role-pill">⚡ Analytics</span>
+              </div>
+            </div>
+
+            
+            <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
+            <div class="pm-thinking-grid-section">
+              <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
+              <div class="pm-thinking-grid">
+                
+                <!-- Card 1: Problem Statement -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">🎯</div>
+                    <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Target User</span>
+                      <span class="thinking-field-content">5,000+ B2B Electrical Dealers, Field Audit Engineers & Corporate Finance Teams.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">The Core Friction</span>
+                      <span class="thinking-field-content">Manual paper-based Sales Return Note (SRN) processing causing 21-day credit note settlement delays.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Frequency & Pain Point</span>
+                      <span class="thinking-field-content"><strong>Frequency:</strong> Monthly defective inventory return claims totaling ~₹8 Cr across India.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Affected Business Metric</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Claim Settlement Turnaround Time (21 days) & Dealer NPS</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: User Research & Insights -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">👤</div>
+                    <div class="thinking-card-title">👤 User Research & Insights</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Primary Personas Studied</span>
+                      <span class="thinking-field-content">Rajesh Agarwal (Regional Master Distributor) & Anita Sharma (Commercial Accounts Manager).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">User Pain Points</span>
+                      <span class="thinking-field-content">Dealers had working capital locked for 3+ weeks awaiting credit notes; lost physical serial tag receipts.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Key Behavioral Findings</span>
+                      <span class="thinking-field-content">64% of return delays stemmed from manual verification of serial numbers against SAP ERP invoices.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Journey Bottleneck Identified</span>
+                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Disconnected dealer portal, field engineer mobile app, and SAP ERP financial ledger.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Product Decisions & Trade-offs -->
+                <div class="thinking-card" style="border-color:var(--border-highlight);">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(236,72,153,0.15); color:var(--accent);">⚖️</div>
+                    <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Alternative Solutions Rejected</span>
+                      <span class="thinking-field-content">Batch offline file uploads (failed real-time ledger verification).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Technical & Business Constraints</span>
+                      <span class="thinking-field-content">Integration with legacy SAP ECC 6.0 system without disrupting core billing APIs.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Focused on QR barcode scan verification for field engineers over automated scrap valuation.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Risk Analysis & Guardrails</span>
+                      <span class="thinking-field-content">Strict financial audit logs and multi-level approval thresholds for claims exceeding ₹5 Lakhs.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: Final Solution & Impact -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
+                    <div class="thinking-card-title">📈 Metrics & Business Impact</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Chosen Product Solution</span>
+                      <span class="thinking-field-content">B2B SRN Automation Portal with mobile QR audit verification and real-time SAP ERP API ledger bridge.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Why It Worked</span>
+                      <span class="thinking-field-content">Automated invoice matching and defect validation, enabling instant credit note generation upon physical verification.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Quantified Business Metrics</span>
+                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">Claim settlement TAT reduced from 21 days to 3 days; 99.4% SAP ledger reconciliation accuracy.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Future Product Roadmap</span>
+                      <span class="thinking-field-content">Automated warranty fraud detection using machine learning serial number anomaly models.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="pm-card-actions">
+              <a href="orient.html" class="btn btn-primary" style="background:linear-gradient(135deg, #dc2626, #0284c7); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
+                Explore Complete Case Study &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
         
-        <!-- Project 1: Adobe Firefly -->
+
+<!-- Project 5: Healthcare Agentic AI Suite (Hospital Onboarding & ICU Clinical Engine) -->
+        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='hospital.html';" style="cursor:pointer; border-color:var(--border-highlight); margin-top:3.5rem;">
+          <div class="pm-card-banner">
+            <div>
+              <div class="pm-domain-tags">
+                <span class="domain-pill">Healthcare AI</span>
+                <span class="domain-pill">Agentic Workflows</span>
+                <span class="domain-pill">ICU Decision Engine</span>
+                <span class="domain-pill" style="background:rgba(99,102,241,0.2); color:#818CF8; border-color:rgba(99,102,241,0.5); font-weight:700;">🏢 CORPORATE ENTERPRISE WORK</span>
+                <span class="domain-pill" style="background:rgba(13,148,136,0.18); color:#14B8A6; border-color:#0D9488;">● Flagship Healthcare AI Project</span>
+              </div>
+              <h3 class="pm-card-title">Healthcare Agentic AI Suite: Hospital Onboarding, Insurance Pre-Auth & ICU Clinical Engine</h3>
+              <p class="pm-card-subtitle">Healthcare & Enterprise Agentic AI Platform</p>
+            </div>
+          </div>
+
+          <!-- Product User Journey: Healthcare AI -->
+          <div class="project-hero-visual-card hero-visual-hospital" style="background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(6,182,212,0.12)); border-color: rgba(13,148,136,0.35);">
+            <div class="visual-card-header">
+              <span class="visual-header-badge" style="background:rgba(13,148,136,0.2); color:#14B8A6; border-color:rgba(20,184,166,0.4);">🏥 PATIENT ADMISSION & PRE-AUTH JOURNEY</span>
+              <span class="visual-header-title">User Story: 4.3h AI Insurance Pre-Auth & Clinical Decision Triage</span>
+            </div>
+            <div class="visual-workflow-nodes">
+              <div class="visual-node-box"><div class="visual-node-icon">🏥</div><div class="visual-node-label">Patient Intake</div><div class="visual-node-sub">Hospital Registration</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">📑</div><div class="visual-node-label">Policy Scan</div><div class="visual-node-sub">ICD-10 Data Extraction</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-active" style="border-color:#0D9488;"><div class="visual-node-icon">🤖</div><div class="visual-node-label">AI Pre-Auth Agent</div><div class="visual-node-sub">Automated Claim Sync</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">💊</div><div class="visual-node-label">Safety Check</div><div class="visual-node-sub">Drug Interaction Scan</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">🩺</div><div class="visual-node-label">ICU Support</div><div class="visual-node-sub">Sepsis Intercept Agent</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box"><div class="visual-node-icon">⚡</div><div class="visual-node-label">SLA Escalation</div><div class="visual-node-sub">Human Guardrail Queue</div></div>
+              <div class="visual-flow-arrow">&rarr;</div>
+              <div class="visual-node-box visual-node-highlight" style="border-color:#14B8A6;"><div class="visual-node-icon">🎉</div><div class="visual-node-label">Admission Cleared</div><div class="visual-node-sub">82% Speedup (4.3h TAT)</div></div>
+            </div>
+          </div>
+
+          <div class="pm-card-body">
+            <div class="pm-exec-summary">
+              <strong>Executive Summary:</strong> Architected an enterprise Healthcare Agentic AI Suite automating hospital patient onboarding, insurance pre-authorization claims, drug interaction safety checks, and ICU sepsis triage. Reduced pre-auth turnaround time by 82% (24 hours &rarr; 4.3 hours) and cut clinical onboarding delays by 68%.
+            </div>
+
+            <div class="pm-kpi-grid">
+              <div class="pm-kpi-card"><div class="pm-kpi-val">4.3 Hours</div><div class="pm-kpi-lbl">Pre-Auth Claim TAT (was 24h)</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">82%</div><div class="pm-kpi-lbl">Claim Approval Speedup</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">99.8%</div><div class="pm-kpi-lbl">Medication Safety Accuracy</div></div>
+            </div>
+
+            <div class="pm-role-bar">
+              <div class="pm-role-title">My Role & Competencies:</div>
+              <div class="pm-role-tags">
+                <span class="role-pill">⚡ Product Strategy</span>
+                <span class="role-pill">⚡ User Research</span>
+                <span class="role-pill">⚡ PRD Specs</span>
+                <span class="role-pill">⚡ Wireframes</span>
+                <span class="role-pill">⚡ Prioritization</span>
+                <span class="role-pill">⚡ Stakeholder Management</span>
+                <span class="role-pill">⚡ Launch</span>
+                <span class="role-pill">⚡ Analytics</span>
+              </div>
+            </div>
+
+            <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
+            <div class="pm-thinking-grid-section">
+              <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
+              <div class="pm-thinking-grid">
+                
+                <!-- Card 1: Problem Statement -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">🎯</div>
+                    <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Target User</span>
+                      <span class="thinking-field-content">Hospital Admissions Desk, Chief Nursing Officers & Medical Insurance Desk Leads.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">The Core Friction</span>
+                      <span class="thinking-field-content">Manual insurance pre-authorization delays and paper-based onboarding causing 24h+ patient admission bottlenecks.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Frequency & Pain Point</span>
+                      <span class="thinking-field-content"><strong>Frequency:</strong> Hundreds of inpatient admissions daily across tertiary care hospital chains.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Affected Business Metric</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Pre-Auth Claim TAT (24h) & Hospital Bed Turnover Rate</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: User Research & Insights -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon">👤</div>
+                    <div class="thinking-card-title">👤 User Research & Insights</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Primary Personas Studied</span>
+                      <span class="thinking-field-content">Dr. Aris Thorne (ICU Director) & Meera Sen (Insurance Pre-Auth Coordinator).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">User Pain Points</span>
+                      <span class="thinking-field-content">85% of claim rejections stemmed from missing ICD-10 diagnostic codes during initial admission filing.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Key Behavioral Findings</span>
+                      <span class="thinking-field-content">Nurses spent 3.5 hours per shift manually re-entering patient vitals between EHR and insurance portals.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Journey Bottleneck Identified</span>
+                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Fragmented communication between hospital EHR, TPA insurance desks, and ICU bedside monitors.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Product Decisions & Trade-offs -->
+                <div class="thinking-card" style="border-color:var(--border-highlight);">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(13,148,136,0.18); color:#14B8A6;">⚖️</div>
+                    <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Alternative Solutions Rejected</span>
+                      <span class="thinking-field-content">Manual call-center pre-auth support (unscalable & prone to 12h+ hold times).</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Technical & Business Constraints</span>
+                      <span class="thinking-field-content">Strict HIPAA & ABDM compliance for patient health record privacy and encrypted LLM inferencing.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized Automated Pre-Auth Claim Agent + ICU Sepsis Intercept Agent for v1.0 MVP release.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Risk Analysis & Guardrails</span>
+                      <span class="thinking-field-content">Human-in-the-loop physician override triggers for any high-severity ICU diagnostic recommendation.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 4: Final Solution & Impact -->
+                <div class="thinking-card">
+                  <div class="thinking-card-header">
+                    <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
+                    <div class="thinking-card-title">📈 Metrics & Business Impact</div>
+                  </div>
+                  <div class="thinking-card-body">
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Chosen Product Solution</span>
+                      <span class="thinking-field-content">Healthcare Agentic AI Suite embedding Pre-Auth Automation, Drug Safety Verification & ICU Clinical Decision Support.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Why It Worked</span>
+                      <span class="thinking-field-content">Replaced manual data re-entry with autonomous multi-agent LLM verification and instant TPA portal sync.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Quantified Business Metrics</span>
+                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">82% Pre-Auth TAT reduction (24h &rarr; 4.3h), 68% faster onboarding, 99.8% medication safety accuracy.</span>
+                    </div>
+                    <div class="thinking-field">
+                      <span class="thinking-field-label">Future Product Roadmap</span>
+                      <span class="thinking-field-content">Autonomous post-discharge remote patient monitoring & AI prescription synthesis.</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="pm-card-actions">
+              <a href="hospital.html" class="btn btn-primary" style="background:linear-gradient(135deg, #0D9488, #06B6D4); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
+                Explore Complete Case Study &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Category Group 2: Independent PM Strategy Case Studies -->
+      <div class="project-category-group" id="group-case-studies" style="margin-bottom: 2rem;">
+        <div class="category-group-header" style="background: linear-gradient(90deg, rgba(245,158,11,0.12), transparent); border-left: 4px solid #f59e0b; padding: 1rem 1.25rem; border-radius: 0 12px 12px 0; margin-bottom: 2rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                💡 Independent PM Strategy Case Studies & Teardowns <span style="font-size: 0.9rem; font-weight: 600; color: #f59e0b; margin-left: 0.5rem;">(4 Self-Initiated Projects)</span>
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">
+                Self-initiated product teardowns, market opportunity analyses, PRD specs, and UX wireframes created independently outside organizational work.
+              </p>
+            </div>
+            <span style="background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4); color: #f59e0b; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px;">
+              Self-Initiated Strategy Specs
+            </span>
+          </div>
+        </div>
+
+        <div class="grid-cards">
+  <!-- Project 1: Adobe Firefly -->
         <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='firefly.html';" style="cursor:pointer; border-color:var(--border-highlight);">
           <div class="pm-card-banner">
             <div>
@@ -616,6 +1048,7 @@
                 <span class="domain-pill">Generative AI</span>
                 <span class="domain-pill">Global SaaS</span>
                 <span class="domain-pill">Localization</span>
+                <span class="domain-pill" style="background:rgba(245,158,11,0.18); color:#F59E0B; border-color:rgba(245,158,11,0.5); font-weight:700;">💡 INDEPENDENT PM CASE STUDY</span>
                 <span class="domain-pill" style="background:rgba(16,185,129,0.15); color:var(--success); border-color:var(--success);">● Featured AI PM Project</span>
               </div>
               <h3 class="pm-card-title">Adobe Firefly Transcreate: Generative AI Content Localization & Typography Engine</h3>
@@ -793,7 +1226,9 @@
           </div>
         </div>
 
-        <!-- Project 2: Stanza Living Care -->
+        
+
+<!-- Project 2: Stanza Living Care -->
         <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='stanza.html';" style="cursor:pointer; border-color:var(--border-highlight);">
           <div class="pm-card-banner">
             <div>
@@ -978,192 +1413,9 @@
           </div>
         </div>
 
-        <!-- Project 3: Orient Electric -->
-        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='orient.html';" style="cursor:pointer; border-color:var(--border-highlight);">
-          <div class="pm-card-banner">
-            <div>
-              <div class="pm-domain-tags">
-                <span class="domain-pill">Enterprise B2B</span>
-                <span class="domain-pill">SAP ERP</span>
-                <span class="domain-pill">Supply Chain</span>
-                <span class="domain-pill" style="background:rgba(16,185,129,0.15); color:var(--success); border-color:var(--success);">● Featured Enterprise Project</span>
-              </div>
-              <h3 class="pm-card-title">Orient Electric: Sales Return Note (SRN) Automation & SAP Reconciliation Engine</h3>
-              <p class="pm-card-subtitle">Enterprise CRM & Financial Ledger Integration</p>
-            </div>
-          </div>
+        
 
-          <!-- Product User Journey: Orient Electric -->
-          <div class="project-hero-visual-card hero-visual-orient">
-            <div class="visual-card-header">
-              <span class="visual-header-badge" style="background:rgba(2,132,199,0.15); color:#00F0FF; border-color:rgba(0,240,255,0.3);">🏢 DEALER SALES RETURN JOURNEY</span>
-              <span class="visual-header-title">User Story: 3-Day B2B Return & Credit Note Settlement</span>
-            </div>
-            <div class="visual-workflow-nodes">
-              <div class="visual-node-box"><div class="visual-node-icon">🏬</div><div class="visual-node-label">Dealer Reports Return</div><div class="visual-node-sub">Defective Claim</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">📄</div><div class="visual-node-label">SRN Submitted</div><div class="visual-node-sub">Portal Entry</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">📋</div><div class="visual-node-label">Field Verification</div><div class="visual-node-sub">QR Inspection Scan</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box visual-node-active" style="border-color:#0284c7;"><div class="visual-node-icon">🔄</div><div class="visual-node-label">Approval Workflow</div><div class="visual-node-sub">Automated Hierarchy</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">⚙️</div><div class="visual-node-label">SAP Reconciliation</div><div class="visual-node-sub">Real-Time Ledger Sync</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">💳</div><div class="visual-node-label">Credit Note Gen</div><div class="visual-node-sub">₹8 Cr Monthly Volume</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box visual-node-highlight" style="border-color:#00F0FF;"><div class="visual-node-icon">💰</div><div class="visual-node-label">Dealer Settlement</div><div class="visual-node-sub">3-Day Turnaround</div></div>
-            </div>
-          </div>
-
-          <div class="pm-card-body">
-            <div class="pm-exec-summary">
-              <strong>Executive Summary:</strong> Conceptualized and specified an end-to-end B2B Sales Return Note (SRN) workflow and SAP ERP reconciliation engine. Reduced claim settlement turnaround time from 21 days to 3 days across ₹8 Cr monthly dealer returns.
-            </div>
-
-            <div class="pm-kpi-grid">
-              <div class="pm-kpi-card"><div class="pm-kpi-val">3 Days</div><div class="pm-kpi-lbl">Claim Settlement TAT (was 21d)</div></div>
-              <div class="pm-kpi-card"><div class="pm-kpi-val">₹8 Cr/mo</div><div class="pm-kpi-lbl">Automated Transaction Volume</div></div>
-              <div class="pm-kpi-card"><div class="pm-kpi-val">99.4%</div><div class="pm-kpi-lbl">SAP Ledger Reconciliation</div></div>
-            </div>
-
-            <div class="pm-role-bar">
-              <div class="pm-role-title">My Role & Competencies:</div>
-              <div class="pm-role-tags">
-                <span class="role-pill">⚡ Product Strategy</span>
-                <span class="role-pill">⚡ User Research</span>
-                <span class="role-pill">⚡ PRD Specs</span>
-                <span class="role-pill">⚡ Wireframes</span>
-                <span class="role-pill">⚡ Prioritization</span>
-                <span class="role-pill">⚡ Stakeholder Management</span>
-                <span class="role-pill">⚡ Launch</span>
-                <span class="role-pill">⚡ Analytics</span>
-              </div>
-            </div>
-
-            
-            <!-- 2x2 PRODUCT THINKING & STRATEGY GRID -->
-            <div class="pm-thinking-grid-section">
-              <div class="thinking-section-title">🧠 Product Thinking & Strategy Breakdown</div>
-              <div class="pm-thinking-grid">
-                
-                <!-- Card 1: Problem Statement -->
-                <div class="thinking-card">
-                  <div class="thinking-card-header">
-                    <div class="thinking-card-icon">🎯</div>
-                    <div class="thinking-card-title">🎯 Problem Statement & User Pain</div>
-                  </div>
-                  <div class="thinking-card-body">
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Target User</span>
-                      <span class="thinking-field-content">5,000+ B2B Electrical Dealers, Field Audit Engineers & Corporate Finance Teams.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">The Core Friction</span>
-                      <span class="thinking-field-content">Manual paper-based Sales Return Note (SRN) processing causing 21-day credit note settlement delays.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Frequency & Pain Point</span>
-                      <span class="thinking-field-content"><strong>Frequency:</strong> Monthly defective inventory return claims totaling ~₹8 Cr across India.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Affected Business Metric</span>
-                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Claim Settlement Turnaround Time (21 days) & Dealer NPS</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 2: User Research & Insights -->
-                <div class="thinking-card">
-                  <div class="thinking-card-header">
-                    <div class="thinking-card-icon">👤</div>
-                    <div class="thinking-card-title">👤 User Research & Insights</div>
-                  </div>
-                  <div class="thinking-card-body">
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Primary Personas Studied</span>
-                      <span class="thinking-field-content">Rajesh Agarwal (Regional Master Distributor) & Anita Sharma (Commercial Accounts Manager).</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">User Pain Points</span>
-                      <span class="thinking-field-content">Dealers had working capital locked for 3+ weeks awaiting credit notes; lost physical serial tag receipts.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Key Behavioral Findings</span>
-                      <span class="thinking-field-content">64% of return delays stemmed from manual verification of serial numbers against SAP ERP invoices.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Journey Bottleneck Identified</span>
-                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Disconnected dealer portal, field engineer mobile app, and SAP ERP financial ledger.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 3: Product Decisions & Trade-offs -->
-                <div class="thinking-card" style="border-color:var(--border-highlight);">
-                  <div class="thinking-card-header">
-                    <div class="thinking-card-icon" style="background:rgba(236,72,153,0.15); color:var(--accent);">⚖️</div>
-                    <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
-                  </div>
-                  <div class="thinking-card-body">
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Alternative Solutions Rejected</span>
-                      <span class="thinking-field-content">Batch offline file uploads (failed real-time ledger verification).</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Technical & Business Constraints</span>
-                      <span class="thinking-field-content">Integration with legacy SAP ECC 6.0 system without disrupting core billing APIs.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
-                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Focused on QR barcode scan verification for field engineers over automated scrap valuation.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Risk Analysis & Guardrails</span>
-                      <span class="thinking-field-content">Strict financial audit logs and multi-level approval thresholds for claims exceeding ₹5 Lakhs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 4: Final Solution & Impact -->
-                <div class="thinking-card">
-                  <div class="thinking-card-header">
-                    <div class="thinking-card-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">🚀</div>
-                    <div class="thinking-card-title">📈 Metrics & Business Impact</div>
-                  </div>
-                  <div class="thinking-card-body">
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Chosen Product Solution</span>
-                      <span class="thinking-field-content">B2B SRN Automation Portal with mobile QR audit verification and real-time SAP ERP API ledger bridge.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Why It Worked</span>
-                      <span class="thinking-field-content">Automated invoice matching and defect validation, enabling instant credit note generation upon physical verification.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Quantified Business Metrics</span>
-                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">Claim settlement TAT reduced from 21 days to 3 days; 99.4% SAP ledger reconciliation accuracy.</span>
-                    </div>
-                    <div class="thinking-field">
-                      <span class="thinking-field-label">Future Product Roadmap</span>
-                      <span class="thinking-field-content">Automated warranty fraud detection using machine learning serial number anomaly models.</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-
-            <div class="pm-card-actions">
-              <a href="orient.html" class="btn btn-primary" style="background:linear-gradient(135deg, #dc2626, #0284c7); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
-                Explore Complete Case Study &rarr;
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: Snapmint Pay & Credit -->
+<!-- Project 4: Snapmint Pay & Credit -->
         <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='snapmint.html';" style="cursor:pointer; border-color:var(--border-highlight);">
           <div class="pm-card-banner">
             <div>
@@ -1349,53 +1601,51 @@
         </div>
 
 
-        <!-- Project 5: Healthcare Agentic AI Suite (Hospital Onboarding & ICU Clinical Engine) -->
-        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='hospital.html';" style="cursor:pointer; border-color:var(--border-highlight); margin-top:3.5rem;">
+        <!-- Project 6 (Independent Case Study 4): MakeMyTrip HostAssist AI -->
+        <div class="pm-case-card clickable-card" onclick="if(!event.target.closest('a')) window.location.href='hostassist.html';" style="cursor:pointer; border-color:var(--border-highlight); margin-top:2.5rem;">
           <div class="pm-card-banner">
             <div>
               <div class="pm-domain-tags">
-                <span class="domain-pill">Healthcare AI</span>
-                <span class="domain-pill">Agentic Workflows</span>
-                <span class="domain-pill">ICU Decision Engine</span>
-                <span class="domain-pill" style="background:rgba(13,148,136,0.18); color:#14B8A6; border-color:#0D9488;">● Flagship Healthcare AI Project</span>
+                <span class="domain-pill">TravelTech AI</span>
+                <span class="domain-pill">Homestay Copilot</span>
+                <span class="domain-pill">Dynamic Pricing</span>
+                <span class="domain-pill" style="background:rgba(245,158,11,0.18); color:#F59E0B; border-color:rgba(245,158,11,0.5); font-weight:700;">💡 INDEPENDENT PM CASE STUDY</span>
               </div>
-              <h3 class="pm-card-title">Healthcare Agentic AI Suite: Hospital Onboarding, Insurance Pre-Auth & ICU Clinical Engine</h3>
-              <p class="pm-card-subtitle">Healthcare & Enterprise Agentic AI Platform</p>
+              <h3 class="pm-card-title">MakeMyTrip Partner Connect: HostAssist AI & Dynamic Pricing Copilot</h3>
+              <p class="pm-card-subtitle">AI-Powered Homestay Host Automation & Revenue Optimization Engine</p>
             </div>
           </div>
 
-          <!-- Product User Journey: Healthcare AI -->
-          <div class="project-hero-visual-card hero-visual-hospital" style="background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(6,182,212,0.12)); border-color: rgba(13,148,136,0.35);">
+          <!-- Product User Journey: HostAssist AI -->
+          <div class="project-hero-visual-card hero-visual-hostassist" style="background: linear-gradient(135deg, rgba(229,57,53,0.12), rgba(245,158,11,0.12)); border-color: rgba(229,57,53,0.35);">
             <div class="visual-card-header">
-              <span class="visual-header-badge" style="background:rgba(13,148,136,0.2); color:#14B8A6; border-color:rgba(20,184,166,0.4);">🏥 PATIENT ADMISSION & PRE-AUTH JOURNEY</span>
-              <span class="visual-header-title">User Story: 4.3h AI Insurance Pre-Auth & Clinical Decision Triage</span>
+              <span class="visual-header-badge" style="background:rgba(229,57,53,0.2); color:#EF4444; border-color:rgba(239,68,68,0.4);">🏨 HOMESTAY HOST AUTOMATION JOURNEY</span>
+              <span class="visual-header-title">User Story: Sub-5 Min AI Response & +21.4% RevPAR Lift</span>
             </div>
             <div class="visual-workflow-nodes">
-              <div class="visual-node-box"><div class="visual-node-icon">🏥</div><div class="visual-node-label">Patient Intake</div><div class="visual-node-sub">Hospital Registration</div></div>
+              <div class="visual-node-box"><div class="visual-node-icon">🏨</div><div class="visual-node-label">Guest Inquiry</div><div class="visual-node-sub">Instant Booking Request</div></div>
               <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">📑</div><div class="visual-node-label">Policy Scan</div><div class="visual-node-sub">ICD-10 Data Extraction</div></div>
+              <div class="visual-node-box visual-node-active" style="border-color:#E53935;"><div class="visual-node-icon">💬</div><div class="visual-node-label">AI Auto-Reply</div><div class="visual-node-sub">Multilingual Messaging</div></div>
               <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box visual-node-active" style="border-color:#0D9488;"><div class="visual-node-icon">🤖</div><div class="visual-node-label">AI Pre-Auth Agent</div><div class="visual-node-sub">Automated Claim Sync</div></div>
+              <div class="visual-node-box"><div class="visual-node-icon">📊</div><div class="visual-node-label">Dynamic Pricing</div><div class="visual-node-sub">Rate Optimization Engine</div></div>
               <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">💊</div><div class="visual-node-label">Safety Check</div><div class="visual-node-sub">Drug Interaction Scan</div></div>
+              <div class="visual-node-box"><div class="visual-node-icon">📅</div><div class="visual-node-label">Calendar Sync</div><div class="visual-node-sub">Multi-OTAs Inventory</div></div>
               <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">🩺</div><div class="visual-node-label">ICU Support</div><div class="visual-node-sub">Sepsis Intercept Agent</div></div>
+              <div class="visual-node-box"><div class="visual-node-icon">🧹</div><div class="visual-node-label">Turnover Assist</div><div class="visual-node-sub">Housekeeping Dispatch</div></div>
               <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box"><div class="visual-node-icon">⚡</div><div class="visual-node-label">SLA Escalation</div><div class="visual-node-sub">Human Guardrail Queue</div></div>
-              <div class="visual-flow-arrow">&rarr;</div>
-              <div class="visual-node-box visual-node-highlight" style="border-color:#14B8A6;"><div class="visual-node-icon">🎉</div><div class="visual-node-label">Admission Cleared</div><div class="visual-node-sub">82% Speedup (4.3h TAT)</div></div>
+              <div class="visual-node-box visual-node-highlight" style="border-color:#F59E0B;"><div class="visual-node-icon">⭐</div><div class="visual-node-label">Review Boost</div><div class="visual-node-sub">3.2m Response & +21.4% RevPAR</div></div>
             </div>
           </div>
 
           <div class="pm-card-body">
             <div class="pm-exec-summary">
-              <strong>Executive Summary:</strong> Architected an enterprise Healthcare Agentic AI Suite automating hospital patient onboarding, insurance pre-authorization claims, drug interaction safety checks, and ICU sepsis triage. Reduced pre-auth turnaround time by 82% (24 hours &rarr; 4.3 hours) and cut clinical onboarding delays by 68%.
+              <strong>Executive Summary:</strong> Conceptualized HostAssist AI for MakeMyTrip homestay hosts—automating 24/7 guest inquiry responses, dynamic seasonal pricing rules, multi-OTA calendar synchronization, and review sentiment synthesis. Reduced guest response time by 98% (4.2h &rarr; 3.2 min) and boosted host RevPAR revenue by +21.4%.
             </div>
 
             <div class="pm-kpi-grid">
-              <div class="pm-kpi-card"><div class="pm-kpi-val">4.3 Hours</div><div class="pm-kpi-lbl">Pre-Auth Claim TAT (was 24h)</div></div>
-              <div class="pm-kpi-card"><div class="pm-kpi-val">82%</div><div class="pm-kpi-lbl">Claim Approval Speedup</div></div>
-              <div class="pm-kpi-card"><div class="pm-kpi-val">99.8%</div><div class="pm-kpi-lbl">Medication Safety Accuracy</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">3.2 Min</div><div class="pm-kpi-lbl">Guest Response Time (was 4.2h)</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">+21.4%</div><div class="pm-kpi-lbl">Host RevPAR Revenue Lift</div></div>
+              <div class="pm-kpi-card"><div class="pm-kpi-val">94.8%</div><div class="pm-kpi-lbl">Guest AI CSAT Rating</div></div>
             </div>
 
             <div class="pm-role-bar">
@@ -1406,8 +1656,8 @@
                 <span class="role-pill">⚡ PRD Specs</span>
                 <span class="role-pill">⚡ Wireframes</span>
                 <span class="role-pill">⚡ Prioritization</span>
-                <span class="role-pill">⚡ Stakeholder Management</span>
-                <span class="role-pill">⚡ Launch</span>
+                <span class="role-pill">⚡ Revenue Modeling</span>
+                <span class="role-pill">⚡ AI Copilots</span>
                 <span class="role-pill">⚡ Analytics</span>
               </div>
             </div>
@@ -1426,19 +1676,19 @@
                   <div class="thinking-card-body">
                     <div class="thinking-field">
                       <span class="thinking-field-label">Target User</span>
-                      <span class="thinking-field-content">Hospital Admissions Desk, Chief Nursing Officers & Medical Insurance Desk Leads.</span>
+                      <span class="thinking-field-content">Independent Homestay Hosts & Boutique Property Managers on MakeMyTrip & Goibibo.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">The Core Friction</span>
-                      <span class="thinking-field-content">Manual insurance pre-authorization delays and paper-based onboarding causing 24h+ patient admission bottlenecks.</span>
+                      <span class="thinking-field-content">Slow guest response times (4.2h average) and static pricing leading to 45%+ unbooked room nights.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Frequency & Pain Point</span>
-                      <span class="thinking-field-content"><strong>Frequency:</strong> Hundreds of inpatient admissions daily across tertiary care hospital chains.</span>
+                      <span class="thinking-field-content"><strong>Frequency:</strong> Multiple daily guest booking inquiries & check-in coordination messages.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Affected Business Metric</span>
-                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Pre-Auth Claim TAT (24h) & Hospital Bed Turnover Rate</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Host RevPAR (Revenue Per Available Room) & Guest Booking Conversion</span>
                     </div>
                   </div>
                 </div>
@@ -1452,19 +1702,19 @@
                   <div class="thinking-card-body">
                     <div class="thinking-field">
                       <span class="thinking-field-label">Primary Personas Studied</span>
-                      <span class="thinking-field-content">Dr. Aris Thorne (ICU Director) & Meera Sen (Insurance Pre-Auth Coordinator).</span>
+                      <span class="thinking-field-content">Vikram Sharma (Villa Host, Goa) & Priya Nair (Coorg Cottage Operator).</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">User Pain Points</span>
-                      <span class="thinking-field-content">85% of claim rejections stemmed from missing ICD-10 diagnostic codes during initial admission filing.</span>
+                      <span class="thinking-field-content">78% of hosts cited messaging fatigue and fear of complex manual dynamic pricing setup.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Key Behavioral Findings</span>
-                      <span class="thinking-field-content">Nurses spent 3.5 hours per shift manually re-entering patient vitals between EHR and insurance portals.</span>
+                      <span class="thinking-field-content">Guests who receive a response within 5 minutes are 3.4x more likely to confirm a booking.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Journey Bottleneck Identified</span>
-                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Fragmented communication between hospital EHR, TPA insurance desks, and ICU bedside monitors.</span>
+                      <span class="thinking-field-content" style="color:var(--warning); font-weight:600;">Manual multi-OTA calendar updates causing double-booking cancellations.</span>
                     </div>
                   </div>
                 </div>
@@ -1472,25 +1722,25 @@
                 <!-- Card 3: Product Decisions & Trade-offs -->
                 <div class="thinking-card" style="border-color:var(--border-highlight);">
                   <div class="thinking-card-header">
-                    <div class="thinking-card-icon" style="background:rgba(13,148,136,0.18); color:#14B8A6;">⚖️</div>
+                    <div class="thinking-card-icon" style="background:rgba(229,57,53,0.18); color:#EF4444;">⚖️</div>
                     <div class="thinking-card-title" style="color:var(--text-main);">⚖️ Product Strategy & Solution</div>
                   </div>
                   <div class="thinking-card-body">
                     <div class="thinking-field">
                       <span class="thinking-field-label">Alternative Solutions Rejected</span>
-                      <span class="thinking-field-content">Manual call-center pre-auth support (unscalable & prone to 12h+ hold times).</span>
+                      <span class="thinking-field-content">Rule-based static auto-responders (robotic & incapable of custom guest Q&A).</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Technical & Business Constraints</span>
-                      <span class="thinking-field-content">Strict HIPAA & ABDM compliance for patient health record privacy and encrypted LLM inferencing.</span>
+                      <span class="thinking-field-content">Real-time calendar lock APIs and strict host review moderation compliance.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Prioritization & MVP Cutoff</span>
-                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized Automated Pre-Auth Claim Agent + ICU Sepsis Intercept Agent for v1.0 MVP release.</span>
+                      <span class="thinking-field-content" style="color:var(--secondary); font-weight:600;">Prioritized AI Guest Auto-Responder + One-Click Dynamic Pricing Engine for MVP v1.0.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Risk Analysis & Guardrails</span>
-                      <span class="thinking-field-content">Human-in-the-loop physician override triggers for any high-severity ICU diagnostic recommendation.</span>
+                      <span class="thinking-field-content">Host override controls for automated price discounts to prevent revenue loss.</span>
                     </div>
                   </div>
                 </div>
@@ -1504,19 +1754,19 @@
                   <div class="thinking-card-body">
                     <div class="thinking-field">
                       <span class="thinking-field-label">Chosen Product Solution</span>
-                      <span class="thinking-field-content">Healthcare Agentic AI Suite embedding Pre-Auth Automation, Drug Safety Verification & ICU Clinical Decision Support.</span>
+                      <span class="thinking-field-content">HostAssist AI Copilot with automated guest messaging, dynamic pricing engine, and review synthesis.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Why It Worked</span>
-                      <span class="thinking-field-content">Replaced manual data re-entry with autonomous multi-agent LLM verification and instant TPA portal sync.</span>
+                      <span class="thinking-field-content">Eliminated response friction and optimized room rates dynamically based on local demand surges.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Quantified Business Metrics</span>
-                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">82% Pre-Auth TAT reduction (24h &rarr; 4.3h), 68% faster onboarding, 99.8% medication safety accuracy.</span>
+                      <span class="thinking-field-content" style="color:var(--success); font-weight:700;">98% faster response (4.2h &rarr; 3.2 min), +21.4% RevPAR revenue lift, 94.8% CSAT rating.</span>
                     </div>
                     <div class="thinking-field">
                       <span class="thinking-field-label">Future Product Roadmap</span>
-                      <span class="thinking-field-content">Autonomous post-discharge remote patient monitoring & AI prescription synthesis.</span>
+                      <span class="thinking-field-content">AI smart lock integration & automated guest identity verification (KYC).</span>
                     </div>
                   </div>
                 </div>
@@ -1525,120 +1775,15 @@
             </div>
 
             <div class="pm-card-actions">
-              <a href="hospital.html" class="btn btn-primary" style="background:linear-gradient(135deg, #0D9488, #06B6D4); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
+              <a href="hostassist.html" class="btn btn-primary" style="background:linear-gradient(135deg, #E53935, #F59E0B); color:white; font-weight:800; padding:0.85rem 1.65rem; font-size:0.95rem; text-decoration:none;">
                 Explore Complete Case Study &rarr;
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- Beyond the Portfolio Section (Apple & Notion Leadership Philosophy) -->
-    <section id="beyond-portfolio" style="scroll-margin-top: 100px; padding-top: 4rem; padding-bottom: 2rem;">
-      <div class="section-header" style="margin-bottom: 2.25rem;">
-        <div>
-          <div class="badge-pill" style="margin-bottom: 0.75rem; background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.3); color: var(--primary);">
-            <span class="badge-dot" style="background: var(--primary);"></span>
-            <span>PRODUCT MANAGEMENT PRINCIPLES & LESSONS</span>
-          </div>
-          <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Beyond the Portfolio</h2>
-          <p class="section-subtitle" style="font-size: 1rem; max-width: 820px; color: var(--text-muted);">
-            What Building These Products Has Taught Me &mdash; Core leadership values shaping my product decisions.
-          </p>
-        </div>
-      </div>
-
-      <!-- 6 Premium Insight Cards Grid -->
-      <div class="beyond-insights-grid">
-        
-        <!-- Card 1: Start with the User -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #818cf8;">
-            🧠
-          </div>
-          <h3 class="beyond-card-title">Start with the User</h3>
-          <p class="beyond-card-desc">
-            Understand the real workflow, friction points, and human context deeply before designing or coding any technical solution.
-          </p>
-          <div class="beyond-card-tag">User-Centric Thinking</div>
-        </div>
-
-        <!-- Card 2: Measure Outcomes -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;">
-            📊
-          </div>
-          <h3 class="beyond-card-title">Measure Outcomes</h3>
-          <p class="beyond-card-desc">
-            Every feature launched must tie back to a clear North Star metric, driving quantifiable customer satisfaction or business ROI.
-          </p>
-          <div class="beyond-card-tag">Data-Driven Accountability</div>
-        </div>
-
-        <!-- Card 3: Build Through Collaboration -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); color: #38bdf8;">
-            🤝
-          </div>
-          <h3 class="beyond-card-title">Build Through Collaboration</h3>
-          <p class="beyond-card-desc">
-            Great products are forged through tight alignment between engineering, product design, business stakeholders, and end customers.
-          </p>
-          <div class="beyond-card-tag">Cross-Functional Leadership</div>
-        </div>
-
-        <!-- Card 4: Ship Small, Learn Fast -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.35); color: #f59e0b;">
-            ⚡
-          </div>
-          <h3 class="beyond-card-title">Ship Small, Learn Fast</h3>
-          <p class="beyond-card-desc">
-            Launch tight MVPs early to gather empirical usage data quickly, iterating rapidly based on real-world feedback loops.
-          </p>
-          <div class="beyond-card-tag">Agile Velocity & Iteration</div>
-        </div>
-
-        <!-- Card 5: AI Should Amplify Humans -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(250, 38, 160, 0.15); border-color: rgba(250, 38, 160, 0.35); color: #fa26a0;">
-            🤖
-          </div>
-          <h3 class="beyond-card-title">AI Should Amplify Humans</h3>
-          <p class="beyond-card-desc">
-            Deploy Artificial Intelligence to eliminate tedious manual friction, augmenting human judgment rather than adding complexity.
-          </p>
-          <div class="beyond-card-tag">AI & Process Automation</div>
-        </div>
-
-        <!-- Card 6: Business Value First -->
-        <div class="beyond-card">
-          <div class="beyond-card-icon" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35); color: #a855f7;">
-            📈
-          </div>
-          <h3 class="beyond-card-title">Business Value First</h3>
-          <p class="beyond-card-desc">
-            Every roadmap prioritization decision must align with scalable business growth, unit economics, and enterprise strategic goals.
-          </p>
-          <div class="beyond-card-tag">Strategic Impact</div>
-        </div>
-
-      </div>
-
-      <!-- Bottom Premium Quote Card -->
-      <div class="beyond-quote-card">
-        <div class="beyond-quote-sparkle">💎</div>
-        <blockquote class="beyond-quote-text">
-          &ldquo;My goal is not just to build products. My goal is to build products that customers love, teams are proud of, and businesses can scale.&rdquo;
-        </blockquote>
-        <div class="beyond-quote-author">Souvik Ghosh &bull; Product Philosophy</div>
-      </div>
-
-    </section>
-
-    
     <!-- Certifications & Verified Credentials Section -->
     <section id="certifications" style="scroll-margin-top: 100px; padding-top: 3.5rem; padding-bottom: 2rem;">
       <div class="section-header" style="margin-bottom: 2.25rem;">
@@ -1787,6 +1932,108 @@
 
     </section>
 
+    <!-- Beyond the Portfolio Section (Apple & Notion Leadership Philosophy) -->
+    <section id="beyond-portfolio" style="scroll-margin-top: 100px; padding-top: 4rem; padding-bottom: 2rem;">
+      <div class="section-header" style="margin-bottom: 2.25rem;">
+        <div>
+          <div class="badge-pill" style="margin-bottom: 0.75rem; background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.3); color: var(--primary);">
+            <span class="badge-dot" style="background: var(--primary);"></span>
+            <span>PRODUCT MANAGEMENT PRINCIPLES & LESSONS</span>
+          </div>
+          <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Beyond the Portfolio</h2>
+          <p class="section-subtitle" style="font-size: 1rem; max-width: 820px; color: var(--text-muted);">
+            What Building These Products Has Taught Me &mdash; Core leadership values shaping my product decisions.
+          </p>
+        </div>
+      </div>
+
+      <!-- 6 Premium Insight Cards Grid -->
+      <div class="beyond-insights-grid">
+        
+        <!-- Card 1: Start with the User -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.35); color: #818cf8;">
+            🧠
+          </div>
+          <h3 class="beyond-card-title">Start with the User</h3>
+          <p class="beyond-card-desc">
+            Understand the real workflow, friction points, and human context deeply before designing or coding any technical solution.
+          </p>
+          <div class="beyond-card-tag">User-Centric Thinking</div>
+        </div>
+
+        <!-- Card 2: Measure Outcomes -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399;">
+            📊
+          </div>
+          <h3 class="beyond-card-title">Measure Outcomes</h3>
+          <p class="beyond-card-desc">
+            Every feature launched must tie back to a clear North Star metric, driving quantifiable customer satisfaction or business ROI.
+          </p>
+          <div class="beyond-card-tag">Data-Driven Accountability</div>
+        </div>
+
+        <!-- Card 3: Build Through Collaboration -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); color: #38bdf8;">
+            🤝
+          </div>
+          <h3 class="beyond-card-title">Build Through Collaboration</h3>
+          <p class="beyond-card-desc">
+            Great products are forged through tight alignment between engineering, product design, business stakeholders, and end customers.
+          </p>
+          <div class="beyond-card-tag">Cross-Functional Leadership</div>
+        </div>
+
+        <!-- Card 4: Ship Small, Learn Fast -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.35); color: #f59e0b;">
+            ⚡
+          </div>
+          <h3 class="beyond-card-title">Ship Small, Learn Fast</h3>
+          <p class="beyond-card-desc">
+            Launch tight MVPs early to gather empirical usage data quickly, iterating rapidly based on real-world feedback loops.
+          </p>
+          <div class="beyond-card-tag">Agile Velocity & Iteration</div>
+        </div>
+
+        <!-- Card 5: AI Should Amplify Humans -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(250, 38, 160, 0.15); border-color: rgba(250, 38, 160, 0.35); color: #fa26a0;">
+            🤖
+          </div>
+          <h3 class="beyond-card-title">AI Should Amplify Humans</h3>
+          <p class="beyond-card-desc">
+            Deploy Artificial Intelligence to eliminate tedious manual friction, augmenting human judgment rather than adding complexity.
+          </p>
+          <div class="beyond-card-tag">AI & Process Automation</div>
+        </div>
+
+        <!-- Card 6: Business Value First -->
+        <div class="beyond-card">
+          <div class="beyond-card-icon" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35); color: #a855f7;">
+            📈
+          </div>
+          <h3 class="beyond-card-title">Business Value First</h3>
+          <p class="beyond-card-desc">
+            Every roadmap prioritization decision must align with scalable business growth, unit economics, and enterprise strategic goals.
+          </p>
+          <div class="beyond-card-tag">Strategic Impact</div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Premium Quote Card -->
+      <div class="beyond-quote-card">
+        <div class="beyond-quote-sparkle">💎</div>
+        <blockquote class="beyond-quote-text">
+          &ldquo;My goal is not just to build products. My goal is to build products that customers love, teams are proud of, and businesses can scale.&rdquo;
+        </blockquote>
+        <div class="beyond-quote-author">Souvik Ghosh &bull; Product Philosophy</div>
+      </div>
+
+    </section>
 
     <!-- Contact & Footer Callout -->
     <section id="contact" style="margin-top: 4rem; background: var(--bg-card); border: 1px solid var(--border-highlight); border-radius: var(--radius-lg); padding: 3rem; text-align: center;">
@@ -1928,5 +2175,29 @@
   <script src="js/charts.js"></script>
   <script src="js/wireframes.js"></script>
   <script src="js/app.js"></script>
+
+<script>
+function filterProjects(category) {
+  // Update Tab active state
+  document.querySelectorAll('.category-tab-btn').forEach(btn => btn.classList.remove('active'));
+  const activeTab = document.getElementById('tab-filter-' + category);
+  if (activeTab) activeTab.classList.add('active');
+
+  const groupEnterprise = document.getElementById('group-enterprise');
+  const groupCaseStudies = document.getElementById('group-case-studies');
+
+  if (category === 'all') {
+    if (groupEnterprise) groupEnterprise.style.display = 'block';
+    if (groupCaseStudies) groupCaseStudies.style.display = 'block';
+  } else if (category === 'enterprise') {
+    if (groupEnterprise) groupEnterprise.style.display = 'block';
+    if (groupCaseStudies) groupCaseStudies.style.display = 'none';
+  } else if (category === 'case-studies') {
+    if (groupEnterprise) groupEnterprise.style.display = 'none';
+    if (groupCaseStudies) groupCaseStudies.style.display = 'block';
+  }
+}
+</script>
+
 </body>
 </html>

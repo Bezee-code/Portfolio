@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakeMyTrip Partner Connect: HostAssist AI | Product Strategy & Design Case Study</title>
+  <style>
+    :root {
+      --primary: #e53935;
+      --primary-dark: #c62828;
+      --bg-dark: #0f172a;
+      --panel-bg: #1e293b;
+      --card-bg: #0f172a;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-blue: #3b82f6;
+      --border-color: #334155;
+      --phone-width: 380px;
+      --phone-height: 720px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* Top Case Study Header */
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      background-color: var(--primary);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .evidence-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-concept { background: #1e3a8a; color: #93c5fd; border: 1px solid #3b82f6; }
+    .tag-solution { background: #064e3b; color: #6ee7b7; border: 1px solid #10b981; }
+    .tag-target { background: #78350f; color: #fde68a; border: 1px solid #f59e0b; }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .value-prop {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .metric-hero {
+      display: flex;
+      gap: 16px;
+      background: var(--panel-bg);
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .metric-pill {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    .metric-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    /* Executive Summary Card */
+    .exec-summary-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .exec-summary-card { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .exec-summary-card { grid-template-columns: 1fr; }
+    }
+
+    .summary-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-box-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-box-text {
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    /* Compact Strategic Alignment Bar */
+    .framework-container {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .framework-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .framework-flow { grid-template-columns: 1fr; }
+    }
+
+    .framework-step {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .framework-step-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+    }
+
+    .framework-step-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .framework-step-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* CENTERPIECE: Prototype Section */
+    .prototype-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--card-bg);
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .toggle-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(229, 57, 53, 0.4);
+    }
+
+    .risk-toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--panel-bg);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .risk-btn {
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .risk-btn.active-low { background: #064e3b; color: #6ee7b7; }
+    .risk-btn.active-med { background: #78350f; color: #fde68a; }
+    .risk-btn.active-high { background: #7f1d1d; color: #fca5a5; }
+
+    .main-container {
+      display: flex;
+      width: 100%;
+      gap: 28px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Phone Device Frame */
+    .phone-container {
+      position: relative;
+      width: var(--phone-width);
+      height: var(--phone-height);
+      background: #000;
+      border-radius: 40px;
+      border: 10px solid #2d3748;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-header {
+      height: 40px;
+      background: #1e1e1e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .camera-notch {
+      width: 120px;
+      height: 16px;
+      background: #000;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+    }
+
+    .app-header {
+      background: #c62828;
+      color: white;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .phone-screen {
+      flex: 1;
+      background: #f4f6f8;
+      color: #1a1a1a;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      background: #e2e8f0;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: var(--primary);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    .screen-content {
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .input-group {
+      margin-bottom: 8px;
+    }
+
+    .input-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3px;
+    }
+
+    .input-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 11px;
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .input-field.warn-border {
+      border-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 11px;
+      background: #e53935;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: auto;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: #c62828;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+      margin-top: 6px;
+    }
+
+    .scan-dropzone {
+      border: 2px dashed #3b82f6;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .scan-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .alert-box {
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .alert-danger {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    .alert-warning {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    .alert-success {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    /* Streamlined Side Panel for PM Annotations */
+    .pm-annotation-panel {
+      flex: 1;
+      max-width: 540px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .annotation-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .annotation-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reasoning-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .reasoning-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: var(--panel-bg);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .reasoning-label {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .reasoning-val {
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .comp-box {
+      background: var(--panel-bg);
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .comp-box.before { border-top: 3px solid #ef4444; }
+    .comp-box.after { border-top: 3px solid #10b981; }
+
+    .comp-label {
+      font-size: 9px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .comp-box.before .comp-label { color: #f87171; }
+    .comp-box.after .comp-label { color: #34d399; }
+
+    .comp-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 10px;
+      background: #334155;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .nav-btn:hover {
+      background: #475569;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Human-in-the-Loop & Risk Architecture Grid */
+    .hitl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 850px) {
+      .hitl-grid { grid-template-columns: 1fr; }
+    }
+
+    .hitl-box {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hitl-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+
+    .hitl-table th, .hitl-table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hitl-table th {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .risk-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+
+    .risk-table th, .risk-table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .risk-table th {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .badge-low-risk { background: #064e3b; color: #6ee7b7; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+    .badge-med-risk { background: #78350f; color: #fde68a; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+    .badge-high-risk { background: #7f1d1d; color: #fca5a5; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; }
+
+    .conf-high { color: var(--accent-green); background: #064e3b; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 700; }
+    .conf-med { color: var(--accent-amber); background: #78350f; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 700; }
+    .conf-low { color: #fca5a5; background: #7f1d1d; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 700; }
+
+    /* Section: Metrics & Measurement Framework */
+    .metrics-section {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-card-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .metric-card-def {
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .guardrail-metric-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .guardrail-metric-box { grid-template-columns: 1fr; }
+    }
+
+    .guardrail-column {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guardrail-column-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Section: Pilot to Scale Progression */
+    .rollout-container {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .rollout-stepper-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 850px) {
+      .rollout-stepper-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .rollout-stage-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rollout-stage-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+    }
+
+    .rollout-stage-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .rollout-stage-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .op-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .op-grid { grid-template-columns: 1fr; }
+    }
+
+    .op-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Section: Experiment Design & A/B Framework */
+    .experiment-container {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .ab-grid { grid-template-columns: 1fr; }
+    }
+
+    .ab-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .decision-framework-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 800px) {
+      .decision-framework-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .decision-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Business Logic Chain Bar */
+    .business-chain-bar {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chain-node {
+      font-size: 11px;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: var(--card-bg);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .chain-arrow {
+      color: var(--accent-blue);
+      font-weight: bold;
+    }
+
+    /* Final Closing Card */
+    .closing-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--accent-green);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="width: 100%; max-width: 1200px; margin-bottom: 16px;">
+    <a href="index.html#case-studies" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.25); border: 1px solid rgba(99, 102, 241, 0.5); color: #38bdf8; padding: 8px 16px; border-radius: 9999px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.2s ease;">
+        ← <strong>Back to Portfolio Homepage</strong>
+    </a>
+</div>
+    <div class="wrapper">
+    <!-- HERO SECTION -->
+    <header>
+      <div class="brand-title">
+        <div class="brand-badge-row">
+          <span class="brand-badge">MakeMyTrip Connect</span>
+          <span class="evidence-tag tag-concept">Proposed Product Concept</span>
+        </div>
+        <h1>HostAssist AI</h1>
+        <p class="subtitle">AI-assisted partner onboarding for independent hotels</p>
+        <p class="value-prop">"Turn existing partner documents into structured onboarding data, with AI assistance and human control."</p>
+      </div>
+
+      <div class="metric-hero">
+        <div class="metric-pill">
+          <span class="metric-label">Primary Outcome Metric</span>
+          <span class="metric-val">7-Day Listing Completion Rate</span>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-label">Core Efficiency Goal</span>
+          <span class="metric-val">Reduced Time-to-Activation</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- EXECUTIVE SUMMARY CARD (20-30 Second Overview for Hiring Managers) -->
+    <section class="exec-summary-card">
+      <div class="summary-box">
+        <span class="summary-box-title">PROBLEM</span>
+        <p class="summary-box-text">Manual partner onboarding creates unnecessary data-entry effort and drop-off risk.</p>
+      </div>
+      <div class="summary-box">
+        <span class="summary-box-title">INSIGHT</span>
+        <p class="summary-box-text">Much of the required information already exists in documents partners already possess.</p>
+      </div>
+      <div class="summary-box">
+        <span class="summary-box-title">SOLUTION</span>
+        <p class="summary-box-text">HostAssist AI extracts and structures data, then lets partners review before risk-based verification.</p>
+      </div>
+      <div class="summary-box" style="border-color: var(--accent-green);">
+        <span class="summary-box-title" style="color: var(--accent-green);">SUCCESS</span>
+        <p class="summary-box-text">Improve onboarding completion and reduce effort without compromising listing quality or trust.</p>
+      </div>
+    </section>
+
+    <!-- COMPACT STRATEGIC FRAMEWORK -->
+    <section class="framework-container">
+      <div class="section-title">
+        <span>Strategic Framework</span>
+        <span class="evidence-tag tag-target">Product Logic</span>
+      </div>
+
+      <div class="framework-flow">
+        <div class="framework-step">
+          <span class="framework-step-label">USER</span>
+          <span class="framework-step-title">Independent Hotels</span>
+          <p class="framework-step-desc">Small and mid-sized hotel & homestay owners onboarding properties.</p>
+        </div>
+
+        <div class="framework-step">
+          <span class="framework-step-label">FRICTION</span>
+          <span class="framework-step-title">Manual Form Entry</span>
+          <p class="framework-step-desc">Repetitive typing of rates, GST codes, and room amenities.</p>
+        </div>
+
+        <div class="framework-step">
+          <span class="framework-step-label">INSIGHT</span>
+          <span class="framework-step-title">Existing Documents</span>
+          <p class="framework-step-desc">Details already exist in rate cards, tax certificates, and photos.</p>
+        </div>
+
+        <div class="framework-step">
+          <span class="framework-step-label">PRODUCT BET</span>
+          <span class="framework-step-title">AI + Human Control</span>
+          <p class="framework-step-desc">AI extracts structured data; partner reviews and confirms.</p>
+        </div>
+
+        <div class="framework-step" style="border-color: var(--accent-green);">
+          <span class="framework-step-label" style="color: var(--accent-green);">OUTCOME</span>
+          <span class="framework-step-title">Higher Completion</span>
+          <p class="framework-step-desc">Faster onboarding → More active room inventory on MakeMyTrip.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTERPIECE: INTERACTIVE PRODUCT PROTOTYPE -->
+    <div class="prototype-section">
+      <div class="section-title">
+        <span>Interactive Product Prototype</span>
+        <span class="evidence-tag tag-solution">UX Demonstration</span>
+      </div>
+      <p style="font-size: 11px; color: var(--text-muted); margin-top: -8px;">
+        Compare the legacy onboarding experience with the proposed HostAssist AI flow.
+      </p>
+
+      <div class="controls-bar">
+        <div style="display: flex; gap: 8px;">
+          <button class="toggle-btn active" id="btn-flow-improved" onclick="switchFlow('improved')">
+            ✨ IMPROVED FLOW (HostAssist AI V1)
+          </button>
+          <button class="toggle-btn" id="btn-flow-before" onclick="switchFlow('before')">
+            ⚠️ BEFORE FLOW (Legacy Manual Form)
+          </button>
+        </div>
+
+        <div class="risk-toggle-group" id="risk-tester-group">
+          <span style="font-size: 10px; font-weight: 700; color: var(--text-muted);">Test Step 3 Risk Model:</span>
+          <button class="risk-btn active-low" id="risk-btn-low" onclick="setRiskState('low')">Low Risk (Pass)</button>
+          <button class="risk-btn" id="risk-btn-med" onclick="setRiskState('med')">Medium Risk (Review)</button>
+          <button class="risk-btn" id="risk-btn-high" onclick="setRiskState('high')">High Risk (Escalate)</button>
+        </div>
+      </div>
+
+      <div class="main-container">
+        <div class="phone-container">
+          <div class="camera-notch"></div>
+          <div class="phone-header">
+            <span>9:41</span>
+            <span>MMT Partner</span>
+            <span>100% 🔋</span>
+          </div>
+          <div class="app-header">
+            <span class="app-title" id="app-screen-title">MMT Connect | Host Onboarding</span>
+            <span style="font-size: 10px; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px;">V1 Concept</span>
+          </div>
+
+          <div class="phone-screen" id="phone-screen-body">
+            <!-- Content injected dynamically by JS -->
+          </div>
+
+          <div class="step-indicator" id="step-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+
+        <div class="pm-annotation-panel">
+          <div class="annotation-header">
+            <div class="annotation-title">
+              <span class="pulse-dot"></span>
+              <span id="annotation-step-heading">PM Rationale (Step 1 of 3)</span>
+            </div>
+            <span class="evidence-tag tag-solution" id="flow-status-tag">V1 Improved Flow</span>
+          </div>
+
+          <div class="reasoning-block">
+            <div class="reasoning-row">
+              <span class="reasoning-label">PRODUCT DECISION</span>
+              <span class="reasoning-val" id="pm-decision-text">Loading decision rationale...</span>
+            </div>
+
+            <div class="reasoning-row">
+              <span class="reasoning-label">AI ROLE</span>
+              <span class="reasoning-val" id="pm-ai-role-text" style="color: #93c5fd;">Loading AI role...</span>
+            </div>
+
+            <div class="reasoning-row">
+              <span class="reasoning-label">QUALITY GUARDRAIL</span>
+              <span class="reasoning-val" id="pm-guardrail-text" style="color: var(--accent-red);">Loading guardrail logic...</span>
+            </div>
+
+            <div class="reasoning-row">
+              <span class="reasoning-label">KEY METRIC</span>
+              <span class="reasoning-val" id="pm-metric-text" style="color: var(--accent-amber);">Loading metric...</span>
+            </div>
+
+            <div class="reasoning-row">
+              <span class="reasoning-label">ROLLOUT STRATEGY</span>
+              <span class="reasoning-val" id="pm-rollout-text" style="color: var(--accent-green);">Loading rollout plan...</span>
+            </div>
+          </div>
+
+          <div class="comparison-grid">
+            <div class="comp-box before">
+              <div class="comp-label">LEGACY FLOW</div>
+              <div class="comp-text" id="comp-before-text">
+                Manual multi-page forms with repeated typing.
+              </div>
+            </div>
+            <div class="comp-box after">
+              <div class="comp-label">HOSTASSIST AI</div>
+              <div class="comp-text" id="comp-after-text">
+                Document extraction with partner review.
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevStep()">← Previous Screen</button>
+            <button class="nav-btn" style="background: var(--primary);" onclick="nextStep()">Next Screen →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI PRODUCT DESIGN & RISK MODEL -->
+    <div class="hitl-grid">
+      <section class="hitl-box">
+        <div class="section-title">
+          <span>Human-in-the-Loop Architecture</span>
+          <span class="evidence-tag tag-solution">Responsible AI</span>
+        </div>
+        <table class="hitl-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Responsible Actor</th>
+              <th>Core Task & Boundary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1. Extraction</td>
+              <td>AI Multimodal Vision</td>
+              <td>Extracts text & structures room data from document images</td>
+            </tr>
+            <tr>
+              <td>2. Communication</td>
+              <td>AI System</td>
+              <td>Surfaces field-level uncertainty tags (High, Needs Review, Low)</td>
+            </tr>
+            <tr>
+              <td>3. Review & Edit</td>
+              <td>Hotel Partner</td>
+              <td>Reviews pre-filled data, edits low-confidence fields, confirms output</td>
+            </tr>
+            <tr>
+              <td>4. Escalation</td>
+              <td>Human Desk Team</td>
+              <td>Reviews high-risk submissions or critical document mismatches</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px; font-style: italic;">
+          * Note: Confidence states (High, Needs Review, Low) are illustrative UX concepts, not production model accuracy benchmarks.
+        </p>
+      </section>
+
+      <section class="hitl-box">
+        <div class="section-title">
+          <span>Proposed Verification Logic</span>
+          <span class="evidence-tag tag-target">Risk Controls</span>
+        </div>
+        <table class="risk-table">
+          <thead>
+            <tr>
+              <th>Risk Tier</th>
+              <th>Trigger Conditions</th>
+              <th>System Verification Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-low-risk">LOW RISK</span></td>
+              <td>High AI confidence, verified GST format, complete documents</td>
+              <td>Automated verification and fast listing activation</td>
+            </tr>
+            <tr>
+              <td><span class="badge-med-risk">MEDIUM RISK</span></td>
+              <td>1+ low-confidence field, manual correction made by partner</td>
+              <td>Partner re-confirmation required before activation</td>
+            </tr>
+            <tr>
+              <td><span class="badge-high-risk">HIGH RISK</span></td>
+              <td>Document mismatch, unreadable tax ID, potential duplicate</td>
+              <td>Verification paused; escalated to Human Verification Desk</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="background: var(--card-bg); padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 4px;">
+          <span style="font-size: 10px; font-weight: 700; color: var(--accent-green);">Core Product Principle:</span>
+          <span style="font-size: 10px; color: #cbd5e1;"> "AI should reduce partner effort, not remove partner control."</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- MEASUREMENT & EXPERIMENT FRAMEWORK -->
+    <section class="metrics-section">
+      <div class="section-title">
+        <span>Measurement & Experimentation</span>
+        <span class="evidence-tag tag-target">A/B Testing Framework</span>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card" style="border-color: var(--accent-green);">
+          <div class="metric-card-name" style="color: var(--accent-green);">Primary Outcome Metric</div>
+          <p class="metric-card-def">
+            <strong>7-Day Listing Completion Rate</strong><br>
+            Formula: (Partners completing onboarding within 7 days) / (Eligible partners starting onboarding).
+          </p>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-name">Supporting Metrics</div>
+          <p class="metric-card-def">
+            • Median Onboarding Completion Time<br>
+            • AI Extraction Acceptance Rate<br>
+            • Manual Correction Rate<br>
+            • Time to Activation
+          </p>
+        </div>
+
+        <div class="metric-card" style="border-color: var(--accent-red);">
+          <div class="metric-card-name" style="color: var(--accent-red);">Guardrail Metrics</div>
+          <p class="metric-card-def">
+            • Incorrect Listing Information Rate<br>
+            • Verification Failure Rate<br>
+            • Duplicate / Fraud Detection Rate<br>
+            • Support Ticket Spike Rate
+          </p>
+        </div>
+      </div>
+
+      <div class="ab-grid" style="margin-top: 4px;">
+        <div class="ab-card">
+          <div style="font-size: 11px; font-weight: 700; color: var(--accent-blue);">CONTROL VARIANT</div>
+          <p style="font-size: 11px; color: #cbd5e1; line-height: 1.4;">
+            Partners use existing manual onboarding flow (multi-page text forms and manual rate grids).
+          </p>
+        </div>
+        <div class="ab-card" style="border-color: var(--accent-green);">
+          <div style="font-size: 11px; font-weight: 700; color: var(--accent-green);">TREATMENT VARIANT (HostAssist AI)</div>
+          <p style="font-size: 11px; color: #cbd5e1; line-height: 1.4;">
+            Partners use HostAssist AI document-assisted flow (document upload, extraction preview, partner review, risk-based verification).
+          </p>
+        </div>
+      </div>
+
+      <div class="decision-framework-grid">
+        <div class="decision-card" style="border-top: 3px solid #10b981;">
+          <span style="font-size: 10px; font-weight: 700; color: #34d399;">SUCCESS</span>
+          <span style="font-size: 10px; color: #cbd5e1;">Completion ↑ + Guardrails stable → Roll out V1</span>
+        </div>
+        <div class="decision-card" style="border-top: 3px solid #f59e0b;">
+          <span style="font-size: 10px; font-weight: 700; color: #fcd34d;">PARTIAL SUCCESS</span>
+          <span style="font-size: 10px; color: #cbd5e1;">Completion ↑ + Guardrail worsens → Investigate & iterate</span>
+        </div>
+        <div class="decision-card" style="border-top: 3px solid #64748b;">
+          <span style="font-size: 10px; font-weight: 700; color: #cbd5e1;">NO IMPACT</span>
+          <span style="font-size: 10px; color: #cbd5e1;">Completion unchanged → Revisit UX & AI extraction</span>
+        </div>
+        <div class="decision-card" style="border-top: 3px solid #ef4444;">
+          <span style="font-size: 10px; font-weight: 700; color: #fca5a5;">NEGATIVE</span>
+          <span style="font-size: 10px; color: #cbd5e1;">Completion ↓ or Quality worsens → Pause / Roll back</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILOT, ROLLOUT & SCALE STRATEGY -->
+    <section class="rollout-container">
+      <div class="section-title">
+        <span>Pilot to Scale Strategy</span>
+        <span class="evidence-tag tag-target">Controlled Deployment</span>
+      </div>
+
+      <div class="rollout-stepper-grid">
+        <div class="rollout-stage-card">
+          <span class="rollout-stage-name">STAGE 1</span>
+          <span class="rollout-stage-title">PILOT</span>
+          <p class="rollout-stage-desc">Small representative cohort of independent hotel partners.</p>
+        </div>
+
+        <div class="rollout-stage-card">
+          <span class="rollout-stage-name">STAGE 2</span>
+          <span class="rollout-stage-title">LEARN & ITERATE</span>
+          <p class="rollout-stage-desc">Analyze field corrections, diagnose root causes, refine UI guidance.</p>
+        </div>
+
+        <div class="rollout-stage-card">
+          <span class="rollout-stage-name">STAGE 3</span>
+          <span class="rollout-stage-title">CONTROLLED ROLLOUT</span>
+          <p class="rollout-stage-desc">Expand segment by segment after metrics & guardrails pass check.</p>
+        </div>
+
+        <div class="rollout-stage-card" style="border-color: var(--accent-green);">
+          <span class="rollout-stage-name" style="color: var(--accent-green);">STAGE 4</span>
+          <span class="rollout-stage-title">SCALE</span>
+          <p class="rollout-stage-desc">Full deployment across all eligible independent hotel partner channels.</p>
+        </div>
+      </div>
+
+      <div class="op-grid">
+        <div class="op-box" style="border-left: 3px solid #ef4444;">
+          <div style="font-size: 11px; font-weight: 700; color: #fca5a5; text-transform: uppercase;">Rollback & Pause Conditions</div>
+          <p style="font-size: 10px; color: #cbd5e1;">Rollout pauses immediately if any trigger condition occurs:</p>
+          <ul style="font-size: 10px; color: #fca5a5; list-style: none; display: flex; flex-direction: column; gap: 3px;">
+            <li>! Listing information quality or rate accuracy materially deteriorates</li>
+            <li>! Verification failure rate increases materially</li>
+            <li>! Fraud or duplicate property detection rates worsen</li>
+            <li>! High-risk submissions are incorrectly auto-approved</li>
+          </ul>
+          <span style="font-size: 10px; font-weight: 700; color: white; margin-top: 4px;">Rule: Pause rollout → Investigate → Remediate → Re-test</span>
+        </div>
+
+        <div class="op-box">
+          <div style="font-size: 11px; font-weight: 700; color: var(--accent-amber); text-transform: uppercase;">If I joined the team tomorrow</div>
+          <p style="font-size: 10px; color: #cbd5e1; line-height: 1.4;">
+            1. Validate onboarding baseline funnel metrics<br>
+            2. Interview a small cohort of hotel partners<br>
+            3. Instrument HostAssist analytics events<br>
+            4. Launch a controlled pilot with clear readiness checks<br>
+            5. Review primary + guardrail metrics weekly
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPECTED BUSINESS PATHWAY -->
+    <section class="business-chain-bar">
+      <span style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Expected Business Pathway:</span>
+      <span class="chain-node">Reduced Effort</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-node">Higher Listing Completion</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-node">More Active Partners</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-node">More Room Inventory</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-node" style="border-color: var(--accent-green); color: var(--accent-green);">Greater Booking Potential</span>
+    </section>
+
+    <!-- FINAL PM STRATEGIC TAKEAWAY -->
+    <section class="closing-card">
+      <h3 style="font-size: 14px; font-weight: 700; color: white;">Final Product Takeaway</h3>
+      <p style="font-size: 12px; color: #cbd5e1; line-height: 1.5; max-width: 800px; margin: 0 auto;">
+        "HostAssist AI is not about replacing partner judgment with AI. It is about removing repetitive work, making uncertainty visible, and applying automation in proportion to risk."
+      </p>
+      <div style="font-size: 11px; font-weight: 700; color: var(--accent-green); margin-top: 4px;">
+        Next validation: Run a controlled experiment against the existing onboarding flow.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // State management
+    let currentFlow = 'improved';
+    let currentStep = 0;
+    let selectedRiskState = 'low';
+    let isEditingStep2 = false;
+    let weekendPriceValue = '2800';
+    let weekendPriceConfirmed = false;
+    let amenitiesAdded = false;
+    let inlineFeedbackMsg = '';
+
+    function setRiskState(risk) {
+      selectedRiskState = risk;
+      document.getElementById('risk-btn-low').className = `risk-btn ${risk==='low' ? 'active-low' : ''}`;
+      document.getElementById('risk-btn-med').className = `risk-btn ${risk==='med' ? 'active-med' : ''}`;
+      document.getElementById('risk-btn-high').className = `risk-btn ${risk==='high' ? 'active-high' : ''}`;
+      if (currentStep === 2) renderScreen();
+    }
+
+    function toggleEditStep2() {
+      isEditingStep2 = !isEditingStep2;
+      renderScreen();
+    }
+
+    function saveStep2Edits() {
+      const inputVal = document.getElementById('edit-weekend-price-input');
+      if (inputVal) {
+        weekendPriceValue = inputVal.value.replace(/[^0-9]/g, '') || '2800';
+      }
+      weekendPriceConfirmed = true;
+      isEditingStep2 = false;
+      renderScreen();
+    }
+
+    function addAmenitiesManually() {
+      amenitiesAdded = true;
+      renderScreen();
+    }
+
+    function triggerReupload() {
+      inlineFeedbackMsg = 'Re-upload requested; awaiting clearer document.';
+      renderScreen();
+    }
+
+    function renderScreen() {
+      let stepData;
+
+      if (currentFlow === 'improved') {
+        if (currentStep === 0) {
+          stepData = {
+            title: "Step 1: Upload Documents",
+            dots: [true, false, false],
+            screenHtml: `
+              <div class="screen-content">
+                <div class="card" style="border-color: #3b82f6; background: #f0f9ff;">
+                  <div class="card-title">
+                    <span>Upload Property Documents</span>
+                    <span class="badge-low-risk" style="background: #3b82f6; color: white;">V1 Concept</span>
+                  </div>
+                  <p style="font-size: 11px; color: #475569; margin-bottom: 10px; line-height: 1.4;">
+                    Instead of typing everything manually, upload the documents you already have (Rate Card, GST Certificate, Photos).
+                  </p>
+                  <div class="scan-dropzone" onclick="nextStep()">
+                    <div class="scan-icon">📁</div>
+                    <div style="font-size: 11px; font-weight: 700; color: #1d4ed8;">Tap to Upload Rate Card or Document</div>
+                    <div style="font-size: 9px; color: #64748b; margin-top: 2px;">Supports JPG, PNG, PDF</div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-title">Property Summary</div>
+                  <div class="input-group">
+                    <div class="input-label-row">
+                      <span class="input-label">Property Name</span>
+                      <span class="conf-high">✓ High confidence</span>
+                    </div>
+                    <input type="text" class="input-field" value="Heritage Villa & Suites, Jaipur" readonly>
+                  </div>
+                  <div class="input-group">
+                    <div class="input-label-row">
+                      <span class="input-label">City</span>
+                      <span class="conf-high">✓ High confidence</span>
+                    </div>
+                    <input type="text" class="input-field" value="Jaipur, Rajasthan" readonly>
+                  </div>
+                </div>
+                <button class="btn-action" onclick="nextStep()">Extract & Preview Information →</button>
+              </div>
+            `,
+            decisionText: "Extract before asking partners to type.",
+            aiRoleText: "Converts uploaded physical documents into pre-filled structured form inputs.",
+            guardrailText: "Raw extraction errors surfaced immediately to partner before submission.",
+            metricText: "Document upload completion rate & Screen 1 drop-off reduction.",
+            rolloutText: "Pilot: Test upload clarity with a small representative partner cohort."
+          };
+        } else if (currentStep === 1) {
+          if (!isEditingStep2) {
+            stepData = {
+              title: "Step 2: Review Extracted Info",
+              dots: [false, true, false],
+              screenHtml: `
+                <div class="screen-content">
+                  <div class="alert-box alert-success" style="font-size: 10px;">
+                    <strong>✓ Document Extraction Complete</strong><br>
+                    Field-level confidence tags calculated for extracted rate card data.
+                  </div>
+
+                  <div class="card">
+                    <div class="card-title">
+                      <span>Review Extracted Inventory</span>
+                      <button style="background: #e2e8f0; border: none; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; cursor: pointer; color: #334155;" onclick="toggleEditStep2()">✏️ Edit Fields</button>
+                    </div>
+                    
+                    <div style="font-size: 10px; color: #334155; margin-bottom: 6px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px;">
+                      <div class="input-label-row">
+                        <strong>Deluxe King Room</strong> (4 Rooms)
+                        <span class="conf-high">✓ High confidence</span>
+                      </div>
+                      Base Price: ₹2,400/night
+                    </div>
+
+                    <div style="font-size: 10px; color: #334155; margin-bottom: 6px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; background: ${weekendPriceConfirmed ? '#f0fdf4' : '#fffbeb'}; padding: 4px; border-radius: 4px;">
+                      <div class="input-label-row">
+                        <strong>Weekend Price:</strong>
+                        <span class="${weekendPriceConfirmed ? 'conf-high' : 'conf-low'}">${weekendPriceConfirmed ? '✓ Partner Confirmed' : '! Low confidence'}</span>
+                      </div>
+                      <span style="font-size: 11px; font-weight: 700; color: ${weekendPriceConfirmed ? '#065f46' : '#92400e'};">₹${weekendPriceValue}/night</span>
+                      ${!weekendPriceConfirmed ? `<br><span style="font-size: 9px; color: #b45309;">"Couldn't read value clearly from document."</span>` : ''}
+                    </div>
+
+                    <div style="font-size: 10px; color: #334155;">
+                      <div class="input-label-row">
+                        <strong>GST Identification:</strong>
+                        <span class="conf-high">✓ High confidence</span>
+                      </div>
+                      22AAAAA0000A1Z5 (Verified)
+                    </div>
+                  </div>
+
+                  <div class="card" style="border-color: ${amenitiesAdded ? '#6ee7b7' : '#fca5a5'}; background: ${amenitiesAdded ? '#ecfdf5' : '#fef2f2'};">
+                    <div class="card-title" style="font-size: 11px;">
+                      <span>Room Amenities</span>
+                      <span class="${amenitiesAdded ? 'conf-high' : 'conf-low'}">${amenitiesAdded ? '✓ Added' : '! Needs Input'}</span>
+                    </div>
+                    <p style="font-size: 10px; color: ${amenitiesAdded ? '#065f46' : '#991b1b'}; margin-bottom: 6px;">
+                      ${amenitiesAdded ? '• WiFi, AC, TV, Coffee Maker confirmed' : 'AI Recovery: Could not identify room amenities from uploaded document image.'}
+                    </p>
+                    ${!amenitiesAdded ? `
+                      <div style="display: flex; gap: 4px;">
+                        <button class="btn-action btn-secondary" style="font-size: 9px; padding: 4px 6px; margin: 0;" onclick="addAmenitiesManually()">+ Add Manually</button>
+                        <button class="btn-action btn-secondary" style="font-size: 9px; padding: 4px 6px; margin: 0;" onclick="triggerReupload()">📷 Re-upload</button>
+                      </div>
+                    ` : ''}
+                    ${inlineFeedbackMsg ? `<div style="font-size: 9px; color: #1d4ed8; font-weight: 600; margin-top: 4px;">${inlineFeedbackMsg}</div>` : ''}
+                  </div>
+
+                  <div style="display: flex; gap: 6px; margin-top: 4px;">
+                    <button class="btn-action btn-secondary" style="flex: 1; margin-top: 0;" onclick="toggleEditStep2()">Edit Details</button>
+                    <button class="btn-action" style="flex: 2; margin-top: 0;" onclick="nextStep()">Continue to Verification →</button>
+                  </div>
+                </div>
+              `,
+              decisionText: "AI prepares; partner confirms.",
+              aiRoleText: "Structures data and surfaces explicit field-level uncertainty tags.",
+              guardrailText: "Partners retain full edit control; low-confidence fields require partner review.",
+              metricText: "AI extraction acceptance rate & Manual correction rate.",
+              rolloutText: "Learn: Analyze field correction rates and document format ambiguity."
+            };
+          } else {
+            stepData = {
+              title: "Step 2: Edit & Confirm Data",
+              dots: [false, true, false],
+              screenHtml: `
+                <div class="screen-content">
+                  <div class="alert-box alert-warning" style="font-size: 10px;">
+                    <strong>✏️ Editing Extracted Information</strong><br>
+                    Correct any low-confidence values below.
+                  </div>
+
+                  <div class="card">
+                    <div class="input-group">
+                      <label class="input-label">Deluxe King Base Price (INR)</label>
+                      <input type="text" class="input-field" value="2400">
+                    </div>
+                    <div class="input-group">
+                      <div class="input-label-row">
+                        <label class="input-label">Weekend Price (INR) *</label>
+                        <span class="conf-low">! Low confidence</span>
+                      </div>
+                      <input type="text" id="edit-weekend-price-input" class="input-field warn-border" value="${weekendPriceValue}">
+                    </div>
+                    <div class="input-group">
+                      <label class="input-label">GSTIN / Tax ID</label>
+                      <input type="text" class="input-field" value="22AAAAA0000A1Z5">
+                    </div>
+                  </div>
+
+                  <button class="btn-action" style="background: #10b981;" onclick="saveStep2Edits()">✓ Save Changes & Confirm Details</button>
+                  <button class="btn-action btn-secondary" onclick="toggleEditStep2()">Cancel</button>
+                </div>
+              `,
+              decisionText: "Inline field editing with immediate confirmation.",
+              aiRoleText: "Allows instant human override on extracted values.",
+              guardrailText: "Prevents unverified rate values from going live.",
+              metricText: "Manual correction completion rate.",
+              rolloutText: "Iterate: Refine edit UI guidance based on partner feedback."
+            };
+          }
+        } else if (currentStep === 2) {
+          if (selectedRiskState === 'low') {
+            stepData = {
+              title: "Step 3: Verify & Activate",
+              dots: [false, false, true],
+              screenHtml: `
+                <div class="screen-content" style="text-align: center; justify-content: center;">
+                  <div style="font-size: 32px; margin-bottom: 6px;">🎉</div>
+                  <h2 style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 2px;">Verification Passed: Ready to Live!</h2>
+                  <p style="font-size: 10px; color: #64748b; margin-bottom: 10px;">
+                    Heritage Villa & Suites cleared automated risk validation.
+                  </p>
+
+                  <div class="card" style="text-align: left; background: #ecfdf5; border-color: #a7f3d0; margin-bottom: 8px;">
+                    <div class="card-title" style="color: #065f46; margin-bottom: 4px;">
+                      <span>RISK STATUS: LOW RISK</span>
+                      <span class="badge-low-risk">✓ Automated Pass</span>
+                    </div>
+                    <div style="font-size: 10px; color: #047857; line-height: 1.5;">
+                      • Required documents present & verified<br>
+                      • Information internally consistent<br>
+                      • High AI confidence on critical fields<br>
+                      • No duplicate property record detected
+                    </div>
+                  </div>
+
+                  <button class="btn-action" style="background: #10b981;" onclick="switchFlow('before')">Compare with Legacy Flow →</button>
+                </div>
+              `,
+              decisionText: "Validate before activation.",
+              aiRoleText: "Automates low-risk verification while checking document consistency.",
+              guardrailText: "Low-risk rules require complete documents & verified GST format.",
+              metricText: "7-Day Listing Completion Rate & Time to Activation.",
+              rolloutText: "Scale: Expand automated low-risk checks across homestays & hotels."
+            };
+          } else if (selectedRiskState === 'med') {
+            stepData = {
+              title: "Step 3: Verification Attention",
+              dots: [false, false, true],
+              screenHtml: `
+                <div class="screen-content" style="text-align: center; justify-content: center;">
+                  <div style="font-size: 32px; margin-bottom: 6px;">⚠️</div>
+                  <h2 style="font-size: 15px; font-weight: 700; color: #92400e; margin-bottom: 2px;">Additional Review Required</h2>
+                  <p style="font-size: 10px; color: #64748b; margin-bottom: 10px;">
+                    Medium-risk signal detected during validation.
+                  </p>
+
+                  <div class="card" style="text-align: left; background: #fffbeb; border-color: #fde68a; margin-bottom: 8px;">
+                    <div class="card-title" style="color: #92400e; margin-bottom: 4px;">
+                      <span>RISK STATUS: MEDIUM RISK</span>
+                      <span class="badge-med-risk">⚠ Review Needed</span>
+                    </div>
+                    <div style="font-size: 10px; color: #b45309; line-height: 1.5;">
+                      • 1 low-confidence price field was corrected<br>
+                      • GST ID format requires secondary confirmation<br>
+                      • Action: Partner confirmation required before going live
+                    </div>
+                  </div>
+
+                  <button class="btn-action" style="background: #f59e0b;" onclick="currentStep=1; renderScreen();">Re-confirm Information →</button>
+                </div>
+              `,
+              decisionText: "Medium-risk partner re-confirmation step.",
+              aiRoleText: "Flags medium-risk uncertainty to prompt partner confirmation.",
+              guardrailText: "Requires explicit partner confirmation before live activation.",
+              metricText: "Partner re-confirmation completion rate.",
+              rolloutText: "Controlled Rollout: Monitor medium-risk resolution time."
+            };
+          } else {
+            stepData = {
+              title: "Step 3: Verification Paused",
+              dots: [false, false, true],
+              screenHtml: `
+                <div class="screen-content" style="text-align: center; justify-content: center;">
+                  <div style="font-size: 32px; margin-bottom: 6px;">🛑</div>
+                  <h2 style="font-size: 15px; font-weight: 700; color: #991b1b; margin-bottom: 2px;">Verification Escalated to Desk</h2>
+                  <p style="font-size: 10px; color: #64748b; margin-bottom: 10px;">
+                    High-risk signal detected. Application saved safely.
+                  </p>
+
+                  <div class="card" style="text-align: left; background: #fef2f2; border-color: #fca5a5; margin-bottom: 8px;">
+                    <div class="card-title" style="color: #991b1b; margin-bottom: 4px;">
+                      <span>RISK STATUS: HIGH RISK</span>
+                      <span class="badge-high-risk">! Human Desk Review</span>
+                    </div>
+                    <div style="font-size: 10px; color: #991b1b; line-height: 1.5;">
+                      • Property legal name mismatch with GST document<br>
+                      • Potential duplicate property record flagged<br>
+                      • Saved to Human Verification Queue
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn-action btn-secondary" style="flex: 1; margin: 0; font-size: 10px;" onclick="currentStep=0; renderScreen();">Review Uploads</button>
+                    <button class="btn-action" style="flex: 1; margin: 0; background: #334155; font-size: 10px;" onclick="inlineFeedbackMsg='Support ticket created - Team notified.'; renderScreen();">Contact Support</button>
+                  </div>
+                </div>
+              `,
+              decisionText: "Escalate high-risk submissions to Human Desk.",
+              aiRoleText: "Halts automation on document mismatches or fraud signals.",
+              guardrailText: "Protects platform integrity by requiring human desk audit.",
+              metricText: "Human desk resolution queue time.",
+              rolloutText: "Operational Safeguard: Ensure desk capacity before scaling."
+            };
+          }
+        }
+      } else {
+        if (currentStep === 0) {
+          stepData = {
+            title: "Step 1: Manual Form Entry",
+            dots: [true, false, false],
+            screenHtml: `
+              <div class="screen-content">
+                <div class="alert-box alert-danger">
+                  <strong>⚠️ Legacy Manual Registration</strong><br>
+                  Step 1 of 6: Property & Tax Details
+                </div>
+
+                <div class="card">
+                  <div class="card-title">Basic Information</div>
+                  <div class="input-group">
+                    <label class="input-label">Property Full Legal Name *</label>
+                    <input type="text" class="input-field" placeholder="Enter legal name">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">GSTIN / Tax Identification *</label>
+                    <input type="text" class="input-field" style="border-color: #ef4444;" placeholder="22AAAAA0000A1Z5 (Required)">
+                    <span style="font-size: 9px; color: #dc2626;">GST format error. Re-enter.</span>
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Bank Account Number *</label>
+                    <input type="text" class="input-field" placeholder="Enter Account Number">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">IFSC Code *</label>
+                    <input type="text" class="input-field" placeholder="Enter IFSC">
+                  </div>
+                </div>
+                <button class="btn-action btn-secondary" onclick="nextStep()">Continue to Room Categories (Page 2/6) →</button>
+              </div>
+            `,
+            decisionText: "Legacy baseline relies on manual multi-page form entry.",
+            aiRoleText: "No AI assistance in legacy baseline flow.",
+            guardrailText: "High text input validation error rate.",
+            metricText: "Manual form drop-off rate.",
+            rolloutText: "Legacy Baseline: Control variant in A/B experiment."
+          };
+        } else if (currentStep === 1) {
+          stepData = {
+            title: "Step 2: Manual Inventory Grid",
+            dots: [false, true, false],
+            screenHtml: `
+              <div class="screen-content">
+                <div class="alert-box alert-danger">
+                  <strong>⚠️ Manual Rate Entry</strong><br>
+                  Step 3 of 6: Base Rates & Occupancy
+                </div>
+
+                <div class="card">
+                  <div class="card-title">Room Pricing Configuration</div>
+                  <div class="input-group">
+                    <label class="input-label">Room Type 1 Name</label>
+                    <input type="text" class="input-field" value="Standard Room">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Weekday Base Price (INR)</label>
+                    <input type="text" class="input-field" value="2500">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Weekend Surcharge (%)</label>
+                    <input type="text" class="input-field" placeholder="e.g. 15%">
+                  </div>
+                </div>
+                <button class="btn-action btn-secondary" onclick="nextStep()">Upload Photos →</button>
+              </div>
+            `,
+            decisionText: "Legacy manual grid entry across multiple pages.",
+            aiRoleText: "No AI assistance in legacy rate entry.",
+            guardrailText: "Math error rate on manual surcharges.",
+            metricText: "Rate grid abandonment rate.",
+            rolloutText: "Legacy Baseline: Control variant manual entry friction point."
+          };
+        } else {
+          stepData = {
+            title: "Step 3: Manual Audit Queue",
+            dots: [false, false, true],
+            screenHtml: `
+              <div class="screen-content" style="text-align: center; justify-content: center;">
+                <div style="font-size: 36px; margin-bottom: 10px;">⏳</div>
+                <h2 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Registration Under Review</h2>
+                <p style="font-size: 11px; color: #64748b; margin-bottom: 14px; padding: 0 10px;">
+                  Documents are queued for manual desk verification.
+                </p>
+
+                <div class="card" style="text-align: left; background: #fef3c7; border-color: #fde68a;">
+                  <div class="card-title" style="color: #92400e;">Status: Pending Verification</div>
+                  <div style="font-size: 11px; color: #b45309;">
+                    • Document Audit Queue<br>
+                    • Property Review Pending
+                  </div>
+                </div>
+
+                <button class="btn-action" onclick="switchFlow('improved')">See Improved AI Flow Solution ✨</button>
+              </div>
+            `,
+            decisionText: "Single manual audit queue for all applications.",
+            aiRoleText: "No automated risk sorting in legacy flow.",
+            guardrailText: "High review queue backlog.",
+            metricText: "Time to activation lag.",
+            rolloutText: "Legacy Baseline: Replaced by risk-based automated verification."
+          };
+        }
+      }
+
+      document.getElementById('phone-screen-body').innerHTML = stepData.screenHtml;
+      document.getElementById('app-screen-title').innerText = stepData.title;
+
+      const dotsContainer = document.getElementById('step-dots');
+      dotsContainer.innerHTML = stepData.dots.map(d => `<div class="dot ${d ? 'active' : ''}"></div>`).join('');
+
+      document.getElementById('annotation-step-heading').innerText = `PM Rationale (Step ${currentStep + 1} of 3)`;
+      document.getElementById('flow-status-tag').innerText = currentFlow === 'improved' ? 'V1 Improved Flow' : 'Legacy Manual Flow';
+      document.getElementById('pm-decision-text').innerText = stepData.decisionText;
+      document.getElementById('pm-ai-role-text').innerText = stepData.aiRoleText;
+      document.getElementById('pm-guardrail-text').innerText = stepData.guardrailText;
+      document.getElementById('pm-metric-text').innerText = stepData.metricText;
+      document.getElementById('pm-rollout-text').innerText = stepData.rolloutText;
+      document.getElementById('comp-before-text').innerText = "Manual multi-page forms with repeated typing.";
+      document.getElementById('comp-after-text').innerText = "Document extraction with partner review.";
+    }
+
+    function switchFlow(flowType) {
+      currentFlow = flowType;
+      currentStep = 0;
+      isEditingStep2 = false;
+      inlineFeedbackMsg = '';
+      
+      document.getElementById('btn-flow-improved').classList.toggle('active', flowType === 'improved');
+      document.getElementById('btn-flow-before').classList.toggle('active', flowType === 'before');
+
+      renderScreen();
+    }
+
+    function nextStep() {
+      if (currentStep < 2) {
+        currentStep++;
+        isEditingStep2 = false;
+        inlineFeedbackMsg = '';
+        renderScreen();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        isEditingStep2 = false;
+        inlineFeedbackMsg = '';
+        renderScreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextStep();
+      if (e.key === 'ArrowLeft') prevStep();
+    });
+
+    renderScreen();
+  </script>
+</body>
+</html>

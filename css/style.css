@@ -3487,3 +3487,53 @@ body {
 .apple-profile-card {
   margin-top: 0.5rem !important;
 }
+
+
+/* ==========================================================================
+   PROJECT CATEGORY TABS & GROUP STYLES
+   ========================================================================== */
+.category-tab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.65rem 1.35rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.category-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  border-color: var(--border-highlight);
+}
+
+.category-tab-btn.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(56, 189, 248, 0.25));
+  border-color: #6366f1;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* Light Mode Overrides for Category Tabs */
+[data-theme="light"] .category-tab-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .category-tab-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme="light"] .category-tab-btn.active {
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}

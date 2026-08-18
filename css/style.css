@@ -3537,3 +3537,663 @@ body {
   border-color: #4f46e5;
   box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
 }
+
+
+/* ==========================================================================
+/* ==========================================================================
+/* ==========================================================================
+   EDITORIAL HERO ENTRANCE ANIMATION SYSTEM (EXACT DESIGN SPECIFICATION)
+   - Pure CSS keyframe entrance sequence
+   - Executes ONCE on page initial load (< 1.3s total)
+   - Zero continuous loops / zero floating artifacts / zero design mutations
+   - 100% Accessibility (prefers-reduced-motion: reduce) support
+   ========================================================================== */
+
+/* Keyframe Definitions */
+@keyframes heroBadgeEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroHeadlineEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroDescEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroChipEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Step 1: Role Badge (Delay: 100ms, Duration: 350ms) */
+.hero .badge-pill {
+  opacity: 0;
+  animation: heroBadgeEntrance 350ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards;
+}
+
+/* Step 2: Hero Headline (Delay: 200ms, Duration: 600ms) */
+.hero .hero-title {
+  opacity: 0;
+  animation: heroHeadlineEntrance 600ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
+}
+
+/* Step 3: Description (Delay: 450ms, Duration: 500ms) */
+.hero .hero-description {
+  opacity: 0;
+  animation: heroDescEntrance 500ms cubic-bezier(0.22, 1, 0.36, 1) 450ms forwards;
+}
+
+/* Step 4: Capability Chips (Staggered 60ms between chips) */
+.hero .hero-badge-item {
+  opacity: 0;
+}
+
+.hero .hero-badge-item:nth-child(1) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 650ms forwards; }
+.hero .hero-badge-item:nth-child(2) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 710ms forwards; }
+.hero .hero-badge-item:nth-child(3) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 770ms forwards; }
+.hero .hero-badge-item:nth-child(4) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 830ms forwards; }
+.hero .hero-badge-item:nth-child(5) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 890ms forwards; }
+.hero .hero-badge-item:nth-child(6) { animation: heroChipEntrance 300ms cubic-bezier(0.22, 1, 0.36, 1) 950ms forwards; }
+
+/* Step 5: Executive Profile Card (Delay: 200ms, Duration: 650ms) */
+.hero .apple-profile-card,
+.hero .hero-visual-wrapper {
+  opacity: 0;
+  animation: heroCardEntrance 650ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
+}
+
+/* Supporting Actions & Impact Bar Entrance */
+.hero .hero-actions {
+  opacity: 0;
+  animation: heroDescEntrance 400ms cubic-bezier(0.22, 1, 0.36, 1) 550ms forwards;
+}
+
+.hero .hero-impact-bar {
+  opacity: 0;
+  animation: heroDescEntrance 450ms cubic-bezier(0.22, 1, 0.36, 1) 750ms forwards;
+}
+
+/* Accessibility Support for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero .badge-pill,
+  .hero .hero-title,
+  .hero .hero-description,
+  .hero .hero-badge-item,
+  .hero .hero-actions,
+  .hero .hero-impact-bar,
+  .hero .apple-profile-card,
+  .hero .hero-visual-wrapper {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   STAGE 2: SCROLL-BASED REVEAL ANIMATION SYSTEM
+   - Pure CSS transitions driven by lightweight IntersectionObserver
+   - Executes ONCE per element when entering viewport (15% threshold)
+   - Zero continuous loops / zero layout shifts / preserves existing hover states
+   - 100% Accessibility (prefers-reduced-motion: reduce) support
+   ========================================================================== */
+
+/* Section Headers Reveal (Section 1) */
+.section-header,
+.category-group-header {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.section-header.is-visible,
+.category-group-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Project Cards Reveal (Section 2) */
+.pm-case-card {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.pm-case-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Internal Project Content Staggered Reveal (Section 3) */
+.pm-case-card .pm-card-banner,
+.pm-case-card .project-hero-visual-card {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1) 0ms,
+              transform 500ms cubic-bezier(0.22, 1, 0.36, 1) 0ms;
+}
+
+.pm-case-card .pm-exec-summary,
+.pm-case-card .pm-kpi-grid,
+.pm-case-card .pm-role-bar {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1) 100ms,
+              transform 500ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+}
+
+.pm-case-card .pm-thinking-grid-section {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1) 200ms,
+              transform 500ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+}
+
+.pm-case-card .pm-card-actions {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1) 300ms,
+              transform 400ms cubic-bezier(0.22, 1, 0.36, 1) 300ms;
+}
+
+.pm-case-card.is-visible .pm-card-banner,
+.pm-case-card.is-visible .project-hero-visual-card,
+.pm-case-card.is-visible .pm-exec-summary,
+.pm-case-card.is-visible .pm-kpi-grid,
+.pm-case-card.is-visible .pm-role-bar,
+.pm-case-card.is-visible .pm-thinking-grid-section,
+.pm-case-card.is-visible .pm-card-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 2x2 Product Thinking Cards Reveal */
+.thinking-card {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.pm-case-card.is-visible .thinking-card:nth-child(1) { transition-delay: 220ms; opacity: 1; transform: translateY(0); }
+.pm-case-card.is-visible .thinking-card:nth-child(2) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+.pm-case-card.is-visible .thinking-card:nth-child(3) { transition-delay: 380ms; opacity: 1; transform: translateY(0); }
+.pm-case-card.is-visible .thinking-card:nth-child(4) { transition-delay: 460ms; opacity: 1; transform: translateY(0); }
+
+/* General Section Cards (Why Cards, Cert Cards, Beyond Cards) */
+.why-card,
+.cert-card,
+.beyond-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 550ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.why-card.is-visible,
+.cert-card.is-visible,
+.beyond-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile Adjustments (max-width: 640px) */
+@media (max-width: 640px) {
+  .section-header,
+  .category-group-header {
+    transform: translateY(12px);
+    transition-duration: 400ms;
+  }
+
+  .pm-case-card {
+    transform: translateY(20px);
+    transition-duration: 500ms;
+  }
+
+  .thinking-card,
+  .why-card,
+  .cert-card,
+  .beyond-card {
+    transform: translateY(10px);
+    transition-duration: 350ms;
+  }
+}
+
+/* Accessibility Support for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .section-header,
+  .category-group-header,
+  .pm-case-card,
+  .pm-case-card *,
+  .thinking-card,
+  .why-card,
+  .cert-card,
+  .beyond-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   STAGE 3: PRODUCT THINKING STORY ANIMATION & STEP CONNECTOR
+   - Sequential story reveal: 01 Problem -> 02 Insight -> 03 Decision -> 04 Impact
+   - Active step border flash during reveal sequence
+   - Subtle story step indicator bar
+   - 100% Accessibility & prefers-reduced-motion support
+   ========================================================================== */
+
+/* Compact Story Step Indicator Bar */
+.thinking-story-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.65rem 0 1.25rem 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.thinking-story-bar .story-step {
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.thinking-story-bar .story-arrow {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+/* Active Step Indicators during section reveal */
+.pm-case-card.is-visible .story-step.step-1, .pm-thinking-grid-section.is-visible .story-step.step-1 { color: #818cf8; border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.12); }
+.pm-case-card.is-visible .story-step.step-2, .pm-thinking-grid-section.is-visible .story-step.step-2 { color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.12); }
+.pm-case-card.is-visible .story-step.step-3, .pm-thinking-grid-section.is-visible .story-step.step-3 { color: #f59e0b; border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.12); }
+.pm-case-card.is-visible .story-step.step-4, .pm-thinking-grid-section.is-visible .story-step.step-4 { color: #34d399; border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.12); }
+
+/* Sequential Thinking Cards Keyframe Entrance with Active Flash */
+@keyframes thinkingCardSequentialEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    border-color: var(--border-color);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: var(--border-color);
+    box-shadow: none;
+  }
+}
+
+.pm-thinking-grid .thinking-card {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform, border-color;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pm-case-card.is-visible .pm-thinking-grid .thinking-card:nth-child(1),
+.pm-thinking-grid-section.is-visible .thinking-card:nth-child(1) {
+  animation: thinkingCardSequentialEntrance 450ms cubic-bezier(0.22, 1, 0.36, 1) 0ms forwards;
+}
+
+.pm-case-card.is-visible .pm-thinking-grid .thinking-card:nth-child(2),
+.pm-thinking-grid-section.is-visible .thinking-card:nth-child(2) {
+  animation: thinkingCardSequentialEntrance 450ms cubic-bezier(0.22, 1, 0.36, 1) 140ms forwards;
+}
+
+.pm-case-card.is-visible .pm-thinking-grid .thinking-card:nth-child(3),
+.pm-thinking-grid-section.is-visible .thinking-card:nth-child(3) {
+  animation: thinkingCardSequentialEntrance 450ms cubic-bezier(0.22, 1, 0.36, 1) 280ms forwards;
+}
+
+.pm-case-card.is-visible .pm-thinking-grid .thinking-card:nth-child(4),
+.pm-thinking-grid-section.is-visible .thinking-card:nth-child(4) {
+  animation: thinkingCardSequentialEntrance 450ms cubic-bezier(0.22, 1, 0.36, 1) 420ms forwards;
+}
+
+/* Subtle Thinking Card Hover (2-3px max lift, crisp border) */
+.thinking-card:hover {
+  transform: translateY(-3px) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+/* Accessibility Support for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .thinking-story-bar .story-step,
+  .pm-thinking-grid .thinking-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   STAGE 4: INTERACTIVE PRODUCT JOURNEY VISUALIZATIONS
+   - Project-specific product journey visualizer
+   - Sequential step activation & progressive connecting line animation
+   - Responsive horizontal (desktop) -> vertical (mobile) layout
+   - 100% Accessibility & prefers-reduced-motion support
+   ========================================================================== */
+
+.project-hero-visual-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.pm-case-card.is-visible .project-hero-visual-card,
+.project-hero-visual-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Inactive Node Base State (opacity: 0.55) */
+.visual-workflow-nodes .visual-node-box {
+  opacity: 0.55;
+  transform: scale(0.98);
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              background 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, border-color;
+}
+
+/* Arrow Flow Base State */
+.visual-workflow-nodes .visual-flow-arrow {
+  opacity: 0.3;
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1), color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Sequential Node Activation Timing (200ms-250ms interval) */
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(1),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(1) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 0ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(2),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(2) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 110ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(3),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(3) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 220ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(4),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(4) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 330ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(5),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(5) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 440ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(6),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(6) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 550ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(7),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(7) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 660ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(8),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(8) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 770ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(9),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(9) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 880ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(10),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(10) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 990ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(11),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(11) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 1100ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(12),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-flow-arrow:nth-child(12) {
+  opacity: 1;
+  color: var(--primary);
+  transition-delay: 1210ms;
+}
+
+.pm-case-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(13),
+.project-hero-visual-card.is-visible .visual-workflow-nodes .visual-node-box:nth-child(13) {
+  opacity: 1;
+  transform: scale(1.03);
+  transition-delay: 1320ms;
+}
+
+/* Node Hover Interaction */
+.visual-node-box:hover {
+  opacity: 1 !important;
+  transform: translateY(-2px) scale(1.04) !important;
+  border-color: var(--border-highlight) !important;
+}
+
+/* Mobile Responsive Vertical Flow */
+@media (max-width: 860px) {
+  .visual-workflow-nodes {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .visual-flow-arrow {
+    transform: rotate(90deg);
+    align-self: center;
+    margin: 0.15rem 0;
+  }
+}
+
+/* Accessibility Support for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .project-hero-visual-card,
+  .visual-workflow-nodes .visual-node-box,
+  .visual-workflow-nodes .visual-flow-arrow {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   WIDER HORIZONTAL SCROLLING PRODUCT JOURNEY NODES
+   - Expanded node box width (min-width: 175px) for an interactive horizontal timeline
+   - Custom styled smooth scrollbar track
+   - Clear visual scroll hint indicator
+   ========================================================================== */
+
+.project-hero-visual-card {
+  padding: 1.25rem 1.5rem;
+  background: rgba(10, 14, 23, 0.75);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.visual-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Horizontal Scroll Track */
+.visual-workflow-nodes {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.85rem !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 0.5rem 0.25rem 1.1rem 0.25rem !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Custom Scrollbar Styling */
+.visual-workflow-nodes::-webkit-scrollbar {
+  height: 6px !important;
+}
+
+.visual-workflow-nodes::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 9999px !important;
+}
+
+.visual-workflow-nodes::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #6366f1, #38bdf8) !important;
+  border-radius: 9999px !important;
+}
+
+.visual-workflow-nodes::-webkit-scrollbar-thumb:hover {
+  background: #6366f1 !important;
+}
+
+/* Wider Node Box (min-width: 175px) */
+.visual-workflow-nodes .visual-node-box {
+  min-width: 175px !important;
+  max-width: 210px !important;
+  flex-shrink: 0 !important;
+  padding: 1rem 1.15rem !important;
+  background: rgba(19, 27, 46, 0.85) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+}
+
+.visual-node-icon {
+  font-size: 1.5rem !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.visual-node-label {
+  font-family: var(--font-heading) !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.visual-node-sub {
+  font-size: 0.725rem !important;
+  color: var(--text-muted) !important;
+  line-height: 1.35 !important;
+}
+
+.visual-flow-arrow {
+  flex-shrink: 0 !important;
+  font-size: 1rem !important;
+  color: var(--secondary) !important;
+  padding: 0 0.15rem !important;
+}

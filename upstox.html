@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upstox MTF Smart Nudge & Risk Engine Prototype - Souvik Ghosh Portfolio</title>
+  <style>
+    :root {
+      --bg-dark: #090C10;
+      --panel-bg: #131722;
+      --card-bg: #1C212D;
+      --card-border: #2A3142;
+      --text-main: #F0F4F8;
+      --text-muted: #8A96A8;
+      --text-dim: #5C6779;
+      --brand-violet: #6C5CE7;
+      --brand-violet-hover: #5A4AD1;
+      --brand-violet-light: rgba(108, 92, 231, 0.15);
+      --accent-green: #00E676;
+      --accent-green-bg: rgba(0, 230, 118, 0.12);
+      --accent-red: #FF5252;
+      --accent-red-bg: rgba(255, 82, 82, 0.12);
+      --accent-amber: #FFAB00;
+      --accent-amber-bg: rgba(255, 171, 0, 0.12);
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Header Bar */
+    header {
+      width: 100%;
+      max-width: 1240px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .brand-meta h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-meta h1 .badge {
+      background: var(--brand-violet-light);
+      color: #A29BFE;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-meta p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .metric-pill-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .metric-pill {
+      background: var(--panel-bg);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-align: right;
+    }
+
+    .metric-pill .label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-pill .val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      width: 100%;
+      max-width: 1240px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: var(--panel-bg);
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mode-switch-group {
+      display: flex;
+      background: var(--bg-dark);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .mode-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active-before {
+      background: var(--accent-red-bg);
+      color: var(--accent-red);
+      border: 1px solid rgba(255, 82, 82, 0.3);
+    }
+
+    .mode-btn.active-improved {
+      background: var(--brand-violet);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(108, 92, 231, 0.4);
+    }
+
+    .step-navigator {
+      display: flex;
+      gap: 6px;
+    }
+
+    .step-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .step-btn.active {
+      border-color: var(--brand-violet);
+      color: var(--text-main);
+      background: var(--brand-violet-light);
+    }
+
+    /* Workspace Grid (55% Left / 45% Right) */
+    .workspace-grid {
+      width: 100%;
+      max-width: 1240px;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Product Showcase Column (LEFT ~55%) */
+    .product-showcase-column {
+      background: var(--panel-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .showcase-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+    }
+
+    /* Mobile Phone Shell */
+    .phone-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .phone-frame {
+      width: 360px;
+      height: 700px;
+      background: #000000;
+      border-radius: 40px;
+      border: 10px solid #222630;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-notch {
+      width: 130px;
+      height: 22px;
+      background: #222630;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      z-index: 100;
+    }
+
+    .phone-screen {
+      flex: 1;
+      background: #0B0E14;
+      padding: 32px 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      color: #E2E8F0;
+      font-size: 0.82rem;
+    }
+
+    /* App Component Styles inside Phone */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1E2330;
+      margin-bottom: 12px;
+    }
+
+    .app-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .user-avatar {
+      width: 26px;
+      height: 26px;
+      background: var(--brand-violet);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.72rem;
+    }
+
+    /* Stock Position Card */
+    .position-card {
+      background: #141923;
+      border: 1px solid #232A3B;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .pos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .pos-ticker {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+    }
+
+    .pos-type-tag {
+      background: rgba(108, 92, 231, 0.2);
+      color: #A29BFE;
+      font-size: 0.62rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .pos-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 0.72rem;
+      margin-top: 6px;
+    }
+
+    .pos-metric-item .lbl {
+      color: #718096;
+    }
+    .pos-metric-item .val {
+      font-weight: 600;
+      color: #E2E8F0;
+    }
+
+    /* Health Meter */
+    .health-meter-box {
+      background: #1A202C;
+      border-radius: 8px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .meter-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      margin-bottom: 4px;
+    }
+
+    .meter-bar-bg {
+      height: 6px;
+      background: #2D3748;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .meter-bar-fill {
+      height: 100%;
+      width: 100%;
+      transition: background-color 0.4s ease;
+    }
+
+    .meter-bar-fill.critical { background: var(--accent-red); }
+    .meter-bar-fill.warning { background: var(--accent-amber); }
+    .meter-bar-fill.healthy { background: var(--accent-green); }
+
+    /* Nudge Banner */
+    .nudge-banner {
+      background: linear-gradient(135deg, rgba(255, 82, 82, 0.15) 0%, rgba(255, 171, 0, 0.1) 100%);
+      border: 1px solid rgba(255, 82, 82, 0.4);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 12px;
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { border-color: rgba(255, 82, 82, 0.4); }
+      100% { border-color: rgba(255, 171, 0, 0.7); }
+    }
+
+    .nudge-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #FF5252;
+      font-weight: 700;
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .nudge-body {
+      font-size: 0.72rem;
+      color: #CBD5E0;
+      margin-bottom: 8px;
+    }
+
+    .action-btn-primary {
+      width: 100%;
+      background: var(--brand-violet);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-btn-primary:hover {
+      background: var(--brand-violet-hover);
+    }
+
+    .sms-alert-toast {
+      background: #2D3748;
+      border-left: 3px solid var(--accent-red);
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 0.7rem;
+      color: #E2E8F0;
+    }
+
+    .sms-alert-toast .sender {
+      font-weight: bold;
+      color: #A0AEC0;
+      margin-bottom: 2px;
+    }
+
+    .option-card-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .option-card {
+      background: #1E2433;
+      border: 1px solid #2D3748;
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .option-card.selected {
+      border-color: var(--brand-violet);
+      background: rgba(108, 92, 231, 0.15);
+      box-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
+    }
+
+    .option-card.recommended-highlight {
+      border-color: var(--accent-green);
+      background: rgba(0, 230, 118, 0.08);
+    }
+
+    .option-info .title {
+      font-weight: 600;
+      font-size: 0.76rem;
+      color: #E2E8F0;
+    }
+
+    .option-info .desc {
+      font-size: 0.66rem;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    .option-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      background: rgba(0, 230, 118, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .option-badge.alt {
+      color: #A29BFE;
+      background: rgba(108, 92, 231, 0.1);
+    }
+
+    /* PM Case Study Column (RIGHT ~45%) */
+    .pm-case-study-column {
+      background: var(--panel-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pm-tab-bar {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+      overflow-x: auto;
+    }
+
+    .pm-tab-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .pm-tab-btn.active {
+      background: var(--brand-violet);
+      color: #FFFFFF;
+      border-color: var(--brand-violet);
+    }
+
+    .pm-section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .annotation-box {
+      background: var(--card-bg);
+      border-left: 4px solid var(--brand-violet);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+    }
+
+    .annotation-box.warning-type {
+      border-left-color: var(--accent-red);
+    }
+
+    .annotation-box h3 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #A29BFE;
+      margin-bottom: 4px;
+    }
+
+    .annotation-box.warning-type h3 {
+      color: var(--accent-red);
+    }
+
+    .annotation-box p {
+      font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    .decision-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.76rem;
+      margin-top: 6px;
+    }
+
+    .decision-table th {
+      background: var(--bg-dark);
+      color: var(--text-muted);
+      text-align: left;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .decision-table td {
+      padding: 8px;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+
+    .signature-element-badge {
+      background: linear-gradient(90deg, #6C5CE7 0%, #a29bfe 100%);
+      color: #000000;
+      font-weight: 800;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div style="width: 100%; max-width: 1240px; margin: 0 auto 16px auto;">
+    <a href="index.html#case-studies" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(108, 92, 231, 0.25); border: 1px solid rgba(108, 92, 231, 0.5); color: #A29BFE; padding: 8px 16px; border-radius: 9999px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.2s ease;">
+        ← <strong>Back to Portfolio Homepage</strong>
+    </a>
+</div>
+    <header>
+    <div class="brand-meta">
+      <h1>
+        Upstox MTF Smart Nudge & Risk Engine
+        <span class="badge">PM Portfolio Artifact</span>
+      </h1>
+      <p>Candidate: Souvik Ghosh | Target Role: PM II - MTF (Upstox) | Focus: Deterministic Intervention Engine & PM Measurement Layer</p>
+    </div>
+    <div class="metric-pill-container">
+      <div class="metric-pill">
+        <div class="label">PRIMARY PRODUCT METRIC [PROPOSED]</div>
+        <div class="val" id="metric-liquidation">Successful Risk Resolution Rate</div>
+      </div>
+      <div class="metric-pill">
+        <div class="label">SECONDARY CUSTOMER METRIC [PROPOSED]</div>
+        <div class="val" id="metric-retention" style="color: #A29BFE;">Time to Risk Resolution</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Controls Bar -->
+  <div class="controls-bar">
+    <div class="mode-switch-group">
+      <button class="mode-btn active-before" id="btn-mode-before" onclick="switchMode('before')">
+        BEFORE: Off-App Alert & Manual Steps
+      </button>
+      <button class="mode-btn" id="btn-mode-improved" onclick="switchMode('improved')">
+        IMPROVED: Smart Nudge & Guided Resolution
+      </button>
+    </div>
+    <div class="step-navigator">
+      <button class="step-btn active" id="step-1" onclick="goToStep(1)">Screen 1: Risk Alert</button>
+      <button class="step-btn" id="step-2" onclick="goToStep(2)">Screen 2: Resolution</button>
+      <button class="step-btn" id="step-3" onclick="goToStep(3)">Screen 3: Outcome</button>
+    </div>
+  </div>
+
+  <!-- Workspace Grid (55% Left Product Showcase / 45% Right PM Case Study) -->
+  <div class="workspace-grid">
+
+    <!-- LEFT COLUMN: PRODUCT EXPERIENCE SHOWCASE (~55%) -->
+    <div class="product-showcase-column">
+      
+      <div class="showcase-header">
+        <div>
+          <h2 style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+            MTF SMART NUDGE
+            <span style="font-size: 0.68rem; background: var(--brand-violet-light); color: #A29BFE; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(108, 92, 231, 0.3);">LIVE PROTOTYPE</span>
+          </h2>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Guided risk intervention for leveraged equity positions</p>
+        </div>
+      </div>
+
+      <!-- Centered Mobile Frame -->
+      <div class="phone-container">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" id="phone-screen-content">
+            <!-- Dynamic Content Rendered Here via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & State Strip Below Phone -->
+      <div style="width: 100%; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; text-align: center;">
+        <div style="font-size: 0.68rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">SELECT DEMO SCENARIO</div>
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="step-btn active" id="scen-btn-a" onclick="switchScenario('scenarioA')">SCENARIO A (Cash)</button>
+          <button class="step-btn" id="scen-btn-b" onclick="switchScenario('scenarioB')">SCENARIO B (Pledge)</button>
+          <button class="step-btn" id="scen-btn-c" onclick="switchScenario('scenarioC')">SCENARIO C (Trim)</button>
+        </div>
+        <div style="margin-top: 8px; font-size: 0.72rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; background: var(--bg-dark); padding: 6px 10px; border-radius: 6px;">
+          <span>RISK STATE: <strong id="scen-risk-state-label" style="color: var(--accent-amber);">ACTION REQUIRED</strong></span>
+          <span style="color: var(--text-muted); font-size: 0.68rem;" id="scen-resource-label">Cash: ₹30k | Shortfall: ₹14.5k</span>
+        </div>
+      </div>
+
+      <!-- Flow Navigation Strip -->
+      <div style="width: 100%; display: flex; gap: 4px; justify-content: space-between; background: var(--bg-dark); padding: 6px; border-radius: 8px; border: 1px solid var(--card-border); font-size: 0.72rem;">
+        <button class="step-btn active" id="flow-btn-1" style="flex: 1; text-align: center;" onclick="goToStep(1)">01 ALERT</button>
+        <button class="step-btn" id="flow-btn-2" style="flex: 1; text-align: center;" onclick="goToStep(2)">02 DECIDE</button>
+        <button class="step-btn" id="flow-btn-3" style="flex: 1; text-align: center;" onclick="goToStep(3)">03 OUTCOME</button>
+      </div>
+
+      <!-- Product Principle Card -->
+      <div style="width: 100%; background: rgba(108, 92, 231, 0.08); border: 1px solid rgba(108, 92, 231, 0.25); padding: 10px 12px; border-radius: 8px; font-size: 0.75rem; text-align: center; color: var(--text-main);">
+        <strong style="color: #A29BFE;">PRODUCT PRINCIPLE:</strong> Show the customer what changed, why action is required, and the safest available next step.
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: PM CASE STUDY (~45%) -->
+    <div class="pm-case-study-column">
+      
+      <!-- Top Section Tabs -->
+      <div class="pm-tab-bar">
+        <button class="pm-tab-btn active" id="tab-overview" onclick="switchPmTab('overview')">00. OVERVIEW</button>
+        <button class="pm-tab-btn" id="tab-evidence" onclick="switchPmTab('evidence')">01. EVIDENCE</button>
+        <button class="pm-tab-btn" id="tab-regulatory" onclick="switchPmTab('regulatory')">02. REGULATORY</button>
+        <button class="pm-tab-btn" id="tab-strategy" onclick="switchPmTab('strategy')">03. STRATEGY</button>
+        <button class="pm-tab-btn" id="tab-metrics" onclick="switchPmTab('metrics')">04. METRICS</button>
+        <button class="pm-tab-btn" id="tab-architecture" onclick="switchPmTab('architecture')">05. ARCHITECTURE</button>
+      </div>
+
+      <!-- TAB 00: OVERVIEW (Default Loaded Tab) -->
+      <div class="pm-section-content" id="pm-sec-overview">
+        
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+          <span class="signature-element-badge">[PROPOSED] Deterministic Decision Engine</span>
+          <h2 style="font-size: 1.05rem; font-weight: 800; color: #FFFFFF;">Upstox MTF Smart Nudge & Risk Mitigation Engine</h2>
+          <p style="color: var(--text-muted); font-size: 0.82rem;">
+            A customer-facing intervention layer designed to help MTF traders address margin shortfalls efficiently before forced square-off, while deferring to authoritative RMS controls.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.76rem;">
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; border: 1px solid var(--card-border);">
+            <div style="font-weight: 700; color: #FF5252; margin-bottom: 4px;">⚠️ THE PROBLEM</div>
+            <div style="color: var(--text-muted);">Off-app SMS alerts lack in-context guidance, causing multi-step navigation friction and avoidable forced square-offs.</div>
+          </div>
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; border: 1px solid var(--card-border);">
+            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 4px;">💡 THE SOLUTION</div>
+            <div style="color: var(--text-muted);">In-app Smart Nudge surfacing explicit risk state, shortfall breakdown, and recommended next action (Add Cash | Pledge | Trim).</div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-dark); padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 230, 118, 0.3);">
+          <div style="font-size: 0.7rem; color: var(--accent-green); font-weight: 700; text-transform: uppercase;">🎯 PRIMARY PRODUCT METRIC [PROPOSED]</div>
+          <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin-top: 2px;">Successful Risk Resolution Rate</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">
+            "Share of eligible MTF risk events where authoritative shortfall is cleared within the resolution window without forced square-off."
+          </div>
+        </div>
+
+        <div style="background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.3); padding: 10px; border-radius: 8px; font-size: 0.76rem;">
+          <div style="font-weight: 700; color: #A29BFE; margin-bottom: 4px;">❓ WHY SMART NUDGE? <span style="color: var(--text-dim); font-style: italic;">[DECISION HYPOTHESIS]</span></div>
+          <div style="color: var(--text-main);">
+            "If research confirms that customers recognize the margin problem but struggle to decide or execute the next action, a guided intervention layer is a stronger V1 bet than simply increasing notification frequency."
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 01: EVIDENCE -->
+      <div class="pm-section-content" id="pm-sec-evidence" style="display: none;">
+        <!-- 01. PROBLEM EVIDENCE & DISCOVERY LAYER -->
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 0.9rem; color: #A29BFE; font-weight: 700; border-bottom: 1px solid var(--card-border); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <span>🔍 01. PROBLEM EVIDENCE & DISCOVERY LAYER</span>
+            <span style="font-size: 0.65rem; background: var(--brand-violet-light); padding: 2px 6px; border-radius: 10px;">[PROPOSED RESEARCH DESIGN]</span>
+          </h3>
+          
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.74rem;">
+            <div style="font-weight: 700; color: #A29BFE; margin-bottom: 6px;">📋 A. PUBLIC EVIDENCE <span style="color: var(--text-dim); font-weight: normal;">[PUBLIC EVIDENCE TO VALIDATE]</span></div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="background: #141923; padding: 6px 8px; border-radius: 4px; border-left: 3px solid var(--brand-violet);">
+                <div><strong>Public Broker / MTF Docs:</strong> Short deadlines mean resolution friction increases forced square-off risk. <span style="color: var(--accent-amber); font-size: 0.65rem;">[SOURCE TO BE VERIFIED]</span></div>
+              </div>
+              <div style="background: #141923; padding: 6px 8px; border-radius: 4px; border-left: 3px solid #A29BFE;">
+                <div><strong>Customer Discussion Patterns:</strong> Retail traders cite confusion regarding auto square-offs and pledge flows. <span style="color: var(--accent-amber); font-size: 0.65rem;">[SOURCE TO BE VERIFIED]</span></div>
+              </div>
+              <div style="background: #141923; padding: 6px 8px; border-radius: 4px; border-left: 3px solid var(--accent-green);">
+                <div><strong>Competitor Observable Patterns:</strong> Off-app SMS alerts require manual tab-switching, adding latency. <span style="color: var(--accent-amber); font-size: 0.65rem;">[SOURCE TO BE VERIFIED]</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.74rem;">
+            <div style="font-weight: 700; color: var(--accent-green); margin-bottom: 6px;">💡 B. PRODUCT INSIGHTS <span style="color: var(--text-dim); font-weight: normal;">[POTENTIAL INSIGHT]</span></div>
+            <div style="color: var(--text-muted); margin-bottom: 4px;">1. Telling customers margin is required without a clear next action causes delay.</div>
+            <div style="color: var(--text-muted);">2. A single default action fails customers who hold stock collateral but lack cash.</div>
+          </div>
+
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.74rem;">
+            <div style="font-weight: 700; color: #FFAB00; margin-bottom: 4px;">🧪 C. HYPOTHESES TO VALIDATE <span style="color: var(--text-dim); font-weight: normal;">[HYPOTHESIS]</span></div>
+            <div style="color: var(--text-main); display: flex; flex-direction: column; gap: 2px;">
+              <div><strong>H1:</strong> Shortfall customers struggle to identify appropriate action quickly.</div>
+              <div><strong>H2:</strong> Contextual recommendations improve successful risk resolution.</div>
+              <div><strong>H3:</strong> Guided flows reduce avoidable support dependency.</div>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 8px; font-size: 0.72rem;">
+            <div style="font-weight: 700; color: #A29BFE; margin-bottom: 4px;">🔬 VALIDATION PLAN & RESEARCH DESIGN</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <div style="background: #141923; padding: 6px; border-radius: 4px;"><strong>1. Interviews:</strong> Measure action confidence</div>
+              <div style="background: #141923; padding: 6px; border-radius: 4px;"><strong>2. Support Tickets:</strong> Measure root-cause queries</div>
+              <div style="background: #141923; padding: 6px; border-radius: 4px;"><strong>3. Funnel Analytics:</strong> Measure step conversion</div>
+              <div style="background: #141923; padding: 6px; border-radius: 4px;"><strong>4. Usability Testing:</strong> Measure task execution time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 02: REGULATORY -->
+      <div class="pm-section-content" id="pm-sec-regulatory" style="display: none;">
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 0.9rem; color: #A29BFE; font-weight: 700; border-bottom: 1px solid var(--card-border); padding-bottom: 6px;">
+            ⚖️ 02. REGULATORY & RISK CONTEXT
+          </h3>
+          <p style="font-size: 0.74rem; color: var(--text-muted); font-style: italic;">
+            "Smart Nudge is an intervention layer around authoritative broker/RMS controls, not a replacement for them."
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.74rem;">
+            <div style="background: var(--bg-dark); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--brand-violet);">
+              <strong>1. MTF Margin / Risk Rules:</strong> Consume authoritative margin/risk state from broker RMS. <span style="color: var(--accent-amber); font-size: 0.65rem;">[TO BE VALIDATED WITH RISK/COMPLIANCE]</span>
+            </div>
+            <div style="background: var(--bg-dark); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--accent-red);">
+              <strong>2. RMS Authority & Liquidation Boundary:</strong> Never promise guaranteed resolution windows. Always defer to authoritative RMS state.
+            </div>
+            <div style="background: var(--bg-dark); padding: 8px 10px; border-radius: 6px; border-left: 3px solid #A29BFE;">
+              <strong>3. Pledge Workflow:</strong> Surface pledge option only when securities are eligible and CDSL/NSDL T-PIN can be initiated. <span style="color: var(--accent-amber); font-size: 0.65rem;">[TO BE VALIDATED]</span>
+            </div>
+            <div style="background: var(--bg-dark); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--accent-green);">
+              <strong>4. Regulatory Change Watch:</strong> Keep rules configurable for SEBI framework reviews. <span style="color: #A29BFE; font-size: 0.65rem;">[PROPOSED / CONSULTATION]</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.72rem;">
+            <div style="background: rgba(255, 82, 82, 0.08); padding: 8px; border-radius: 6px; border: 1px solid rgba(255, 82, 82, 0.2);">
+              <strong style="color: #FF5252;">⛔ DOES NOT CONTROL:</strong> Exchange formulas, RMS liquidation, haircuts, pledge approvals.
+            </div>
+            <div style="background: rgba(0, 230, 118, 0.08); padding: 8px; border-radius: 6px; border: 1px solid rgba(0, 230, 118, 0.2);">
+              <strong style="color: var(--accent-green);">✅ CONTROLS:</strong> Risk explanation, option prioritization, guided workflows, metric tracking.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 03: STRATEGY -->
+      <div class="pm-section-content" id="pm-sec-strategy" style="display: none;">
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 0.9rem; color: #A29BFE; font-weight: 700; border-bottom: 1px solid var(--card-border); padding-bottom: 6px;">
+            🎯 03. PRODUCT STRATEGY & DECISION FRAMEWORK
+          </h3>
+          
+          <table class="decision-table">
+            <thead>
+              <tr>
+                <th>Decision Action</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--accent-green);">SCALE</strong></td>
+                <td>Primary metric improves AND risk/customer guardrails remain within agreed limits.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--accent-amber);">HOLD / INVESTIGATE</strong></td>
+                <td>Primary metric improves BUT one or more guardrails deteriorate.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: #A29BFE;">ITERATE</strong></td>
+                <td>Primary metric is flat AND funnel drop-off identifies experience bottleneck.</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--accent-red);">STOP</strong></td>
+                <td>Primary metric worsens OR material guardrail deterioration occurs.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="annotation-box" id="pm-annotation-card">
+            <h3 id="annotation-title">[HYPOTHESIS] FRICTION ANALYSIS: THE STATUS QUO PROBLEM</h3>
+            <p id="annotation-text" style="font-size: 0.78rem;">
+              [HYPOTHESIS] Customers may delay action when margin-risk notifications require multiple steps across separate menus or do not clearly explain recommended next steps. Navigating sub-menus for top-ups or stock pledges creates friction before a margin shortfall can be resolved.
+            </p>
+          </div>
+
+          <div style="background: rgba(108, 92, 231, 0.1); border: 1px solid rgba(108, 92, 231, 0.3); padding: 10px; border-radius: 8px; font-size: 0.74rem;">
+            <div style="font-weight: 700; color: #A29BFE; margin-bottom: 2px;">V1 AI Product Principle & Future Roadmap</div>
+            <div style="color: var(--text-main);">V1 uses deterministic rules because risk interventions should be explainable and auditable. Generative AI should not make regulatory margin decisions.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 04: METRICS -->
+      <div class="pm-section-content" id="pm-sec-metrics" style="display: none;">
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 0.9rem; color: #A29BFE; font-weight: 700; border-bottom: 1px solid var(--card-border); padding-bottom: 6px;">
+            📐 04. MEASUREMENT ARCHITECTURE & EXPERIMENT DESIGN
+          </h3>
+
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 6px; font-size: 0.72rem; font-family: monospace; color: var(--text-muted);">
+            <div style="color: #A29BFE; font-weight: bold; margin-bottom: 4px;">CUSTOMER MEASUREMENT FUNNEL</div>
+            <div>1. ELIGIBLE MTF RISK EVENT → 2. NUDGE DELIVERED → 3. NUDGE VIEWED → 4. RECOMMENDATION OPENED → 5. INTERVENTION STARTED → 6. INTERVENTION COMPLETED → 7. RISK STATE REFRESHED → 8. RISK EVENT RESOLVED</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.72rem;">
+            <div style="background: var(--bg-dark); padding: 8px; border-radius: 6px;">
+              <strong style="color: #A29BFE;">⚡ LEADING METRICS</strong>
+              <ul style="padding-left: 12px; color: var(--text-muted); margin-top: 2px;">
+                <li>Nudge Delivery & View Rate</li>
+                <li>Recommendation Engagement Rate</li>
+                <li>Intervention Start & Completion Rate</li>
+              </ul>
+            </div>
+            <div style="background: var(--bg-dark); padding: 8px; border-radius: 6px;">
+              <strong style="color: var(--accent-green);">🎯 OUTCOME METRICS</strong>
+              <ul style="padding-left: 12px; color: var(--text-muted); margin-top: 2px;">
+                <li>Successful Risk Resolution Rate</li>
+                <li>Time to Risk Resolution</li>
+                <li>Forced Square-off Rate</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="background: rgba(255, 82, 82, 0.08); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255, 82, 82, 0.2); font-size: 0.72rem;">
+            <strong style="color: #FF5252;">🛡️ RISK & CUSTOMER GUARDRAILS:</strong> Forced square-off rate must not increase; monitor complaint rate, failed intervention drop-offs, nudge frequency, and support contact volume.
+          </div>
+
+          <div style="background: var(--bg-dark); padding: 10px; border-radius: 6px; font-size: 0.72rem;">
+            <strong style="color: #A29BFE;">🧪 FIRST A/B TEST DESIGN [PROPOSED]</strong>
+            <div style="color: var(--text-muted); margin-top: 2px;"><strong>Control:</strong> Existing MTF risk communication experience <span style="color: var(--text-dim);">[TO BE VALIDATED]</span></div>
+            <div style="color: var(--text-muted);"><strong>Treatment:</strong> Smart Nudge + Guided Intervention</div>
+            <div style="color: var(--text-muted);"><strong>Hypothesis:</strong> Recommending suitable interventions at risk moment improves successful risk resolution without worsening guardrails.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 05: ARCHITECTURE -->
+      <div class="pm-section-content" id="pm-sec-architecture" style="display: none;">
+        <div style="background: var(--card-bg); border: 1px solid var(--brand-violet); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 0.9rem; color: #A29BFE; font-weight: 700; border-bottom: 1px solid var(--card-border); padding-bottom: 6px;">
+            🏗️ 05. DECISION ENGINE ARCHITECTURE & INPUTS
+          </h3>
+
+          <div style="font-size: 0.7rem; font-family: monospace; background: var(--bg-dark); padding: 8px; border-radius: 6px; color: var(--text-muted); line-height: 1.4;">
+            Broker RMS Authoritative Risk State<br>
+            &nbsp;&nbsp;↓ Risk Input Normalisation<br>
+            Proposed Margin Risk State Engine (Healthy / Watch / Action Required / Critical)<br>
+            &nbsp;&nbsp;↓ Intervention Recommendation Engine (Deterministic Resource Matching)<br>
+            Customer Smart Nudge UI (Contextual Why & Portfolio Signals)<br>
+            &nbsp;&nbsp;↓ Customer Action (Cash | Pledge | Trim)<br>
+            Broker RMS Recalculation (Authoritative Refresh)
+          </div>
+
+          <div style="background: var(--bg-dark); padding: 8px 10px; border-radius: 6px; font-size: 0.74rem;">
+            <div style="color: #A29BFE; font-weight: bold; margin-bottom: 2px;">[PROPOSED] DECISION ENGINE INPUTS & CONTEXTUAL SIGNALS</div>
+            <div style="color: var(--text-muted);"><strong>INPUTS:</strong> Margin Shortfall, Available Cash, Eligible Demat Collateral, Urgency Level, Position Quantity.</div>
+            <div style="color: var(--text-muted); margin-top: 2px;"><strong>CONTEXTUAL SIGNALS:</strong> Unrealised MTM Loss, Position Concentration %, Security Volatility Index.</div>
+            <div style="font-size: 0.68rem; color: var(--text-main); font-style: italic; margin-top: 2px;">"V1 intentionally avoids a composite risk score. Intervention recommendations remain deterministic and explainable."</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // State Initialization
+    let currentMode = 'before'; // 'before' or 'improved'
+    let currentStep = 1;
+    let selectedOption = 'cash'; // 'cash', 'pledge', 'trim'
+
+    // [ILLUSTRATIVE] Prototype-only risk inputs across test scenarios.
+    const defaultScenarios = {
+      scenarioA: {
+        name: "Cash Available",
+        marginShortfall: 14500,
+        availableCash: 30000,
+        eligibleCollateralValue: 0,
+        unrealisedPnL: -8400,
+        concentrationRisk: "HIGH",
+        volatilityRisk: "MEDIUM",
+        urgencyLevel: "MODERATE",
+        positionQuantity: 200,
+        currentPrice: 684.20
+      },
+      scenarioB: {
+        name: "Collateral Available",
+        marginShortfall: 14500,
+        availableCash: 2000,
+        eligibleCollateralValue: 50000,
+        unrealisedPnL: -8400,
+        concentrationRisk: "HIGH",
+        volatilityRisk: "MEDIUM",
+        urgencyLevel: "MODERATE",
+        positionQuantity: 200,
+        currentPrice: 684.20
+      },
+      scenarioC: {
+        name: "Exposure Reduction",
+        marginShortfall: 14500,
+        availableCash: 2000,
+        eligibleCollateralValue: 0,
+        unrealisedPnL: -8400,
+        concentrationRisk: "HIGH",
+        volatilityRisk: "HIGH",
+        urgencyLevel: "HIGH",
+        positionQuantity: 200,
+        currentPrice: 684.20
+      }
+    };
+
+    let activeScenarioKey = 'scenarioA';
+
+    // PM Tab Navigation Switcher
+    function switchPmTab(tabKey) {
+      const tabs = ['overview', 'evidence', 'regulatory', 'strategy', 'metrics', 'architecture'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        const sec = document.getElementById('pm-sec-' + t);
+        if (btn) btn.className = t === tabKey ? 'pm-tab-btn active' : 'pm-tab-btn';
+        if (sec) sec.style.display = t === tabKey ? 'flex' : 'none';
+      });
+    }
+
+    // Portfolio Risk Signals
+    function calculatePortfolioRiskSignals(inputs) {
+      const inp = inputs || defaultScenarios[activeScenarioKey];
+      return {
+        mtmStatus: inp.unrealisedPnL < 0 ? `Negative (-₹${Math.abs(inp.unrealisedPnL).toLocaleString('en-IN')})` : "Positive",
+        concentrationStatus: inp.concentrationRisk || "HIGH",
+        volatilityStatus: inp.volatilityRisk || "MEDIUM"
+      };
+    }
+
+    // Margin Risk State Engine
+    function calculateRiskState(inputs) {
+      const inp = inputs || defaultScenarios[activeScenarioKey];
+      const signals = calculatePortfolioRiskSignals(inp);
+      
+      if (inp.marginShortfall <= 0) {
+        const hasElevatedSignals = inp.unrealisedPnL < 0 || signals.concentrationStatus === "HIGH" || signals.volatilityStatus === "HIGH";
+        if (hasElevatedSignals) {
+          return {
+            state: "WATCH",
+            color: "var(--accent-amber)",
+            badgeClass: "warning",
+            explanation: "No immediate margin shortfall, but elevated portfolio risk signals exist."
+          };
+        }
+        return {
+          state: "HEALTHY",
+          color: "var(--accent-green)",
+          badgeClass: "healthy",
+          explanation: "No margin shortfall and no material warning signal."
+        };
+      }
+
+      if (inp.urgencyLevel === "CRITICAL") {
+        return {
+          state: "CRITICAL",
+          color: "var(--accent-red)",
+          badgeClass: "critical",
+          explanation: "Margin shortfall exists with urgent conditions. Applicable RMS consequences may occur if requirements are not met."
+        };
+      }
+
+      return {
+        state: "ACTION REQUIRED",
+        color: "var(--accent-amber)",
+        badgeClass: "warning",
+        explanation: "Margin shortfall exists and customer action is required."
+      };
+    }
+
+    // Switch Test Scenario in PM Panel & Showcase
+    function switchScenario(key) {
+      activeScenarioKey = key || 'scenarioA';
+      document.getElementById('scen-btn-a').className = activeScenarioKey === 'scenarioA' ? 'step-btn active' : 'step-btn';
+      document.getElementById('scen-btn-b').className = activeScenarioKey === 'scenarioB' ? 'step-btn active' : 'step-btn';
+      document.getElementById('scen-btn-c').className = activeScenarioKey === 'scenarioC' ? 'step-btn active' : 'step-btn';
+
+      const currentInp = defaultScenarios[activeScenarioKey];
+      const rState = calculateRiskState(currentInp);
+      
+      const riskLabel = document.getElementById('scen-risk-state-label');
+      if (riskLabel) {
+        riskLabel.textContent = rState.state;
+        riskLabel.style.color = rState.color;
+      }
+
+      const resourceLabel = document.getElementById('scen-resource-label');
+      if (resourceLabel) {
+        resourceLabel.textContent = `Cash: ₹${(currentInp.availableCash/1000).toFixed(0)}k | Collateral: ₹${(currentInp.eligibleCollateralValue/1000).toFixed(0)}k | Shortfall: ₹${(currentInp.marginShortfall/1000).toFixed(1)}k`;
+      }
+
+      const rec = recommendIntervention(currentInp);
+      selectedOption = rec.recommendedAction;
+      renderScreen();
+    }
+
+    // Deterministic Decision Engine Recommendation Logic
+    function recommendIntervention(inputs) {
+      const inp = inputs || defaultScenarios[activeScenarioKey];
+      const rState = calculateRiskState(inp);
+      
+      if (rState.state === 'HEALTHY' || rState.state === 'WATCH') {
+        if (inp.marginShortfall <= 0) {
+          return {
+            recommendedAction: 'none',
+            title: 'No Action Required',
+            whyText: '• Margin shortfall: ₹0\n• Margin requirement satisfied',
+            cashBadge: 'ALTERNATIVE',
+            pledgeBadge: 'ALTERNATIVE',
+            trimBadge: 'ALTERNATIVE'
+          };
+        }
+      }
+
+      if (inp.availableCash >= inp.marginShortfall) {
+        return {
+          recommendedAction: 'cash',
+          title: 'Add Cash',
+          whyText: `• Margin shortfall: ₹${inp.marginShortfall.toLocaleString('en-IN')}\n• Available cash: ₹${inp.availableCash.toLocaleString('en-IN')}\n• Cash is sufficient to cover shortfall\n• Avoids changing existing MTF position leverage`,
+          cashBadge: 'RECOMMENDED',
+          pledgeBadge: 'ALTERNATIVE',
+          trimBadge: 'ALTERNATIVE'
+        };
+      }
+
+      if (inp.eligibleCollateralValue >= inp.marginShortfall) {
+        return {
+          recommendedAction: 'pledge',
+          title: 'Pledge Demat Holdings',
+          whyText: `• Margin shortfall: ₹${inp.marginShortfall.toLocaleString('en-IN')}\n• Available cash (₹${inp.availableCash.toLocaleString('en-IN')}) is insufficient\n• Eligible collateral (₹${inp.eligibleCollateralValue.toLocaleString('en-IN')}) is available\n• Pledging restores available margin without reducing MTF position`,
+          cashBadge: 'ALTERNATIVE',
+          pledgeBadge: 'RECOMMENDED',
+          trimBadge: 'ALTERNATIVE'
+        };
+      }
+
+      return {
+        recommendedAction: 'trim',
+        title: 'Reduce MTF Position',
+        whyText: `• Margin shortfall: ₹${inp.marginShortfall.toLocaleString('en-IN')}\n• Available cash (₹${inp.availableCash.toLocaleString('en-IN')}) is insufficient\n• Sufficient eligible collateral is unavailable\n• Reducing exposure is remaining viable intervention`,
+        cashBadge: 'ALTERNATIVE',
+        pledgeBadge: 'ALTERNATIVE',
+        trimBadge: 'RECOMMENDED'
+      };
+    }
+
+    // Trim Impact Calculation Engine
+    function calculateIllustrativeTrimImpact(inputs) {
+      const inp = inputs || defaultScenarios[activeScenarioKey];
+      const illustrativeMarginRate = 0.25;
+      
+      const requiredReductionValue = inp.marginShortfall / illustrativeMarginRate;
+      const estimatedSharesToReduce = Math.min(inp.positionQuantity, Math.ceil(requiredReductionValue / inp.currentPrice));
+      
+      const estimatedExposureReduction = estimatedSharesToReduce * inp.currentPrice;
+      const marginFreed = estimatedExposureReduction * illustrativeMarginRate;
+      const remainingShortfall = Math.max(0, Math.round(inp.marginShortfall - marginFreed));
+
+      return {
+        estimatedSharesToReduce,
+        estimatedExposureReduction: Math.round(estimatedExposureReduction),
+        marginFreed: Math.round(marginFreed),
+        remainingShortfall,
+        isFullyCleared: remainingShortfall === 0
+      };
+    }
+
+    // Dynamic Recalculation Engine for Post-Action State
+    function calculatePostActionState(option, inputs) {
+      const opt = option || 'cash';
+      const inp = inputs || defaultScenarios[activeScenarioKey];
+      const riskStateBefore = calculateRiskState(inp);
+      
+      let remainingShortfall = inp.marginShortfall;
+      let actionImpactText = "";
+      let actionDetail = "";
+      let postInputs = { ...inp };
+
+      if (opt === 'cash') {
+        const cashApplied = Math.min(inp.marginShortfall, inp.availableCash);
+        remainingShortfall = Math.max(0, inp.marginShortfall - cashApplied);
+        postInputs.marginShortfall = remainingShortfall;
+        postInputs.availableCash -= cashApplied;
+        actionImpactText = `₹${cashApplied.toLocaleString('en-IN')} cash applied`;
+        
+        if (remainingShortfall === 0) {
+          actionDetail = `Margin shortfall cleared in this illustrative scenario. Portfolio risk signals remain unchanged. Benefit: Restores margin without changing position exposure.`;
+        } else {
+          actionDetail = `₹${cashApplied.toLocaleString('en-IN')} cash applied. Margin shortfall reduced, but ₹${remainingShortfall.toLocaleString('en-IN')} shortfall remains. Additional action may still be required.`;
+        }
+      } else if (opt === 'pledge') {
+        const collateralApplied = Math.min(inp.marginShortfall, inp.eligibleCollateralValue);
+        remainingShortfall = Math.max(0, inp.marginShortfall - collateralApplied);
+        postInputs.marginShortfall = remainingShortfall;
+        actionImpactText = `₹${collateralApplied.toLocaleString('en-IN')} eligible collateral pledged`;
+        
+        if (remainingShortfall === 0) {
+          actionDetail = `Margin shortfall cleared in this illustrative scenario (₹${collateralApplied.toLocaleString('en-IN')} collateral pledged). Portfolio risk signals remain unchanged.`;
+        } else {
+          actionDetail = `₹${collateralApplied.toLocaleString('en-IN')} collateral pledged. Margin shortfall reduced, but ₹${remainingShortfall.toLocaleString('en-IN')} shortfall remains. Additional action may still be required.`;
+        }
+      } else if (opt === 'trim') {
+        const trimImpact = calculateIllustrativeTrimImpact(inp);
+        remainingShortfall = trimImpact.remainingShortfall;
+        postInputs.marginShortfall = remainingShortfall;
+        actionImpactText = `${trimImpact.estimatedSharesToReduce} shares reduced (Exposure -₹${trimImpact.estimatedExposureReduction.toLocaleString('en-IN')})`;
+        
+        if (remainingShortfall === 0) {
+          actionDetail = `Margin shortfall cleared in this illustrative scenario via position trim (${trimImpact.estimatedSharesToReduce} shares). Exposure reduced by ₹${trimImpact.estimatedExposureReduction.toLocaleString('en-IN')}.`;
+        } else {
+          actionDetail = `Position reduction selected (${trimImpact.estimatedSharesToReduce} shares reduced out of ${inp.positionQuantity}). Margin shortfall reduced by ₹${trimImpact.marginFreed.toLocaleString('en-IN')}, but ₹${remainingShortfall.toLocaleString('en-IN')} shortfall remains. Additional action may still be required.`;
+        }
+      }
+
+      const riskStateAfter = calculateRiskState(postInputs);
+      const signalsAfter = calculatePortfolioRiskSignals(postInputs);
+
+      return {
+        shortfallBefore: inp.marginShortfall,
+        shortfallAfter: remainingShortfall,
+        selectedAction: opt,
+        estimatedImpact: actionImpactText,
+        riskStateBefore: riskStateBefore,
+        riskStateAfter: riskStateAfter,
+        signalsAfter: signalsAfter,
+        detail: actionDetail,
+        isFullyCleared: remainingShortfall === 0
+      };
+    }
+
+    function switchMode(mode) {
+      currentMode = mode || 'before';
+      const btnBefore = document.getElementById('btn-mode-before');
+      const btnImproved = document.getElementById('btn-mode-improved');
+      if (btnBefore) btnBefore.className = currentMode === 'before' ? 'mode-btn active-before' : 'mode-btn';
+      if (btnImproved) btnImproved.className = currentMode === 'improved' ? 'mode-btn active-improved' : 'mode-btn';
+      renderScreen();
+    }
+
+    function goToStep(step) {
+      currentStep = step || 1;
+      document.querySelectorAll('.step-btn').forEach((btn, idx) => {
+        if (btn.id.startsWith('step-') || btn.id.startsWith('flow-btn-')) {
+          const stepNum = parseInt(btn.id.replace('step-', '').replace('flow-btn-', ''));
+          if (stepNum === currentStep) {
+            btn.classList.add('active');
+          } else if (stepNum) {
+            btn.classList.remove('active');
+          }
+        }
+      });
+      renderScreen();
+    }
+
+    function selectOption(opt) {
+      selectedOption = opt || 'cash';
+      renderScreen();
+    }
+
+    function renderScreen() {
+      const screen = document.getElementById('phone-screen-content');
+      const annotationTitle = document.getElementById('annotation-title');
+      const annotationText = document.getElementById('annotation-text');
+      const annotationCard = document.getElementById('pm-annotation-card');
+
+      if (!screen) return;
+
+      if (currentMode === 'before') {
+        renderBeforeFlow(screen, annotationTitle, annotationText, annotationCard);
+      } else {
+        renderImprovedFlow(screen, annotationTitle, annotationText, annotationCard);
+      }
+    }
+
+    function renderBeforeFlow(screen, title, text, card) {
+      if (card) card.className = "annotation-box warning-type";
+
+      if (currentStep === 1) {
+        if (title) title.innerHTML = "⚠️ Problem Screen 1: Off-App Margin Notification";
+        if (text) text.innerHTML = "[ILLUSTRATIVE] The trader is viewing their portfolio. Tata Motors has dropped -4.2%, placing the account in an ACTION REQUIRED status. In this scenario, no warning is surfaced directly in the active trading view until an external SMS alert is sent.";
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Portfolio (MTF)</div>
+            <div class="user-avatar">SG</div>
+          </div>
+          <div class="sms-alert-toast">
+            <div class="sender">💬 SMS • UPSTOX RISK (11:02 AM)</div>
+            <div>MARGIN CALL: Your MTF account has a shortfall of ₹14,500. Clear shortfall by 11:30 AM or positions may be squared off by RMS.</div>
+          </div>
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-ticker">TATAMOTORS</span>
+              <span class="pos-type-tag">MTF 4x</span>
+            </div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: #FF5252;">₹684.20 <span style="font-size: 0.75rem;">(-4.2%)</span></div>
+            <div class="pos-metrics">
+              <div class="pos-metric-item"><div class="lbl">Quantity</div><div class="val">200 Shares</div></div>
+              <div class="pos-metric-item"><div class="lbl">Funded Amount</div><div class="val">₹1,02,000</div></div>
+            </div>
+            <div class="health-meter-box">
+              <div class="meter-label-row">
+                <span style="color: #FF5252; font-weight: bold;">Margin Status</span>
+                <span style="color: #FF5252; font-weight: bold;">ACTION REQUIRED</span>
+              </div>
+              <div class="meter-label-row" style="margin-top: 2px;">
+                <span style="color: #718096;">Margin Shortfall</span>
+                <span style="color: #FF5252;">₹14,500</span>
+              </div>
+              <div class="meter-bar-bg" style="margin-top: 4px;">
+                <div class="meter-bar-fill critical"></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: auto; font-size: 0.72rem; color: #718096; text-align: center;">
+            Trader must switch tabs to 'Add Funds' or navigate complex CDSL menus.
+          </div>
+        `;
+      } else if (currentStep === 2) {
+        if (title) title.innerHTML = "⚠️ Problem Screen 2: Navigation Friction Across Sub-Menus";
+        if (text) text.innerHTML = "[HYPOTHESIS] Potential friction: customers may need to navigate multiple steps across different sub-menus before restoring their margin, creating delay during volatile market movements.";
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Funds & Collateral</div>
+            <div class="user-avatar">SG</div>
+          </div>
+          <div style="background: #1E2433; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+            <div style="font-weight: 600; color: #E2E8F0; margin-bottom: 4px;">Available Trading Margin</div>
+            <div style="font-size: 1.2rem; font-weight: 700; color: #FF5252;">- ₹14,500</div>
+            <div style="font-size: 0.7rem; color: #718096;">Margin Shortfall: ₹14,500 (Action Required)</div>
+          </div>
+          <button class="action-btn-primary" style="background: #2D3748; margin-bottom: 8px;" onclick="goToStep(3)">
+            Add Money via UPI [Illustrative Flow]
+          </button>
+          <div style="font-size: 0.7rem; color: #718096; text-align: center; margin-top: 10px;">
+            No option to partially trim position or pledge existing long-term demat holdings from this screen.
+          </div>
+        `;
+      } else {
+        if (title) title.innerHTML = "⚠️ Problem Screen 3: Automated Square-Off Execution";
+        if (text) text.innerHTML = "[ILLUSTRATIVE SCENARIO] If shortfall is not cleared by the deadline, position may be squared off by RMS at the prevailing executable market price, subject to applicable broker/exchange rules.";
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Order History</div>
+            <div class="user-avatar">SG</div>
+          </div>
+          <div style="background: rgba(255, 82, 82, 0.1); border: 1px solid rgba(255, 82, 82, 0.3); padding: 14px; border-radius: 12px; text-align: center; margin-bottom: 16px;">
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">🚨</div>
+            <div style="font-weight: 700; color: #FF5252; font-size: 0.95rem;">POSITION SQUARED OFF</div>
+            <div style="font-size: 0.72rem; color: #E2E8F0; margin-top: 4px;">
+              200 TATAMOTORS squared off by RMS at prevailing market price [Illustrative Scenario].
+            </div>
+            <div style="font-size: 0.68rem; color: #718096; margin-top: 6px;">Applicable Auto Square-Off Fee applied</div>
+          </div>
+          <div style="font-size: 0.75rem; color: #A0AEC0; text-align: center;">
+            Result: Unplanned position closure, customer dissatisfaction, and potential support ticket volume.
+          </div>
+        `;
+      }
+    }
+
+    function renderImprovedFlow(screen, title, text, card) {
+      if (card) card.className = "annotation-box";
+      const currentInp = defaultScenarios[activeScenarioKey];
+      const riskState = calculateRiskState(currentInp);
+      const signals = calculatePortfolioRiskSignals(currentInp);
+      const rec = recommendIntervention(currentInp);
+      const trimImpact = calculateIllustrativeTrimImpact(currentInp);
+
+      if (currentStep === 1) {
+        if (title) title.innerHTML = `💡 [PROPOSED] Screen 1: In-App Smart Risk Nudge (${currentInp.name})`;
+        if (text) text.innerHTML = "[PROPOSED] Contextual Smart Nudge surfaces latest available margin risk state and decision engine recommendation directly on the trading screen.";
+
+        const whyBullets = rec.whyText.split('\n').map(b => `<li>${b.replace('• ', '')}</li>`).join('');
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Portfolio (MTF)</div>
+            <div class="user-avatar">SG</div>
+          </div>
+          
+          <div class="nudge-banner">
+            <div class="nudge-header">
+              <span>⚠️ MTF MARGIN RISK ALERT • ${riskState.state}</span>
+            </div>
+            <div class="nudge-body">
+              <strong>Margin Shortfall: ₹${currentInp.marginShortfall.toLocaleString('en-IN')}</strong><br>
+              <span style="color: #A29BFE; font-weight: 600;">[PROPOSED] Recommended: ${rec.title}</span>
+            </div>
+            <button class="action-btn-primary" onclick="goToStep(2)">
+              ⚡ Choose How to Address Shortfall
+            </button>
+          </div>
+
+          <!-- Why Am I At Risk Breakdown Card -->
+          <div style="background: #181E2B; border: 1px solid #283248; border-radius: 10px; padding: 10px; margin-bottom: 10px;">
+            <div style="font-size: 0.75rem; font-weight: 700; color: #A29BFE; margin-bottom: 4px;">🔍 Why This Action Is Recommended (${currentInp.name}):</div>
+            <ul style="font-size: 0.7rem; color: #CBD5E0; padding-left: 14px; display: flex; flex-direction: column; gap: 2px;">
+              ${whyBullets}
+            </ul>
+          </div>
+
+          <!-- Portfolio Risk Signals Breakdown Card -->
+          <div style="background: #141923; border: 1px solid #232A3B; border-radius: 10px; padding: 10px; margin-bottom: 12px;">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #718096; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">📊 Contextual Portfolio Risk Signals</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; font-size: 0.68rem; text-align: center;">
+              <div style="background: #0B0E14; padding: 6px; border-radius: 6px;">
+                <div style="color: #718096;">MTM Loss</div>
+                <div style="color: #FF5252; font-weight: 700;">${signals.mtmStatus}</div>
+              </div>
+              <div style="background: #0B0E14; padding: 6px; border-radius: 6px;">
+                <div style="color: #718096;">Concentration</div>
+                <div style="color: #FFAB00; font-weight: 700;">${signals.concentrationStatus}</div>
+              </div>
+              <div style="background: #0B0E14; padding: 6px; border-radius: 6px;">
+                <div style="color: #718096;">Volatility</div>
+                <div style="color: #E2E8F0; font-weight: 700;">${signals.volatilityStatus}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-ticker">TATAMOTORS</span>
+              <span class="pos-type-tag">MTF 4x</span>
+            </div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: #FF5252;">₹684.20 <span style="font-size: 0.75rem;">(-4.2%)</span></div>
+            <div class="pos-metrics">
+              <div class="pos-metric-item"><div class="lbl">Quantity</div><div class="val">${currentInp.positionQuantity} Shares</div></div>
+              <div class="pos-metric-item"><div class="lbl">Margin Shortfall</div><div class="val" style="color: #FF5252;">₹${currentInp.marginShortfall.toLocaleString('en-IN')}</div></div>
+            </div>
+            <div class="health-meter-box">
+              <div class="meter-label-row">
+                <span style="color: #FFAB00; font-weight: bold;">Margin Risk State</span>
+                <span style="color: ${riskState.color}; font-weight: bold;">${riskState.state}</span>
+              </div>
+              <div style="font-size: 0.65rem; color: #718096; margin-top: 2px;">${riskState.explanation}</div>
+              <div class="meter-bar-bg" style="margin-top: 4px;">
+                <div class="meter-bar-fill ${riskState.badgeClass}"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (currentStep === 2) {
+        if (title) title.innerHTML = "💡 [PROPOSED] Screen 2: Multi-Path Resolution Modal";
+        if (text) text.innerHTML = "[PROPOSED] The decision engine highlights the recommended action based on customer circumstances while presenting alternatives with transparent trade-offs.";
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Margin Risk Resolution</div>
+            <div class="user-avatar">SG</div>
+          </div>
+
+          <div style="background: #141923; border: 1px solid #232A3B; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+            <div style="font-size: 0.72rem; color: #718096;">MTF Margin Shortfall: <strong style="color: #FF5252;">₹${currentInp.marginShortfall.toLocaleString('en-IN')}</strong></div>
+            <div style="font-size: 0.7rem; color: #A29BFE; margin-top: 2px;">Engine Recommendation: <strong>${rec.title}</strong></div>
+          </div>
+
+          <div class="option-card-group">
+            <div class="option-card ${selectedOption === 'cash' ? 'selected' : ''} ${rec.recommendedAction === 'cash' ? 'recommended-highlight' : ''}" onclick="selectOption('cash')">
+              <div class="option-info">
+                <div class="title">1. Instant Cash Top-Up</div>
+                <div class="desc">Add ₹${currentInp.marginShortfall.toLocaleString('en-IN')} cash via UPI • <strong>Zero trade disruption</strong></div>
+                <div style="font-size: 0.65rem; color: #718096; margin-top: 2px;">Dependency: Available cash (₹${currentInp.availableCash.toLocaleString('en-IN')})</div>
+              </div>
+              <div class="option-badge ${rec.recommendedAction === 'cash' ? '' : 'alt'}">${rec.cashBadge}</div>
+            </div>
+
+            <div class="option-card ${selectedOption === 'pledge' ? 'selected' : ''} ${rec.recommendedAction === 'pledge' ? 'recommended-highlight' : ''}" onclick="selectOption('pledge')">
+              <div class="option-info">
+                <div class="title">2. Pledge Demat Holdings (No cash top-up)</div>
+                <div class="desc">Pledge HDFC Bank shares • <strong>Locks demat shares</strong></div>
+                <div style="font-size: 0.65rem; color: #718096; margin-top: 2px;">Dependency: CDSL T-PIN auth (Eligible: ₹${currentInp.eligibleCollateralValue.toLocaleString('en-IN')})</div>
+              </div>
+              <div class="option-badge ${rec.recommendedAction === 'pledge' ? '' : 'alt'}">${rec.pledgeBadge}</div>
+            </div>
+
+            <div class="option-card ${selectedOption === 'trim' ? 'selected' : ''} ${rec.recommendedAction === 'trim' ? 'recommended-highlight' : ''}" onclick="selectOption('trim')">
+              <div class="option-info">
+                <div class="title">3. Smart Partial Trim [Proposed]</div>
+                <div class="desc">[PROPOSED] Estimated reduction: ${trimImpact.estimatedSharesToReduce} shares • <strong>Reduces market upside</strong></div>
+                <div style="font-size: 0.65rem; color: #718096; margin-top: 2px;">Dependency: Execution subject to market price</div>
+              </div>
+              <div class="option-badge ${rec.recommendedAction === 'trim' ? '' : 'alt'}">${rec.trimBadge}</div>
+            </div>
+          </div>
+
+          <button class="action-btn-primary" onclick="goToStep(3)">
+            Continue with Selected Action
+          </button>
+        `;
+      } else {
+        if (title) title.innerHTML = "💡 [PROPOSED] Screen 3: Margin Status Refreshed";
+        if (text) text.innerHTML = "[PROPOSED] Margin status updated based on customer action. Dynamic recalculation refreshes account state.";
+
+        const postState = calculatePostActionState(selectedOption, currentInp);
+
+        let iconSymbol = postState.shortfallAfter === 0 ? "🛡️" : "⚠️";
+        let statusTitle = postState.shortfallAfter === 0 ? "MARGIN SHORTFALL CLEARED" : "MARGIN SHORTFALL REDUCED";
+        let headerColor = postState.shortfallAfter === 0 ? "#00E676" : "#FFAB00";
+
+        screen.innerHTML = `
+          <div class="app-header">
+            <div class="app-title">Margin Status Refreshed</div>
+            <div class="user-avatar">SG</div>
+          </div>
+
+          <div style="background: rgba(0, 230, 118, 0.08); border: 1px solid rgba(0, 230, 118, 0.3); padding: 14px; border-radius: 12px; text-align: left; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <div style="font-size: 1.4rem;">${iconSymbol}</div>
+              <div style="font-weight: 700; color: ${headerColor}; font-size: 0.95rem;">${statusTitle}</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.72rem; background: #141923; padding: 10px; border-radius: 8px; margin-bottom: 8px;">
+              <div><span style="color: #718096;">Margin State Before:</span><br><strong style="color: ${postState.riskStateBefore.color};">${postState.riskStateBefore.state}</strong></div>
+              <div><span style="color: #718096;">Margin State After:</span><br><strong style="color: ${postState.riskStateAfter.color};">${postState.riskStateAfter.state}</strong></div>
+              <div><span style="color: #718096;">Selected Action:</span><br><strong style="color: #E2E8F0;">${postState.selectedAction.toUpperCase()}</strong></div>
+              <div><span style="color: #718096;">Remaining Shortfall:</span><br><strong style="color: ${postState.shortfallAfter === 0 ? '#00E676' : '#FF5252'};">₹${postState.shortfallAfter.toLocaleString('en-IN')}</strong></div>
+            </div>
+
+            <div style="font-size: 0.7rem; color: #CBD5E0; line-height: 1.4;">${postState.detail}</div>
+            <div style="font-size: 0.65rem; color: #718096; margin-top: 6px; font-style: italic;">[ILLUSTRATIVE] Shortfall cleared in this prototype scenario. Production account state would be confirmed by authoritative RMS recalculation.</div>
+          </div>
+
+          <!-- Portfolio Risk Signals Context Card -->
+          <div style="background: #141923; border: 1px solid #232A3B; border-radius: 10px; padding: 10px; margin-bottom: 14px;">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #718096; margin-bottom: 4px; text-transform: uppercase;">📊 Portfolio Risk Signals (Unchanged)</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; font-size: 0.66rem; text-align: center;">
+              <div style="background: #0B0E14; padding: 6px; border-radius: 4px;">
+                <div style="color: #718096;">MTM Loss</div>
+                <div style="color: #FF5252; font-weight: 700;">${postState.signalsAfter.mtmStatus}</div>
+              </div>
+              <div style="background: #0B0E14; padding: 6px; border-radius: 4px;">
+                <div style="color: #718096;">Concentration</div>
+                <div style="color: #FFAB00; font-weight: 700;">${postState.signalsAfter.concentrationStatus}</div>
+              </div>
+              <div style="background: #0B0E14; padding: 6px; border-radius: 4px;">
+                <div style="color: #718096;">Volatility</div>
+                <div style="color: #E2E8F0; font-weight: 700;">${postState.signalsAfter.volatilityStatus}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #1E2433; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: 600; font-size: 0.78rem; color: #E2E8F0;">[PROPOSED] Future Collateral Authorization</div>
+                <div style="font-size: 0.68rem; color: #718096;">Optional authorization flow for eligible collateral, subject to broker controls</div>
+              </div>
+              <input type="checkbox" checked style="accent-color: var(--brand-violet); width: 18px; height: 18px;">
+            </div>
+          </div>
+
+          <button class="action-btn-primary" style="background: #2D3748;" onclick="switchMode('improved'); goToStep(1);">
+            Return to Portfolio
+          </button>
+        `;
+      }
+    }
+
+    // Execute immediately and on DOMReady
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        renderScreen();
+        switchPmTab('overview');
+      });
+    } else {
+      renderScreen();
+      switchPmTab('overview');
+    }
+  </script>
+</body>
+</html>
